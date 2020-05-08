@@ -4,6 +4,7 @@ import { logout, back, createAccount, login, register } from './index.js'
 import { Users } from './users.js'
 import { DatePickerComponent } from './basicinfo.js';
 import { Illnesses } from './illnesses.js';
+import { Medications } from './medications.js';
 
 window.fn = {};
 
@@ -34,6 +35,12 @@ window.fn.load = function(page) {
           const illnesses_list = document.querySelector('div#illnesses_list');
           ReactDOM.render(<Illnesses/>, illnesses_list);
         }
+
+        if (page === "medications.html") {
+          const medications_list = document.querySelector('div#medications_list');
+          ReactDOM.render(<Medications/>, medications_list);
+        }
+
     });
 };
 
