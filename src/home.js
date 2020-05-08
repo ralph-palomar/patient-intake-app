@@ -5,6 +5,9 @@ import { Users } from './users.js'
 import { DatePickerComponent } from './basicinfo.js';
 import { Illnesses } from './illnesses.js';
 import { Medications } from './medications.js';
+import { VitalSigns } from './vitalsigns.js';
+import { Diet } from './diet.js';
+import { Others } from './others.js';
 
 window.fn = {};
 
@@ -39,6 +42,21 @@ window.fn.load = function(page) {
         if (page === "medications.html") {
           const medications_list = document.querySelector('div#medications_list');
           ReactDOM.render(<Medications/>, medications_list);
+        }
+
+        if (page === "vitalsigns.html") {
+          const vitalsigns_list = document.querySelector('div#vitalsigns_list');
+          ReactDOM.render(<VitalSigns/>, vitalsigns_list);
+        }
+
+        if (page === "diet.html") {
+          const diet_list = document.querySelector('div#diet_list');
+          ReactDOM.render(<Diet/>, diet_list);
+        }
+
+        if (page === "others.html") {
+          const others_list = document.querySelector('div#others_list');
+          ReactDOM.render(<Others/>, others_list);
         }
 
     });

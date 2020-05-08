@@ -30,7 +30,7 @@ export class Medications extends React.Component {
         this.setState(state => {
             const currentMedicationList = state.medicationList;
             const filteredMedicationList = currentMedicationList.filter((item) => {
-                return !item.id.match(id);
+                return item.id !== id;
             });
             return {
                 medicationList: filteredMedicationList
@@ -70,7 +70,7 @@ export class Medications extends React.Component {
                     )
                 }
                 </ons-list>
-                <ons-fab id="fab_add_medication" position="bottom right" modifier="mini" onClick={this.addMedication}>
+                <ons-fab id="fab_add" position="bottom right" modifier="mini" onClick={this.addMedication}>
                     <ons-icon icon="md-plus"></ons-icon>
                 </ons-fab>
             </div>

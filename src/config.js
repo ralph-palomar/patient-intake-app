@@ -16,3 +16,31 @@ export const illnesses = [
     "Stress/Burnout",
     "Stroke"
 ]
+
+export const diets = [
+    "Whole grains",
+    "Fruits",
+    "Vegetables",
+    "Beans/legumes",
+    "Nuts",
+    "Seeds",
+    "Water",
+    "Meat (other than fish)",
+    "Egg",
+    "Soda",
+    "Milk",
+    "Chips",
+    "Fried Food",
+    "Cakes/pastries/crackers",
+    "Chocolate",
+    "Bread",
+    "Cheese",
+    "Fast food",
+    "Caffeinated drink",
+    "Instant noodles",
+    "Canned goods",
+    "Dairy-based dressing",
+    "White rice",
+    "Fish",
+    "Other seafoods"
+]
