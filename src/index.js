@@ -131,7 +131,7 @@ export async function callApi(config, successCallback, caller) {
 		});
 }
 
-function showAlert(msg) {
+export function showAlert(msg) {
 	ons.notification.toast(msg, { timeout: 2000 });
 }
 

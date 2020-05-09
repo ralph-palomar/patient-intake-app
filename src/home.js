@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { logout, back, createAccount, login, register, cookies } from './index.js'
 import { Users } from './users.js'
-import { DatePickerComponent } from './basicinfo.js';
+import { Save, BasicInfo } from './basicinfo.js';
 import { Illnesses } from './illnesses.js';
 import { Medications } from './medications.js';
 import { VitalSigns } from './vitalsigns.js';
@@ -35,8 +35,8 @@ window.fn.load = function(page) {
         }
 
         if (page === "basicinfo.html") {
-          const basic_dob = document.querySelector('div#basic_dob');
-          ReactDOM.render(<DatePickerComponent/>, basic_dob);
+          const basicinfo_form = document.querySelector('div#basicinfo_form');
+          ReactDOM.render(<BasicInfo/>, basicinfo_form);
         }
 
         if (page === "illnesses.html") {
@@ -63,6 +63,9 @@ window.fn.load = function(page) {
           const others_list = document.querySelector('div#others_list');
           ReactDOM.render(<Others/>, others_list);
         }
+
+        const saveBtn = document.querySelector('div#saveBtn');
+        if (saveBtn != null) ReactDOM.render(<Save/>, saveBtn);
 
     });
 };

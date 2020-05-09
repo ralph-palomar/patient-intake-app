@@ -8,63 +8,12 @@
       <div class="center">
         Basic Information
       </div>
-      <div class="right">
-        <ons-button modifier="quiet">Save</ons-button>
+      <div class="right" id="saveBtn">
       </div>
     </ons-toolbar>
     <div id="basic_pb" style="display: none;"><ons-progress-bar indeterminate></ons-progress-bar></div>
     <ons-list>
         <ons-list-header>Please fill up the form</ons-list-header>
-        <ons-list-item>
-          <label class="form">Last Name</label><br>
-          <ons-input id="basic_lastname" modifier="material"></ons-input>
-        </ons-list-item>
-        <ons-list-item>
-          <label class="form">First Name</label><br>
-          <ons-input id="basic_firstname" modifier="material"></ons-input>
-        </ons-list-item>
-        <ons-list-item>
-          <label class="form">Middle Name</label><br>
-          <ons-input id="basic_middlename" modifier="material"></ons-input>
-        </ons-list-item>
-        <ons-list-item>
-          <label class="form">Date of Birth</label><br>
-          <div id="basic_dob"></div>
-        </ons-list-item>
-        <ons-list-item>
-          <label class="form">Gender </label>
-            <ons-select id="basic_gender" modifier="material" style="float: left;">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-            </ons-select>
-        </ons-list-item>
-        <ons-list-item>
-          <label class="form">Address</label><br>
-          <textarea id="basic_addr" class="textarea" rows="3" cols="35"></textarea>
-        </ons-list-item>
-        <ons-list-item>
-          <label class="form">Landline No.</label><br>
-          <ons-input type="number" id="basic_landlineno" modifier="material"></ons-input>
-        </ons-list-item>
-        <ons-list-item>
-          <label class="form">Mobile No.</label><br>
-          <ons-input type="number" id="basic_mobileno" modifier="material"></ons-input>
-        </ons-list-item>
-        <ons-list-item>
-          <label class="form">Email Address</label><br>  
-          <ons-input type="email" id="basic_email" modifier="material"></ons-input>
-        </ons-list-item>
-        <ons-list-item>
-          <label class="form">Support Person</label><br>  
-          <ons-input id="basic_supportperson" modifier="material"></ons-input>
-        </ons-list-item>
-        <ons-list-item>
-          <label class="form">Relationship</label><br>  
-          <ons-input id="basic_relationship" modifier="material"></ons-input>
-        </ons-list-item>
-        <ons-list-item>
-          <label class="form">Support Contact No.</label> <br> 
-          <ons-input type="number" id="basic_supportcontactno" modifier="material"></ons-input><br>
-        <ons-list-item>
+        <div id="basicinfo_form"></div>
     </ons-list>
   </ons-page>
