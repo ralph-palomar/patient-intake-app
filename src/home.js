@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { logout, back, createAccount, login, register } from './index.js'
+import { logout, back, createAccount, login, register, cookies } from './index.js'
 import { Users } from './users.js'
 import { DatePickerComponent } from './basicinfo.js';
 import { Illnesses } from './illnesses.js';
@@ -23,6 +23,11 @@ window.fn.load = function(page) {
     .then(() => {    
         const menu = document.getElementById('menu');  
         menu.close();
+
+        if (page === "profile.html") {
+          const main = document.querySelector('div#main_display');
+          ReactDOM.render(<Profile/>, main);
+        }
 
         if (page === "users.html") {
           const user_list = document.querySelector('div#user_list');
@@ -68,18 +73,25 @@ window.fn.createAccount = createAccount;
 window.fn.login = login;
 window.fn.register = register;
 
-export class Greeting extends React.Component {
+export class Profile extends React.Component {
   constructor(props) {
     super(props);
-    this.props = {
-      firstname: null,
+    this.state = {
+      accountInfo: cookies.get('app-login')
     }
   }
 	render() {
 	  return (
-		<ons-list-item>
-		  Hello {this.props.firstname}!
-		</ons-list-item>
+    <div id="main_page">
+      <ons-card>
+        <div className="title">
+        Hello {this.state.accountInfo.firstname}!
+        </div>
+        <div className="content">
+          Explore the options. Swipe the menu to start.
+        </div>
+      </ons-card>
+    </div>
 	  );
 	}
 }

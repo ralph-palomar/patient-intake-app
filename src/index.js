@@ -5,11 +5,13 @@ import './index.css';
 import { api } from './config.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Greeting } from './home.js';
+// eslint-disable-next-line no-unused-vars
+import { Profile } from './home.js';
 import axios from 'axios';
 import ons from 'onsenui';
+import Cookies from 'universal-cookie';
 
-let accountInfo;
+export const cookies = new Cookies();
 
 export function login() {
   const email = document.querySelector('#index_email').value;
@@ -28,7 +30,7 @@ export function login() {
 		}
 	  };
 	  callApi(config, (data) => {
-		  accountInfo = data;
+		  setLoginCookie(data);
 		  home();
 	  }, 'login');
   }
@@ -84,17 +86,7 @@ function home() {
 export function logout() {
   const navigator = document.querySelector('#navigator');
   navigator.resetToPage('login.html', { pop: true });
-}
-
-/////// EVENT LISTENERS ////////
-const nav = document.querySelector('ons-navigator');
-if (nav != null) {
-	nav.addEventListener('postpush', (event) => {
-		if(accountInfo != null && event.enterPage.matches('ons-page#home')) {
-			const greeting = document.querySelector('#greeting');
-			ReactDOM.render(<Greeting firstname={accountInfo.firstname}/>, greeting);
-		}
-	});
+  cookies.remove('app-login');
 }
 
 /////// HELPER FUNCTIONS ///////
@@ -143,3 +135,39 @@ function showAlert(msg) {
 	ons.notification.toast(msg, { timeout: 2000 });
 }
 
+function setLoginCookie(data) {
+	let d = new Date();
+	d.setDate(d.getDate() + 7); //+7days
+	cookies.set('app-login', data, {
+		path: '/',
+		expires: d
+	});
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+window.onload = (event) => {
+	ReactDOM.render(<App/>, document.querySelector('div#root'));
+};
+
+class App extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			activeLogin: cookies.get('app-login') != null
+		}
+	}
+	render() {
+		if (this.state.activeLogin) {
+			return (
+			<ons-navigator swipeable id="navigator" page="home.html">
+			</ons-navigator>
+			);
+		} else {
+			return (
+			<ons-navigator swipeable id="navigator" page="login.html">
+			</ons-navigator>
+			);
+		}
+	}
+}
