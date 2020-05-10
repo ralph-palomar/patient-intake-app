@@ -4,7 +4,7 @@ import TimePicker from 'react-time-picker';
 import { callApi, showAlert, cookies } from './index.js';
 import { api } from './config.js';
 
-export class Save extends React.Component {
+export class SaveBasicInfo extends React.Component {
 	handleClick = (event) => {
 		const payload = {
 			id: cookies.get('app-login').email,

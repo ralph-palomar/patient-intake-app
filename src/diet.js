@@ -21,7 +21,7 @@ export class Diet extends React.Component {
                 this.state.dietList.map((value) =>
                     <ons-list-item key={value.displayText} expandable>  
                         {value.displayText}
-                        <div class="expandable-content">
+                        <div className="expandable-content">
                             <ons-input type="number" modifier="material" placeholder="Quantity" style={{width: '100px'}}></ons-input>
                             <br/>
                             <ons-select modifier="material">

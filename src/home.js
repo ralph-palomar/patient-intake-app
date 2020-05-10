@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { logout, back, createAccount, login, register, cookies, callApi } from './index.js'
 import { Users } from './users.js'
-import { Save, BasicInfo } from './basicinfo.js';
-import { Illnesses } from './illnesses.js';
+import { SaveBasicInfo, BasicInfo } from './basicinfo.js';
+import { SaveIllnesses, Illnesses } from './illnesses.js';
 import { Medications } from './medications.js';
 import { VitalSigns } from './vitalsigns.js';
 import { Diet } from './diet.js';
@@ -47,12 +47,28 @@ window.fn.load = function(page) {
           };
           callApi(config, (data) => {
             ReactDOM.render(<BasicInfo data={data} />, basicinfo_form);  
-          }, 'basic');        
+          }, 'basic');  
+          
+          const saveBasicInfoBtn = document.querySelector('div#saveBasicInfoBtn');
+          if (saveBasicInfoBtn != null) ReactDOM.render(<SaveBasicInfo/>, saveBasicInfoBtn);
         }
 
         if (page === "illnesses.html") {
           const illnesses_list = document.querySelector('div#illnesses_list');
-          ReactDOM.render(<Illnesses/>, illnesses_list);
+          const config = {
+            "url": api.users_api_base_url + "/v1/illnesses",
+            "method": "GET",
+            "timeout": 60000,
+            "params": {
+              "id": cookies.get('app-login').email
+            }
+          };
+          callApi(config, (data) => {
+            ReactDOM.render(<Illnesses data={data} />, illnesses_list);
+          }, 'illnesses');  
+
+          const saveIllnessesBtn = document.querySelector('div#saveIllnessesBtn');
+          if (saveIllnessesBtn != null) ReactDOM.render(<SaveIllnesses/>, saveIllnessesBtn);
         }
 
         if (page === "medications.html") {
@@ -74,9 +90,6 @@ window.fn.load = function(page) {
           const others_list = document.querySelector('div#others_list');
           ReactDOM.render(<Others/>, others_list);
         }
-
-        const saveBtn = document.querySelector('div#saveBtn');
-        if (saveBtn != null) ReactDOM.render(<Save/>, saveBtn);
 
     });
 };

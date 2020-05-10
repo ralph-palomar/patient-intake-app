@@ -121,6 +121,7 @@ export async function callApi(config, successCallback, caller) {
 				successCallback(response.data);
 			} else {
 				showAlert(response.data.error);
+				successCallback({})
 			}
 			if (progress_bar != null) progress_bar.style.display = 'none';
 		})
