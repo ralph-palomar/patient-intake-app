@@ -116,7 +116,7 @@ export class DatePickerComponent extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			date: props.value != null ? new Date(props.value) : new Date()
+			date: props.value != null && props.value.length !== 0 ? new Date(props.value) : new Date()
 		}
 	}
 	onChange = date => {

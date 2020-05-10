@@ -11,7 +11,8 @@ export class SaveIllnesses extends React.Component {
                     selected: document.querySelector('#illness_'+index).checked,
                     displayText: value
                 }
-            })
+            }),
+            illness_others: document.querySelector('#illness_others').value
         }
 		const config = {
 			"url": api.users_api_base_url + "/v1/illnesses",
@@ -68,7 +69,7 @@ export class Illnesses extends React.Component {
             }
             <ons-list-item>
                 <label className="form">Specify Others</label>
-                <textarea id="illnesses_others" className="textarea" rows="3" cols="35"></textarea>
+                <textarea id="illness_others" className="textarea" rows="3" cols="35" defaultValue={this.state.illness_others || ""}></textarea>
             </ons-list-item>   
         </React.Fragment>
         );

@@ -30,8 +30,10 @@ export function login() {
 		}
 	  };
 	  callApi(config, (data) => {
+		if (Object.keys(data).length !== 0) {
 		  setLoginCookie(data);
 		  home();
+		}
 	  }, 'login');
   }
 }
@@ -67,8 +69,10 @@ export function createAccount() {
 		"data": payload
 	};
 	callApi(config, (data) => {
-		showAlert("Account successfully created")
-		back();
+		if (Object.keys(data).length !== 0) {
+			showAlert("Account successfully created")
+			back();
+		}
 	}, 'register');
   }
 }
