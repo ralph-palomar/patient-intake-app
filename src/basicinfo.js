@@ -11,7 +11,7 @@ export class Save extends React.Component {
 			basic_lastname: document.querySelector('#basic_lastname').value,
 			basic_firstname: document.querySelector('#basic_firstname').value,
 			basic_middlename: document.querySelector('#basic_middlename').value,
-			basic_dob: document.querySelector('#basic_dob').innerHTML,
+			basic_dob: document.querySelector('#basic_dob').value,
 			basic_gender: document.querySelector('#basic_gender').value,
 			basic_addr: document.querySelector('#basic_addr').value,
 			basic_landlineno: document.querySelector('#basic_landlineno').value,
@@ -44,18 +44,13 @@ export class Save extends React.Component {
 export class BasicInfo extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {}
-		const config = {
-			"url": api.users_api_base_url + "/v1/basicInfo",
-			"method": "GET",
-			"timeout": 60000,
-			"params": {
-				"id": cookies.get('app-login').email
-			}
-		};
-		callApi(config, (data) => {
-			this.setState(data);
-		}, 'basic');
+		this.state = props.data;
+	}
+	handleSetInputDate = (date) => {
+		const formattedDate = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+		this.setState({
+			basic_dob: formattedDate
+		})
 	}
 	render() {
 		return (
@@ -74,8 +69,8 @@ export class BasicInfo extends React.Component {
 				</ons-list-item>
 				<ons-list-item>
 					<label className="form">Date of Birth</label><br />
-					<div id="basic_dob" style={{display: 'none'}}>{this.state.basic_dob}</div>
-					<DatePickerComponent value={() => this.state.basic_dob}/>
+					<ons-input id="basic_dob" style={{display: 'none'}} value={this.state.basic_dob}></ons-input>
+					<DatePickerComponent id="basic_dob" value={this.state.basic_dob} setInputDate={this.handleSetInputDate} />
 				</ons-list-item>
 				<ons-list-item>
 					<label className="form">Gender</label>
@@ -120,23 +115,13 @@ export class BasicInfo extends React.Component {
 export class DatePickerComponent extends React.Component {
 	constructor(props) {
 		super(props);
-		console.log(this.props.value)
 		this.state = {
-			date: new Date()
-		}
-	}
-	componentDidMount() {
-		this.setDate(this.state.date);
-	}
-	setDate(date) {
-		const basic_dob = document.querySelector('#basic_dob');
-		if (date != null && basic_dob != null) {
-			basic_dob.innerHTML = date.toLocaleDateString();
+			date: props.value != null ? new Date(props.value) : new Date()
 		}
 	}
 	onChange = date => {
 		this.setState({ date });
-		this.setDate(date);
+		this.props.setInputDate(date);
 	}
 	render() {
 		return (

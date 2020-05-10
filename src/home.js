@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { logout, back, createAccount, login, register, cookies } from './index.js'
+import { logout, back, createAccount, login, register, cookies, callApi } from './index.js'
 import { Users } from './users.js'
 import { Save, BasicInfo } from './basicinfo.js';
 import { Illnesses } from './illnesses.js';
@@ -8,6 +8,7 @@ import { Medications } from './medications.js';
 import { VitalSigns } from './vitalsigns.js';
 import { Diet } from './diet.js';
 import { Others } from './others.js';
+import { api } from './config.js';
 
 window.fn = {};
 
@@ -36,7 +37,17 @@ window.fn.load = function(page) {
 
         if (page === "basicinfo.html") {
           const basicinfo_form = document.querySelector('div#basicinfo_form');
-          ReactDOM.render(<BasicInfo/>, basicinfo_form);
+          const config = {
+            "url": api.users_api_base_url + "/v1/basicInfo",
+            "method": "GET",
+            "timeout": 60000,
+            "params": {
+              "id": cookies.get('app-login').email
+            }
+          };
+          callApi(config, (data) => {
+            ReactDOM.render(<BasicInfo data={data} />, basicinfo_form);  
+          }, 'basic');        
         }
 
         if (page === "illnesses.html") {
