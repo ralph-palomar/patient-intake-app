@@ -1,6 +1,68 @@
 <!DOCTYPE html>
 <html>
-<body>
-  <div id="root"></div>
-</body>
+  <body>
+    <div id="root"></div>
+
+    <ons-template id="home.html">
+      <ons-page id="home">
+        <ons-splitter>
+          <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
+          <ons-page>
+            <ons-list>
+            <ons-list-item id="profile-list-item" onclick="fn.load('main.html')" tappable>
+              Home
+            </ons-list-item>
+            <ons-list-item id="profile-list-item" onclick="fn.load('profile.html')" tappable>
+              My Profile
+            </ons-list-item>
+            <ons-list-item id="user-list-item" onclick="fn.load('users.html')" tappable>
+              Users
+            </ons-list-item>
+            <ons-list-item id="basicinfo-list-item" onclick="fn.load('basicinfo.html')" tappable>
+              Basic Info
+            </ons-list-item>
+            <ons-list-item id="illnesses-list-item" onclick="fn.load('illnesses.html')" tappable>
+              Illnesses
+            </ons-list-item>
+            <ons-list-item id="medications-list-item" onclick="fn.load('medications.html')" tappable>
+              Medications
+            </ons-list-item>
+            <ons-list-item id="vitalsigns-list-item" onclick="fn.load('vitalsigns.html')" tappable>
+              Vital Signs
+            </ons-list-item>
+            <ons-list-item id="diet-list-item" onclick="fn.load('diet.html')" tappable>
+              Diet
+            </ons-list-item>
+            <ons-list-item id="others-list-item" onclick="fn.load('others.html')" tappable>
+              Others
+            </ons-list-item>
+            <ons-list-item onclick="fn.logout()" tappable>
+              Logout
+            </ons-list-item>
+            </ons-list>
+          </ons-page>
+          </ons-splitter-side>
+          <ons-splitter-content id="content" page="main.html"></ons-splitter-content>
+        </ons-splitter>
+       </ons-page>      
+    </ons-template>
+
+    <ons-template id="login.html">
+      <ons-page id="login">
+        <div id="login_pb" style="display: none;"><ons-progress-bar indeterminate></ons-progress-bar></div>
+        <div style="text-align: center; margin-top: 200px">
+            <p>
+                <ons-input id="index_email" placeholder="Email" modifier="material"></ons-input>
+            </p>
+            <p>
+                <ons-input id="index_password" placeholder="Password" type="password" modifier="material"></ons-input>
+            </p>
+            <p>
+                <ons-button onclick="fn.register()" modifier="quiet">Register</ons-button>
+                <ons-button onclick="fn.login()">Sign in</ons-button>
+            </p>
+        </div>
+      </ons-page>
+    </ons-template>
+  </body>
 </html>
