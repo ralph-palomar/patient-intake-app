@@ -27,6 +27,7 @@ export function login() {
 		"headers": {
 		  "email": email,
 		  "password": password,
+		  "Authorization": api.users_api_authorization
 		}
 	  };
 	  callApi(config, (data) => {
@@ -64,7 +65,8 @@ export function createAccount() {
 		"method": "POST",
 		"timeout": 60000,
 		"headers": {
-			"Content-Type": "application/json"
+			"Content-Type": "application/json",
+			"Authorization": api.users_api_authorization
 		},
 		"data": payload
 	};
@@ -159,18 +161,16 @@ class App extends React.Component {
 		}
 	}
 	render() {
-		if (this.state.activeLogin) {
-			return (
-			<ons-navigator swipeable id="navigator" page="home.html">
+		const landingPage = this.state.activeLogin ? "home.html" : "login.html";
+
+		return (
+		<React.Fragment>
+			<ons-navigator swipeable id="navigator" page={landingPage}>
 			</ons-navigator>
-			);
-		} else {
-			return (
-			<ons-navigator swipeable id="navigator" page="login.html">
-			</ons-navigator>
-			);
-		}
+		</React.Fragment>
+		);
+
 	}
 }
 
-ReactDOM.render(<App/>, document.querySelector('div#root'));
+window.onload = () => ReactDOM.render(<App/>, document.querySelector('body'));

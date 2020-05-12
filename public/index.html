@@ -3,7 +3,25 @@
   <body>
     <div id="root"></div>
 
-    <ons-template id="home.html">
+    <template id="login.html">
+      <ons-page id="login">
+        <div id="login_pb" style="display: none;"><ons-progress-bar indeterminate></ons-progress-bar></div>
+        <div style="text-align: center; margin-top: 200px">
+            <p>
+                <ons-input id="index_email" placeholder="Email" modifier="material"></ons-input>
+            </p>
+            <p>
+                <ons-input id="index_password" placeholder="Password" type="password" modifier="material"></ons-input>
+            </p>
+            <p>
+                <ons-button onclick="fn.register()" modifier="quiet">Register</ons-button>
+                <ons-button onclick="fn.login()">Sign in</ons-button>
+            </p>
+        </div>
+      </ons-page>
+    </template>
+
+    <template id="home.html">
       <ons-page id="home">
         <ons-splitter>
           <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
@@ -44,25 +62,219 @@
           </ons-splitter-side>
           <ons-splitter-content id="content" page="main.html"></ons-splitter-content>
         </ons-splitter>
-       </ons-page>      
-    </ons-template>
+       </ons-page>   
+    </template>
 
-    <ons-template id="login.html">
-      <ons-page id="login">
-        <div id="login_pb" style="display: none;"><ons-progress-bar indeterminate></ons-progress-bar></div>
-        <div style="text-align: center; margin-top: 200px">
+    <template id="main.html">
+      <ons-page id="main">
+        <ons-toolbar>
+          <div class="left">
+            <ons-toolbar-button onclick="fn.open()">
+              <ons-icon icon="md-menu"></ons-icon>
+            </ons-toolbar-button>
+          </div>
+          <div class="center">
+            Main
+          </div>
+        </ons-toolbar>
+        <div id="main_pb" style="display: none;"><ons-progress-bar indeterminate></ons-progress-bar></div>
+        <p style="text-align: center; opacity: 0.6; padding-top: 20px;">
+          Swipe right to open the menu!
+        </p>
+      </ons-page>
+    </template>
+
+    <template id="basicinfo.html">
+      <ons-page id="basicinfo">
+        <ons-toolbar>
+          <div class="left">
+            <ons-toolbar-button onclick="fn.open()">
+              <ons-icon icon="md-menu"></ons-icon>
+            </ons-toolbar-button>
+          </div>
+          <div class="center">
+            Basic Information
+          </div>
+          <div class="right" id="saveBasicInfoBtn">
+          </div>
+        </ons-toolbar>
+        <div id="basic_pb" style="display: none;"><ons-progress-bar indeterminate></ons-progress-bar></div>
+        <ons-list>
+            <ons-list-header>Please fill up the form</ons-list-header>
+            <div id="basicinfo_form"></div>
+        </ons-list>
+      </ons-page>
+    </template>
+
+    <template id="illnesses.html">
+      <ons-page id="illnesses">
+        <ons-toolbar>
+          <div class="left">
+            <ons-toolbar-button onclick="fn.open()">
+              <ons-icon icon="md-menu"></ons-icon>
+            </ons-toolbar-button>
+          </div>
+          <div class="center">
+            Illnesses
+          </div>
+          <div class="right" id="saveIllnessesBtn"></div>
+        </ons-toolbar>
+        <div id="illnesses_pb" style="display: none;"><ons-progress-bar indeterminate></ons-progress-bar></div>
+        <ons-list>
+            <ons-list-header>Please select</ons-list-header>
+            <div id="illnesses_list"></div>
+        </ons-list>
+      </ons-page>
+    </template>
+
+    <template id="diet.html">
+      <ons-page id="diet">
+        <ons-toolbar>
+          <div class="left">
+            <ons-toolbar-button onclick="fn.open()">
+              <ons-icon icon="md-menu"></ons-icon>
+            </ons-toolbar-button>
+          </div>
+          <div class="center">
+            Diet
+          </div>
+          <div class="right">
+            <ons-button modifier="quiet">Save</ons-button>
+          </div>
+        </ons-toolbar>
+        <div id="diet_pb" style="display: none;"><ons-progress-bar indeterminate></ons-progress-bar></div>
+        <div id="diet_list"></div>
+      </ons-page>
+    </template>
+
+    <template id="medications.html">
+      <ons-page id="medications">
+        <ons-toolbar>
+          <div class="left">
+            <ons-toolbar-button onclick="fn.open()">
+              <ons-icon icon="md-menu"></ons-icon>
+            </ons-toolbar-button>
+          </div>
+          <div class="center">
+            Medications
+          </div>
+          <div class="right">
+            <ons-button modifier="quiet">Save</ons-button>
+          </div>
+        </ons-toolbar>
+        <div id="medications_pb" style="display: none;"><ons-progress-bar indeterminate></ons-progress-bar></div>
+        <p style="text-align: center; opacity: 0.6; padding-top: 10px;">
+            Tap the + button below
+          </p>
+        <div id="medications_list"></div>
+      </ons-page>
+    </template>
+
+    <template id="others.html">
+      <ons-page id="others">
+        <ons-toolbar>
+          <div class="left">
+            <ons-toolbar-button onclick="fn.open()">
+              <ons-icon icon="md-menu"></ons-icon>
+            </ons-toolbar-button>
+          </div>
+          <div class="center">
+            Others
+          </div>
+          <div class="right">
+            <ons-button modifier="quiet">Save</ons-button>
+          </div>
+        </ons-toolbar>
+        <div id="others_pb" style="display: none;"><ons-progress-bar indeterminate></ons-progress-bar></div>
+        <div id="others_list"></div>
+      </ons-page>
+    </template>
+
+    <template id="profile.html">
+      <ons-page id="profile">
+        <ons-toolbar>
+            <div class="left">
+            <ons-toolbar-button onclick="fn.open()">
+                <ons-icon icon="md-menu"></ons-icon>
+            </ons-toolbar-button>
+            </div>
+            <div class="center">
+            My Profile
+            </div>
+        </ons-toolbar>
+        <div id="profile_pb" style="display: none;"><ons-progress-bar indeterminate></ons-progress-bar></div>
+        <div id="main_display"></div>
+    </ons-page>
+    </template>
+
+    <template id="register.html">
+      <ons-page id="register">
+        <div id="register_pb" hidden><ons-progress-bar indeterminate></ons-progress-bar></div>
+        <div style="text-align: center; margin-top: 150px">
             <p>
-                <ons-input id="index_email" placeholder="Email" modifier="material"></ons-input>
+                <ons-input id="register_email" placeholder="Email" modifier="material"></ons-input>
             </p>
             <p>
-                <ons-input id="index_password" placeholder="Password" type="password" modifier="material"></ons-input>
+                <ons-input id="register_firstname" placeholder="First Name" modifier="material"></ons-input>
             </p>
             <p>
-                <ons-button onclick="fn.register()" modifier="quiet">Register</ons-button>
-                <ons-button onclick="fn.login()">Sign in</ons-button>
+                <ons-input id="register_lastname" placeholder="Last Name" modifier="material"></ons-input>
+            </p>
+            <p>
+                <ons-input id="register_password" placeholder="Password" type="password" modifier="material"></ons-input>
+            </p>
+            <p>
+                <ons-input id="register_cpassword" placeholder="Confirm Password" type="password" modifier="material"></ons-input>
+            </p>
+            <p>
+                <ons-button onclick="fn.back()" modifier="quiet">Back</ons-button>
+                <ons-button onclick="fn.createAccount()">Submit</ons-button>
             </p>
         </div>
       </ons-page>
-    </ons-template>
+    </template>
+
+    <template id="users.html">
+      <ons-page id="users">
+        <ons-toolbar>
+          <div class="left">
+            <ons-toolbar-button onclick="fn.open()">
+              <ons-icon icon="md-menu"></ons-icon>
+            </ons-toolbar-button>
+          </div>
+          <div class="center">
+            Users
+          </div>
+        </ons-toolbar>
+        <div id="users_pb" style="display: none;"><ons-progress-bar indeterminate></ons-progress-bar></div>
+        <ons-list>
+            <div id="user_list"></div>
+        </ons-list>
+      </ons-page>
+    </template>
+
+    <template id="vitalsigns.html">
+      <ons-page id="vitalsigns">
+        <ons-toolbar>
+          <div class="left">
+            <ons-toolbar-button onclick="fn.open()">
+              <ons-icon icon="md-menu"></ons-icon>
+            </ons-toolbar-button>
+          </div>
+          <div class="center">
+            Vital Signs
+          </div>
+          <div class="right">
+            <ons-button modifier="quiet">Save</ons-button>
+          </div>
+        </ons-toolbar>
+        <div id="vitalsigns_pb" style="display: none;"><ons-progress-bar indeterminate></ons-progress-bar></div>
+        <p style="text-align: center; opacity: 0.6; padding-top: 10px;">
+            Tap the + button below
+          </p>
+        <div id="vitalsigns_list"></div>
+      </ons-page>
+    </template>
+    
   </body>
 </html>

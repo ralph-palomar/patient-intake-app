@@ -1,5 +1,6 @@
 export const api = {
-    users_api_base_url: "http://localhost:5000/user-management/api"
+    users_api_base_url: process.env.REACT_APP_USERS_API_BASE_URL,
+    users_api_authorization: process.env.REACT_APP_USERS_API_AUTHORIZATION
 };
 
 export const illnesses = [

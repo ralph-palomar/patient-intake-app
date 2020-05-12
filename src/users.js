@@ -28,6 +28,9 @@ export class Users extends React.Component {
             "url": api.users_api_base_url + "/v1/users/all",
             "method": "GET",
             "timeout": 60000,
+            "headers": {
+                "Authorization": api.users_api_authorization
+            }
         };
         callApi(config, (data) => {
             this.setState({

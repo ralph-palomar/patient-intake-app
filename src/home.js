@@ -41,6 +41,9 @@ window.fn.load = function(page) {
             "url": api.users_api_base_url + "/v1/basicInfo",
             "method": "GET",
             "timeout": 60000,
+            "headers": {
+              "Authorization": api.users_api_authorization
+            },
             "params": {
               "id": cookies.get('app-login').email
             }
@@ -59,6 +62,9 @@ window.fn.load = function(page) {
             "url": api.users_api_base_url + "/v1/illnesses",
             "method": "GET",
             "timeout": 60000,
+            "headers": {
+              "Authorization": api.users_api_authorization
+            },
             "params": {
               "id": cookies.get('app-login').email
             }
