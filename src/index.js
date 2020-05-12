@@ -151,10 +151,6 @@ function setLoginCookie(data) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-window.onload = (event) => {
-	ReactDOM.render(<App/>, document.querySelector('div#root'));
-};
-
 class App extends React.Component {
 	constructor(props) {
 		super(props);
@@ -176,3 +172,5 @@ class App extends React.Component {
 		}
 	}
 }
+
+ReactDOM.render(<App/>, document.querySelector('div#root'));
