@@ -1,6 +1,7 @@
 export const api = {
     users_api_base_url: process.env.REACT_APP_USERS_API_BASE_URL,
-    users_api_authorization: process.env.REACT_APP_USERS_API_AUTHORIZATION
+    users_api_authorization: process.env.REACT_APP_USERS_API_AUTHORIZATION,
+    users_api_timeout: 10000
 };
 
 export const illnesses = [

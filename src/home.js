@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { logout, back, createAccount, login, register, cookies, callApi } from './index.js'
 import { Users } from './users.js'
-import { SaveBasicInfo, BasicInfo } from './basicinfo.js';
-import { SaveIllnesses, Illnesses } from './illnesses.js';
+import { BasicInfo } from './basicinfo.js';
+import { Illnesses } from './illnesses.js';
 import { Medications } from './medications.js';
 import { VitalSigns } from './vitalsigns.js';
 import { Diet } from './diet.js';
@@ -40,7 +40,7 @@ window.fn.load = function(page) {
           const config = {
             "url": api.users_api_base_url + "/v1/basicInfo",
             "method": "GET",
-            "timeout": 60000,
+            "timeout": api.users_api_timeout,
             "headers": {
               "Authorization": api.users_api_authorization
             },
@@ -51,9 +51,7 @@ window.fn.load = function(page) {
           callApi(config, (data) => {
             ReactDOM.render(<BasicInfo data={data} />, basicinfo_form);  
           }, 'basic');  
-          
-          const saveBasicInfoBtn = document.querySelector('div#saveBasicInfoBtn');
-          if (saveBasicInfoBtn != null) ReactDOM.render(<SaveBasicInfo/>, saveBasicInfoBtn);
+      
         }
 
         if (page === "illnesses.html") {
@@ -61,7 +59,7 @@ window.fn.load = function(page) {
           const config = {
             "url": api.users_api_base_url + "/v1/illnesses",
             "method": "GET",
-            "timeout": 60000,
+            "timeout": api.users_api_timeout,
             "headers": {
               "Authorization": api.users_api_authorization
             },
@@ -73,13 +71,24 @@ window.fn.load = function(page) {
             ReactDOM.render(<Illnesses data={data} />, illnesses_list);
           }, 'illnesses');  
 
-          const saveIllnessesBtn = document.querySelector('div#saveIllnessesBtn');
-          if (saveIllnessesBtn != null) ReactDOM.render(<SaveIllnesses/>, saveIllnessesBtn);
         }
 
         if (page === "medications.html") {
           const medications_list = document.querySelector('div#medications_list');
-          ReactDOM.render(<Medications/>, medications_list);
+          const config = {
+            "url": api.users_api_base_url + "/v1/medications",
+            "method": "GET",
+            "timeout": api.users_api_timeout,
+            "headers": {
+              "Authorization": api.users_api_authorization
+            },
+            "params": {
+              "id": cookies.get('app-login').email
+            }
+          };
+          callApi(config, (data) => {
+            ReactDOM.render(<Medications data={data} />, medications_list);
+          }, 'medications'); 
         }
 
         if (page === "vitalsigns.html") {

@@ -23,7 +23,7 @@ export function login() {
 	  const config = {
 		"url": api.users_api_base_url + "/v1/users",
 		"method": "GET",
-		"timeout": 60000,
+		"timeout": api.users_api_timeout,
 		"headers": {
 		  "email": email,
 		  "password": password,
@@ -63,7 +63,7 @@ export function createAccount() {
 	const config = {
 		"url": api.users_api_base_url + "/v1/users",
 		"method": "POST",
-		"timeout": 60000,
+		"timeout": api.users_api_timeout,
 		"headers": {
 			"Content-Type": "application/json",
 			"Authorization": api.users_api_authorization
@@ -139,7 +139,7 @@ export async function callApi(config, successCallback, caller) {
 }
 
 export function showAlert(msg) {
-	ons.notification.toast(msg, { timeout: 2000 });
+	ons.notification.alert(msg);
 }
 
 function setLoginCookie(data) {
@@ -173,4 +173,4 @@ class App extends React.Component {
 	}
 }
 
-window.onload = () => ReactDOM.render(<App/>, document.querySelector('body'));
+window.onload = () => ReactDOM.render(<App/>, document.querySelector('div#root'));

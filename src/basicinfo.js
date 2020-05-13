@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import DatePicker from 'react-date-picker';
 import TimePicker from 'react-time-picker';
 import { callApi, showAlert, cookies } from './index.js';
@@ -24,7 +25,7 @@ export class SaveBasicInfo extends React.Component {
 		const config = {
 			"url": api.users_api_base_url + "/v1/basicInfo",
 			"method": "POST",
-			"timeout": 60000,
+			"timeout": api.users_api_timeout,
 			"headers": {
 				"Content-Type": "application/json",
 				"Authorization": api.users_api_authorization
@@ -47,11 +48,15 @@ export class BasicInfo extends React.Component {
 		super(props);
 		this.state = props.data;
 	}
-	handleSetInputDate = (date) => {
+	onChange = (date) => {
 		const formattedDate = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
 		this.setState({
 			basic_dob: formattedDate
-		})
+		});
+	}
+	componentDidMount() {
+		const basicinfo_saveBtn = document.querySelector('div#basicinfo_saveBtn');
+        if (basicinfo_saveBtn != null) ReactDOM.render(<SaveBasicInfo/>, basicinfo_saveBtn);
 	}
 	render() {
 		return (
@@ -71,7 +76,7 @@ export class BasicInfo extends React.Component {
 				<ons-list-item>
 					<label className="form">Date of Birth</label><br />
 					<ons-input id="basic_dob" style={{display: 'none'}} value={this.state.basic_dob}></ons-input>
-					<DatePickerComponent id="basic_dob" value={this.state.basic_dob} setInputDate={this.handleSetInputDate} />
+					<DatePicker onChange={this.onChange} value={new Date(this.state.basic_dob)} />
 				</ons-list-item>
 				<ons-list-item>
 					<label className="form">Gender</label>
@@ -109,27 +114,6 @@ export class BasicInfo extends React.Component {
 					<ons-input type="number" id="basic_supportcontactno" modifier="material" value={this.state.basic_supportcontactno || ""}></ons-input><br />
 				</ons-list-item>
 			</React.Fragment>
-		);
-	}
-}
-
-export class DatePickerComponent extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			date: props.value != null && props.value.length !== 0 ? new Date(props.value) : new Date()
-		}
-	}
-	onChange = date => {
-		this.setState({ date });
-		this.props.setInputDate(date);
-	}
-	render() {
-		return (
-			<DatePicker
-				onChange={this.onChange}
-				value={this.state.date}
-			/>
 		);
 	}
 }

@@ -1,5 +1,6 @@
 import React from 'react';
-import { cookies, callApi, showAlert } from './index.js'
+import ReactDOM from 'react-dom';
+import { cookies, callApi, showAlert } from './index.js';
 import { illnesses, api } from './config.js';
 
 export class SaveIllnesses extends React.Component {
@@ -17,7 +18,7 @@ export class SaveIllnesses extends React.Component {
 		const config = {
 			"url": api.users_api_base_url + "/v1/illnesses",
 			"method": "POST",
-			"timeout": 60000,
+			"timeout": api.users_api_timeout,
 			"headers": {
                 "Content-Type": "application/json",
                 "Authorization": api.users_api_authorization
@@ -52,6 +53,10 @@ export class Illnesses extends React.Component {
             currentState = props.data;
         }
         this.state = currentState;
+    }
+    componentDidMount() {
+        const illnesses_saveBtn = document.querySelector('div#illnesses_saveBtn');
+        if (illnesses_saveBtn != null) ReactDOM.render(<SaveIllnesses/>, illnesses_saveBtn);
     }
     render() {
         return (

@@ -1,5 +1,6 @@
 import React from 'react';
-import { DatePickerComponent, TimePickerComponent } from './basicinfo';
+import { DatePicker } from 'react-date-picker';
+import { TimePickerComponent } from './basicinfo';
 
 export class VitalSigns extends React.Component {
     
@@ -60,7 +61,7 @@ export class VitalSigns extends React.Component {
                         </ons-list-header>  
                         <ons-list-item>
                             <label className="form">Date</label>
-                            <div id={value.field1+value.id}><DatePickerComponent/></div>
+                            <div id={value.field1+value.id}><DatePicker/></div>
                         </ons-list-item>
                         <ons-list-item>
                             <label className="form">Time</label>
