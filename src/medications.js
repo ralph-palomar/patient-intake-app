@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DatePicker from 'react-date-picker';
-import { cookies, callApi, showAlert, ConfirmDialog } from './index.js';
+import { cookies, callApi, showAlert, ConfirmDialog, formatDate } from './index.js';
 import { api } from './config.js';
 //import { animateScroll } from 'react-scroll';
 
@@ -66,7 +66,7 @@ export class Medications extends React.Component {
                 drug_name: "",
                 dosage: "",
                 purpose: "",
-                date_started: null
+                date_started: ""
             }
             currentMedicationList.unshift(medication);
             return {
@@ -99,7 +99,7 @@ export class Medications extends React.Component {
     }
     handleChange = (index, date) => {
         if (date != null) {
-            const formattedDate = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+            const formattedDate = formatDate(date);
             this.setState(state => {
                 state.medicationList[index].date_started = formattedDate
                 return {
@@ -140,8 +140,8 @@ export class Medications extends React.Component {
                             </ons-list-item>
                             <ons-list-item>
                                 <label className="form">Date Started</label>
-                                <ons-input id={"date_started"+value.id} style={{display: 'none'}} value={this.state.medicationList[index].date_started}></ons-input>
-                                <DatePicker onChange={date => { this.handleChange(index, date) }} value={this.state.medicationList[index].date_started == null ? new Date() : new Date(this.state.medicationList[index].date_started)} />
+                                <ons-input id={"date_started"+value.id} style={{display: 'none'}} value={this.state.medicationList[index].date_started == null || this.state.medicationList[index].date_started.length === 0 ? formatDate(new Date()) : this.state.medicationList[index].date_started} ></ons-input>
+                                <DatePicker onChange={date => { this.handleChange(index, date) }} value={this.state.medicationList[index].date_started == null || this.state.medicationList[index].date_started.length === 0 ? new Date() : new Date(this.state.medicationList[index].date_started)} />
                             </ons-list-item>  
                             </div> 
                         )

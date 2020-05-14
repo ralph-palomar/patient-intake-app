@@ -142,6 +142,10 @@ export function showAlert(msg) {
 	ons.notification.alert(msg);
 }
 
+export function formatDate(date) {
+	return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+}
+
 function setLoginCookie(data) {
 	let d = new Date();
 	d.setDate(d.getDate() + 7); //+7days
