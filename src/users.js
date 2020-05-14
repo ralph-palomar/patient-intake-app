@@ -45,7 +45,7 @@ export class Users extends React.Component {
             <p style={{ textAlign: 'center', marginTop: '10px'}}>
                 <ons-search-input placeholder="Search" onKeyUp={this.searchUser}></ons-search-input>
             </p>
-            <ons-list-header>User accounts</ons-list-header>
+            <ons-list-header><b>User accounts</b></ons-list-header>
             {
                 this.state.userList.map((value) =>
                     <ons-list-item key={value.email} modifier="chevron" tappable>

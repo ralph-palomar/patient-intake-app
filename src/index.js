@@ -173,4 +173,24 @@ class App extends React.Component {
 	}
 }
 
+export class ConfirmDialog extends React.Component {
+	handleCancel = (event) => {
+		this.dialog.hide();
+	}
+	render() {
+		return (
+			<ons-alert-dialog id="confirm-dialog" style={{position: 'fixed'}} modifier="rowfooter" ref={ref => {this.dialog = ref}}>
+				<div className="alert-dialog-title">Confirm</div>
+				<div className="alert-dialog-content">
+					{this.props.message}
+				</div>
+				<div className="alert-dialog-footer">
+					<ons-alert-dialog-button onClick={this.handleCancel}>Cancel</ons-alert-dialog-button>
+					<ons-alert-dialog-button onClick={this.props.onOk}>OK</ons-alert-dialog-button>
+				</div>
+			</ons-alert-dialog>
+		);
+	}
+}
+
 window.onload = () => ReactDOM.render(<App/>, document.querySelector('div#root'));

@@ -49,10 +49,12 @@ export class BasicInfo extends React.Component {
 		this.state = props.data;
 	}
 	onChange = (date) => {
-		const formattedDate = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
-		this.setState({
-			basic_dob: formattedDate
-		});
+		if (date != null) {
+			const formattedDate = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+			this.setState({
+				basic_dob: formattedDate
+			});
+		}
 	}
 	componentDidMount() {
 		const basicinfo_saveBtn = document.querySelector('div#basicinfo_saveBtn');

@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DatePicker from 'react-date-picker';
-import { cookies, callApi, showAlert } from './index.js';
+import { cookies, callApi, showAlert, ConfirmDialog } from './index.js';
 import { api } from './config.js';
+//import { animateScroll } from 'react-scroll';
 
 export class SaveMedications extends React.Component {
 	handleClick = (event) => {
@@ -49,15 +50,13 @@ export class Medications extends React.Component {
 
         if (Object.keys(props.data).length !== 0) {
             this.state = props.data;
-            props.data.medicationList.forEach(item => {
-                this[`date_started${item.id}`] = React.createRef();
-            });
         } else {
             this.state = {
                 medicationList: []
             }
         }
 
+        this.index = null;
     }
     addMedication = (event) => {
         this.setState(state => {
@@ -67,16 +66,17 @@ export class Medications extends React.Component {
                 drug_name: "",
                 dosage: "",
                 purpose: "",
-                date_started: ""
+                date_started: null
             }
-            currentMedicationList.push(medication);
+            currentMedicationList.unshift(medication);
             return {
                 medicationList: currentMedicationList
             }
         });
     }
     removeMedication = (event) => {
-        const id = event.target.id;
+        document.querySelector('#confirm-dialog').hide();
+        const id = this.index;
         this.setState(state => {
             const currentMedicationList = state.medicationList;
             const filteredMedicationList = currentMedicationList.filter((item) => item.id !== "_"+id);
@@ -93,9 +93,20 @@ export class Medications extends React.Component {
             }
         });
     }
-    onChange = (date) => {
-        const formattedDate = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
-        console.log(this.state.medicationList.length);
+    confirm = (event) => {
+        document.querySelector('#confirm-dialog').show();
+        this.index = event.target.getAttribute('index');
+    }
+    handleChange = (index, date) => {
+        if (date != null) {
+            const formattedDate = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+            this.setState(state => {
+                state.medicationList[index].date_started = formattedDate
+                return {
+                    medicationList: state.medicationList
+                }
+            });
+        }
     }
     componentDidMount() {
         const medications_saveBtn = document.querySelector('div#medications_saveBtn');
@@ -103,42 +114,45 @@ export class Medications extends React.Component {
     }
     render() {
         return (
-            <div className="content">
-                <ons-list>
-                {                
-                    this.state.medicationList.map((value, index) => 
-                        <div className="medication_list">
-                        <ons-list-header>
-                            Medication/Supplement
-                            <ons-fab position="top right" modifier="mini" onClick={this.removeMedication}>
-                                <ons-icon id={index} icon="md-delete"></ons-icon>
-                            </ons-fab>
-                        </ons-list-header>
-                        <ons-list-item>
-                            <label className="form">Name of Drug</label>
-                            <ons-input id={"drug_name"+value.id} modifier="material" value={this.state.medicationList[index].drug_name}></ons-input>
-                        </ons-list-item>
-                        <ons-list-item>
-                            <label className="form">Dosage</label>
-                            <ons-input id={"dosage"+value.id} modifier="material" value={this.state.medicationList[index].dosage}></ons-input>
-                        </ons-list-item>
-                        <ons-list-item>
-                            <label className="form">Purpose</label>
-                            <ons-input id={"purpose"+value.id} modifier="material" value={this.state.medicationList[index].purpose}></ons-input>
-                        </ons-list-item>
-                        <ons-list-item>
-                            <label className="form">Date Started</label>
-                            <ons-input id={"date_started"+value.id} style={{display: 'block'}} value={this.state.medicationList[index].date_started}></ons-input>
-                            <DatePicker onChange={this.onChange} value={new Date(this.state.medicationList[index].date_started)} ref={this[`date_started_${index}`]}/>
-                        </ons-list-item>    
-                        </div> 
-                    )
-                }
-                </ons-list>
-                <ons-fab id="fab_add" position="bottom right" modifier="mini" onClick={this.addMedication}>
+            <React.Fragment>
+                <div className="content">
+                    <ons-list>
+                    {                
+                        this.state.medicationList.map((value, index) => 
+                            <div className="medication_list">
+                            <ons-list-header>
+                                <b>Medication/Supplement</b><br/>
+                                <ons-fab index={index} modifier="mini" position="top right" onClick={this.confirm}>
+                                    <ons-icon index={index} icon="md-delete"></ons-icon>
+                                </ons-fab>
+                            </ons-list-header>
+                            <ons-list-item>
+                                <label className="form">Name of Drug</label>
+                                <ons-input id={"drug_name"+value.id} modifier="material" value={this.state.medicationList[index].drug_name}></ons-input>
+                            </ons-list-item>
+                            <ons-list-item>
+                                <label className="form">Dosage</label>
+                                <ons-input id={"dosage"+value.id} modifier="material" value={this.state.medicationList[index].dosage}></ons-input>
+                            </ons-list-item>
+                            <ons-list-item>
+                                <label className="form">Purpose</label>
+                                <ons-input id={"purpose"+value.id} modifier="material" value={this.state.medicationList[index].purpose}></ons-input>
+                            </ons-list-item>
+                            <ons-list-item>
+                                <label className="form">Date Started</label>
+                                <ons-input id={"date_started"+value.id} style={{display: 'none'}} value={this.state.medicationList[index].date_started}></ons-input>
+                                <DatePicker onChange={date => { this.handleChange(index, date) }} value={this.state.medicationList[index].date_started == null ? new Date() : new Date(this.state.medicationList[index].date_started)} />
+                            </ons-list-item>  
+                            </div> 
+                        )
+                    }
+                    </ons-list>
+                </div>
+                <ons-fab ripple position="bottom right" id="fab_add" modifier="mini" onClick={this.addMedication}>
                     <ons-icon icon="md-plus"></ons-icon>
                 </ons-fab>
-            </div>
+                <ConfirmDialog message="Are you sure?" onOk={this.removeMedication}/>
+            </React.Fragment>
         );
     }
 }
