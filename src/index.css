@@ -10,3 +10,9 @@ label.form {
     position: fixed;
     margin-top: 26px;
 }
+
+ons-progress-circular {
+    position: fixed;
+    top: 40%;
+    left: 45%;
+}

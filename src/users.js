@@ -41,22 +41,24 @@ export class Users extends React.Component {
     }
     render() {
         return (
-            <div>
-            <p style={{ textAlign: 'center', marginTop: '10px'}}>
-                <ons-search-input placeholder="Search" onKeyUp={this.searchUser}></ons-search-input>
-            </p>
-            <ons-list-header><b>User accounts</b></ons-list-header>
-            {
-                this.state.userList.map((value) =>
-                    <ons-list-item key={value.email} modifier="chevron" tappable>
-                        <div className="center">
-                            <span className="list-item__title">{value.firstname + " " + value.lastname}</span>
-                            <span className="list-item__subtitle">{value.email}</span>
-                        </div>
-                    </ons-list-item>
-                )
-            }
-            </div>
+            <React.Fragment>
+                <p style={{ textAlign: 'center', marginTop: '10px'}}>
+                    <ons-search-input placeholder="Search" onKeyUp={this.searchUser}></ons-search-input>
+                </p>
+                <ons-list>
+                <ons-list-header><b>User accounts</b></ons-list-header>
+                {
+                    this.state.userList.map((value) =>
+                        <ons-list-item key={value.email} modifier="chevron" tappable>
+                            <div className="center">
+                                <span className="list-item__title">{value.firstname + " " + value.lastname}</span>
+                                <span className="list-item__subtitle">{value.email}</span>
+                            </div>
+                        </ons-list-item>
+                    )
+                }
+                </ons-list>
+            </React.Fragment>
         );
     }
 }

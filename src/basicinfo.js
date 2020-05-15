@@ -63,6 +63,8 @@ export class BasicInfo extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
+			<ons-list>
+            	<ons-list-header><b>Please fill up the form</b></ons-list-header>
 				<ons-list-item>
 					<label className="form">Last Name</label><br />
 					<ons-input id="basic_lastname" modifier="material" value={this.state.basic_lastname || ""}></ons-input>
@@ -115,6 +117,7 @@ export class BasicInfo extends React.Component {
 					<label className="form">Support Contact No.</label> <br />
 					<ons-input type="number" id="basic_supportcontactno" modifier="material" value={this.state.basic_supportcontactno || ""}></ons-input><br />
 				</ons-list-item>
+			</ons-list>
 			</React.Fragment>
 		);
 	}

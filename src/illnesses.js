@@ -61,22 +61,25 @@ export class Illnesses extends React.Component {
     render() {
         return (
         <React.Fragment> 
-            {
-                this.state.illnessesList.map((value, index) =>
-                    <ons-list-item key={value.displayText} tappable>  
-                        <label className="left">
-                        {value.selected ? <ons-checkbox id={"illness_"+index} input-id={value.displayText} checked></ons-checkbox> : <ons-checkbox id={"illness_"+index} input-id={value.displayText}></ons-checkbox> }
-                        </label>
-                        <label htmlFor={value.displayText} className="center">
-                            {value.displayText}
-                        </label>
-                    </ons-list-item>              
-                )
-            }
-            <ons-list-item>
-                <label className="form">Specify Others</label>
-                <textarea id="illness_others" className="textarea" rows="3" cols="35" defaultValue={this.state.illness_others || ""}></textarea>
-            </ons-list-item>   
+            <ons-list>
+                <ons-list-header><b>Please select</b></ons-list-header>
+                {
+                    this.state.illnessesList.map((value, index) =>
+                        <ons-list-item key={value.displayText} tappable>  
+                            <label className="left">
+                            {value.selected ? <ons-checkbox id={"illness_"+index} input-id={value.displayText} checked></ons-checkbox> : <ons-checkbox id={"illness_"+index} input-id={value.displayText}></ons-checkbox> }
+                            </label>
+                            <label htmlFor={value.displayText} className="center">
+                                {value.displayText}
+                            </label>
+                        </ons-list-item>              
+                    )
+                }
+                <ons-list-item>
+                    <label className="form">Specify Others</label>
+                    <textarea id="illness_others" className="textarea" rows="3" cols="35" defaultValue={this.state.illness_others || ""}></textarea>
+                </ons-list-item> 
+            </ons-list>  
         </React.Fragment>
         );
     }
