@@ -146,6 +146,10 @@ export function formatDate(date) {
 	return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
 }
 
+export function formatTime(date) {
+	return (date.getHours()+"").padStart(2,'0')+':'+(date.getMinutes()+"").padStart(2,'0');
+}
+
 function setLoginCookie(data) {
 	let d = new Date();
 	d.setDate(d.getDate() + 7); //+7days

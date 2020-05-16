@@ -265,10 +265,22 @@
           <div class="right" id="vitalsigns_saveBtn"></div>
         </ons-toolbar>
         <div id="vitalsigns_pb" style="display: none;"><ons-progress-circular indeterminate></ons-progress-circular></div>
-        <p style="text-align: center; opacity: 0.6; padding-top: 10px;">
-            Tap the + button below
-          </p>
         <div id="vitalsigns_list"></div>
+      </ons-page>
+    </template>
+
+    <template id="new_vitalsign.html">
+      <ons-page id="new_vitalsign">
+        <ons-toolbar>
+          <div class="left">
+            <ons-back-button></ons-back-button>
+          </div>
+          <div class="center">
+            Add Vital Sign
+          </div>
+          <div class="right" id="save_new_vs"></div>
+        </ons-toolbar>
+        <div id="new_vs_component"></div>
       </ons-page>
     </template>
 

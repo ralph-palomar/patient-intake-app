@@ -25,7 +25,7 @@ function MedicationForm(props) {
             <ons-list-item>
                 <label className="form">Date Started</label>
                 <ons-input id={"date_started"+id} style={{ display: 'none' }} value={props.medicationList[props.index].date_started == null || props.medicationList[props.index].date_started.length === 0 ? formatDate(new Date()) : props.medicationList[props.index].date_started} ></ons-input>
-                <DatePicker onChange={date => { props.onChangeCallback(props.index, date) }} value={props.medicationList[props.index].date_started == null || props.medicationList[props.index].date_started.length === 0 ? new Date() : new Date(props.medicationList[props.index].date_started)} />
+                <DatePicker onChange={date => { props.onChangeCallback(props.index, date) }} value={props.medicationList[props.index].date_started == null || props.medicationList[props.index].date_started.length === 0 ? new Date() : new Date(props.medicationList[props.index].date_started)} clearIcon={null} />
             </ons-list-item>
             </div>
         </React.Fragment>
@@ -131,11 +131,12 @@ export class Medications extends React.Component {
     }
     addMedication = (event) => {
         const nav = document.querySelector('#navigator');
+        const medications_list_length = document.querySelectorAll('div.medication_list') ? document.querySelectorAll('div.medication_list').length : 0;
         nav.pushPage('new_medication.html').then(() => {
             const new_component = document.querySelector('#new_medication_component');
             const initial_state = {
                 medicationList: [{
-                    id: "_"+document.querySelectorAll('div.medication_list').length,
+                    id: "_"+medications_list_length,
                     drug_name: "",
                     dosage: "",
                     purpose: "",
@@ -220,7 +221,7 @@ export class Medications extends React.Component {
                 <ons-fab ripple position="bottom right" id="fab_add" modifier="mini" onClick={this.addMedication}>
                     <ons-icon icon="md-plus"></ons-icon>
                 </ons-fab>
-                <ConfirmDialog message="Are you sure?" onOk={this.removeMedication} />
+                <ConfirmDialog message="Are you sure you want to delete?" onOk={this.removeMedication} />
             </React.Fragment>
         );
     }

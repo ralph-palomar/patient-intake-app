@@ -1,122 +1,292 @@
 import React from 'react';
-import { DatePicker } from 'react-date-picker';
-import { TimePickerComponent } from './basicinfo';
+import ReactDOM from 'react-dom';
+import DatePicker from 'react-date-picker';
+import TimePicker from 'react-time-picker';
+import { cookies, callApi, showAlert, formatDate, formatTime, ConfirmDialog } from './index.js';
+import { api } from './config.js';
 
-export class VitalSigns extends React.Component {
-    
-    constructor(props) {
-        super(props);
-        this.state = {
-            vitalSignList: []
+function VitalSignsForm(props) {
+    const id = props.vsList[props.index].id;
+    const bgcolor = props.index % 2 === 0 ? '#ffffff' : '#f0f0f5';
+    return (
+        <React.Fragment>
+            <div style={{ backgroundColor: bgcolor }}>
+                <ons-list-item>
+                    <label className="form">Date</label>
+                    <ons-input id={"vs_date" + id} style={{ display: 'block' }} value={props.vsList[props.index].vs_date == null || props.vsList[props.index].vs_date.length === 0 ? formatDate(new Date()) : props.vsList[props.index].vs_date} ></ons-input>
+                    <DatePicker onChange={date => { props.onDateChangeCallback(props.index, date) }} value={props.vsList[props.index].vs_date == null || props.vsList[props.index].vs_date.length === 0 ? new Date() : new Date(props.vsList[props.index].vs_date)} clearIcon={null} />
+                </ons-list-item>
+                <ons-list-item>
+                    <label className="form">Time</label>
+                    <ons-input id={"vs_time" + id} style={{ display: 'block' }} value={props.vsList[props.index].vs_time == null || props.vsList[props.index].vs_time.length === 0 ? formatTime(new Date()) : props.vsList[props.index].vs_time} ></ons-input>
+                    <TimePicker onChange={time => { props.onTimeChangeCallback(props.index, time) }} value={props.vsList[props.index].vs_time == null || props.vsList[props.index].vs_time.length === 0 ? new Date() : new Date(props.vsList[props.index].vs_time)} clearIcon={null} />
+                </ons-list-item>
+                <ons-list-item>
+                    <label className="form">Blood Pressure</label>
+                    <ons-input id={"vs_bloodpressure" + id} modifier="material" value={props.vsList[props.index].vs_bloodpressure}></ons-input>
+                </ons-list-item>
+                <ons-list-item>
+                    <label className="form">Heart Rate</label>
+                    <ons-input id={"vs_heartrate" + id} type="number" modifier="material" value={props.vsList[props.index].vs_heartrate}></ons-input>&nbsp;bpm
+                </ons-list-item>
+                <ons-list-item>
+                    <label className="form">Respiratory Rate</label>
+                    <ons-input id={"vs_respirate" + id} type="number" modifier="material" value={props.vsList[props.index].vs_respirate}></ons-input>&nbsp;cpm
+                </ons-list-item>
+                <ons-list-item>
+                    <label className="form">Temperature</label>
+                    <ons-input id={"vs_temp" + id} type="number" modifier="material" value={props.vsList[props.index].vs_temp}></ons-input>&nbsp;Celsius
+                </ons-list-item>
+                <ons-list-item>
+                    <label className="form">Weight</label>
+                    <ons-input id={"vs_weight" + id} type="number" modifier="material"></ons-input>&nbsp;
+                        <ons-radio name="weight_unit" input-id="weight_kg" checked>kg</ons-radio>&nbsp;
+                        <ons-radio name="weight_unit" input-id="weight_lbs">lbs</ons-radio>
+                    </ons-list-item>
+                <ons-list-item>
+                    <label className="form">Height</label>
+                    <ons-input id={"vs_height" + id} type="number" modifier="material" value={props.vsList[props.index].vs_height}></ons-input>&nbsp;cm
+                </ons-list-item>
+                <ons-list-item>
+                    <label className="form">Body Mass Index</label>
+                    <ons-input id={"vs_bmi" + id} type="number" modifier="material" value={props.vsList[props.index].vs_bmi}></ons-input>
+                </ons-list-item>
+                <ons-list-item>
+                    <label className="form">Waist Circumference</label>
+                    <ons-input id={"vs_waistcirc" + id} type="number" modifier="material" value={props.vsList[props.index].vs_waistcirc}></ons-input>&nbsp;cm
+                </ons-list-item>
+                <ons-list-item>
+                    <label className="form">Hip Circumference</label>
+                    <ons-input id={"vs_hipcirc" + id} type="number" modifier="material" value={props.vsList[props.index].vs_hipcirc}></ons-input>&nbsp;cm
+                </ons-list-item>
+                <ons-list-item>
+                    <label className="form">Waist/Hip Ratio</label>
+                    <ons-input id={"vs_whratio" + id} modifier="material" value={props.vsList[props.index].vs_whratio}></ons-input>
+                </ons-list-item>
+            </div>
+        </React.Fragment>
+    );
+}
+
+export class SaveVitalSigns extends React.Component {
+    handleClick = (event) => {
+        const vsCount = document.querySelectorAll('div.vs_list').length;
+        let vsList = [];
+        for (let i = 0; i < vsCount; i++) {
+            const vs = {
+                id: "_" + i,
+                // TODO map fields
+            }
+            vsList.push(vs);
         }
-    }
-    addVitalSign = (event) => {
-        this.setState(state => {
-            const currentVitalSignList = state.vitalSignList;
-            const vitalsign = {
-                id: "vs_"+currentVitalSignList.length,
-                field1: "vs_date_",
-                field2: "vs_time_",
-                field3: "vs_blood_pressure_",
-                field4: "vs_heart_rate_",
-                field5: "vs_respiratory_rate_",
-                field6: "vs_temp_",
-                field7: "vs_weight_",
-                field8: "vs_height_",
-                field9: "vs_bmi_",
-                field10: "vs_waist_circ_",
-                field11: "vs_hip_circ_",
-                field12: "vs_wh_ratio_"
-            }
-            currentVitalSignList.push(vitalsign);
-            return {
-                vitalSignList: currentVitalSignList
-            }
-        });
-    }
-    removeVitalSign = (event) => {
-        const id = event.target.id;
-        this.setState(state => {
-            const currentVitalSignList = state.vitalSignList;
-            const filteredVitalSignList = currentVitalSignList.filter((item) => {
-                return item.id !== id;
-            });
-            return {
-                vitalSignList: filteredVitalSignList
-            }
-        });
+        const payload = {
+            id: cookies.get('app-login').email,
+            vsList: vsList
+        }
+        const config = {
+            "url": api.users_api_base_url + "/v1/vitalSigns",
+            "method": "POST",
+            "timeout": 60000,
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": api.users_api_authorization
+            },
+            "data": payload
+        };
+        callApi(config, (data) => {
+            showAlert("Successfully saved data");
+        }, 'vitalsigns');
     }
     render() {
         return (
-            <div className="content">
-                <ons-list>
-                {                
-                    this.state.vitalSignList.map((value) => 
-                        <div>
-                        <ons-list-header>
-                            Initial Lifestyle Medicine Vital Signs
-                            <ons-fab position="top right" modifier="mini" onClick={this.removeVitalSign}>
-                                <ons-icon id={value.id} icon="md-delete"></ons-icon>
-                            </ons-fab>
-                        </ons-list-header>  
-                        <ons-list-item>
-                            <label className="form">Date</label>
-                            <div id={value.field1+value.id}><DatePicker/></div>
-                        </ons-list-item>
-                        <ons-list-item>
-                            <label className="form">Time</label>
-                            <div id={value.field2+value.id}><TimePickerComponent/></div>
-                        </ons-list-item>
-                        <ons-list-item>
-                            <label className="form">Blood Pressure</label>
-                            <ons-input id={value.field3+value.id} modifier="material"></ons-input>
-                        </ons-list-item>
-                        <ons-list-item>
-                            <label className="form">Heart Rate</label>
-                            <ons-input id={value.field4+value.id} type="number" modifier="material"></ons-input>&nbsp;bpm
-                        </ons-list-item>
-                        <ons-list-item>
-                            <label className="form">Respiratory Rate</label>
-                            <ons-input id={value.field5+value.id} type="number" modifier="material"></ons-input>&nbsp;cpm
-                        </ons-list-item>
-                        <ons-list-item>
-                            <label className="form">Temperature</label>
-                            <ons-input id={value.field6+value.id} type="number" modifier="material"></ons-input>&nbsp;Celsius
-                        </ons-list-item>
-                        <ons-list-item>
-                            <label className="form">Weight</label>
-                            <ons-input id={value.field7+value.id} type="number" modifier="material"></ons-input>&nbsp;
-                            <ons-radio name="weight_unit" input-id="weight_kg">kg</ons-radio>&nbsp;
-                            <ons-radio name="weight_unit" input-id="weight_lbs">lbs</ons-radio>
-                        </ons-list-item>
-                        <ons-list-item>
-                            <label className="form">Height</label>
-                            <ons-input id={value.field8+value.id} type="number" modifier="material"></ons-input>&nbsp;cm
-                        </ons-list-item>
-                        <ons-list-item>
-                            <label className="form">Body Mass Index</label>
-                            <ons-input id={value.field9+value.id} type="number" modifier="material"></ons-input>
-                        </ons-list-item>
-                        <ons-list-item>
-                            <label className="form">Waist Circumference</label>
-                            <ons-input id={value.field10+value.id} type="number" modifier="material"></ons-input>&nbsp;cm
-                        </ons-list-item>
-                        <ons-list-item>
-                            <label className="form">Hip Circumference</label>
-                            <ons-input id={value.field11+value.id} type="number" modifier="material"></ons-input>&nbsp;cm
-                        </ons-list-item>
-                        <ons-list-item>
-                            <label className="form">Waist/Hip Ratio</label>
-                            <ons-input id={value.field12+value.id} modifier="material"></ons-input>
-                        </ons-list-item>
-                        </div> 
-                    )
-                }
-                </ons-list>
-                <ons-fab id="fab_add" position="bottom right" modifier="mini" onClick={this.addVitalSign}>
-                    <ons-icon icon="md-plus"></ons-icon>
-                </ons-fab>
-            </div>
+            <ons-button modifier="quiet" onClick={this.handleClick}>Save</ons-button>
         );
     }
+}
+
+export class NewVitalSignItem extends React.Component {
+    constructor(props) {
+        super(props);
+
+        if (Object.keys(props.data).length !== 0) {
+            this.state = props.data;
+        } else {
+            this.state = {
+                vsList: []
+            }
+        }
+
+        this.index = null;
+    }
+    componentDidMount() {
+        const save_new_vs = document.querySelector('div#save_new_vs');
+        if (save_new_vs != null) ReactDOM.render(<SaveVitalSigns />, save_new_vs);
+    }
+    handleDateChange = (index, date) => {
+        if (date != null) {
+            const formattedDate = formatDate(date);
+            this.setState(state => {
+                state.vsList[index].vs_date = formattedDate
+                return {
+                    vsList: state.vsList
+                }
+            });
+        }
+    }
+    handleTimeChange = (index, time) => {
+        console.log(index);
+        console.log(time);
+    }
+    render() {
+        return (
+            <React.Fragment>
+                <div className="content">
+                    <ons-list>
+                        <div className="vs_list">
+                            <VitalSignsForm value={this.state.vsList[0]} index={0} vsList={this.state.vsList} onDateChangeCallback={this.handleDateChange} onTimeChangeCallback={this.handleTimeChange} />
+                        </div>
+                    </ons-list>
+                </div>
+            </React.Fragment>
+        );
+    }
+}
+
+export class VitalSigns extends React.Component {
+    constructor(props) {
+        super(props);
+
+        if (Object.keys(props.data).length !== 0) {
+            this.state = props.data;
+        } else {
+            this.state = {
+                vsList: []
+            }
+        }
+
+        this.index = null;
+    }
+    addVitalSign = (event) => {
+        const nav = document.querySelector('#navigator');
+        const vs_list_length = document.querySelectorAll('div.vs_list') ? document.querySelectorAll('div.vs_list').length : 0;
+        nav.pushPage('new_vitalsign.html').then(() => {
+            const new_component = document.querySelector('#new_vs_component');
+            const initial_state = {
+                vsList: [{
+                    id: "_" + vs_list_length,
+                    vs_date: "",
+                    vs_time: "",
+                    vs_bloodpressure: "",
+                    vs_heartrate: "",
+                    vs_respirate: "",
+                    vs_temp: "",
+                    vs_weight: "",
+                    vs_weight_unit: "",
+                    vs_height: "",
+                    vs_bmi: "",
+                    vs_waistcirc: "",
+                    vs_hipcirc: "",
+                    vs_whratio: ""
+                }]
+            };
+            ReactDOM.render(<NewVitalSignItem data={initial_state} />, new_component);
+        });
+    }
+    removeVitalSign = (event) => {
+        document.querySelector('#confirm-dialog').hide();
+        const id = this.index;
+        this.setState(state => {
+            const currentVSList = state.vsList;
+            const filteredVSList = currentVSList.filter((item) => item.id !== "_" + id);
+            return {
+                vsList: filteredVSList.map((item, index) => {
+                    return {
+                        id: "_" + index,
+                        drug_name: item.drug_name,
+                        dosage: item.dosage,
+                        purpose: item.purpose,
+                        date_started: item.date_started
+                    }
+                })
+            }
+        });
+    }
+    confirm = (event) => {
+        document.querySelector('#confirm-dialog').show();
+        this.index = event.target.getAttribute('index');
+    }
+    handleDateChange = (index, date) => {
+        if (date != null) {
+            const formattedDate = formatDate(date);
+            this.setState(state => {
+                state.vsList[index].vs_date = formattedDate
+                return {
+                    vsList: state.vsList
+                }
+            });
+        }
+    }
+    handleTimeChange = (index, time) => {
+
+    }
+    componentDidMount() {
+        const vs_saveBtn = document.querySelector('div#vs_saveBtn');
+        if (vs_saveBtn != null) ReactDOM.render(<SaveVitalSigns />, vs_saveBtn);
+        this.pullhook.addEventListener('changestate', this.handleChangeState);
+    }
+    handleChangeState = (event) => {
+        if (event.state === "action") {
+            refreshVitalSigns(this.refreshVSList);
+        }
+    }
+    refreshVSList = (data) => {
+        this.setState(data);
+    }
+    render() {
+        return (
+            <React.Fragment>
+                <ons-pull-hook id="pull-hook" ref={ref => { this.pullhook = ref }}>
+                    Pull to refresh
+                </ons-pull-hook>
+                <div className="content">
+                    <ons-list>
+                        {
+                            this.state.vsList.map((value, index) =>
+                                <div className="vs_list">
+                                    <ons-list-header style={{ backgroundColor: '#e6f2ff' }}>
+                                        <b>Please enter the required details</b>
+                                        <div style={{ display: 'inline-block' }}>
+                                            <ons-button index={index} modifier="quiet" onClick={this.confirm}>
+                                                <ons-icon index={index} icon="md-delete"></ons-icon>
+                                            </ons-button>
+                                        </div>
+                                    </ons-list-header>
+                                    <VitalSignsForm value={value} index={index} vsList={this.state.vsList} onDateChangeCallback={this.handleDateChange} onTimeChangeCallback={this.handleTimeChange} />
+                                </div>
+                            )
+                        }
+                    </ons-list>
+                </div>
+                <ons-fab ripple position="bottom right" id="fab_add" modifier="mini" onClick={this.addVitalSign}>
+                    <ons-icon icon="md-plus"></ons-icon>
+                </ons-fab>
+                <ConfirmDialog message="Are you sure you want to delete?" onOk={this.removeVitalSign} />
+            </React.Fragment>
+        );
+    }
+}
+
+function refreshVitalSigns(successCallBack) {
+    const config = {
+        "url": api.users_api_base_url + "/v1/vitalsigns",
+        "method": "GET",
+        "timeout": api.users_api_timeout,
+        "headers": {
+            "Authorization": api.users_api_authorization
+        },
+        "params": {
+            "id": cookies.get('app-login').email
+        }
+    };
+    callApi(config, successCallBack, 'vitalsigns');
 }

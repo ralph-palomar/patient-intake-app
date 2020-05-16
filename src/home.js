@@ -12,99 +12,112 @@ import { api } from './config.js';
 
 window.fn = {};
 
-window.fn.open = function() {
+window.fn.open = function () {
   const menu = document.getElementById('menu');
   menu.open();
 };
 
-window.fn.load = function(page) {
+window.fn.load = function (page) {
   const content = document.getElementById('content');
 
   content.load(page)
-    .then(() => {    
-        const menu = document.getElementById('menu');  
-        menu.close();
+    .then(() => {
+      const menu = document.getElementById('menu');
+      menu.close();
 
-        if (page === "profile.html") {
-          const main = document.querySelector('div#main_display');
-          ReactDOM.render(<Profile/>, main);
-        }
+      if (page === "profile.html") {
+        const main = document.querySelector('div#main_display');
+        ReactDOM.render(<Profile />, main);
+      }
 
-        if (page === "users.html") {
-          const user_list = document.querySelector('div#user_list');
-          ReactDOM.render(<Users/>, user_list);
-        }
+      if (page === "users.html") {
+        const user_list = document.querySelector('div#user_list');
+        ReactDOM.render(<Users />, user_list);
+      }
 
-        if (page === "basicinfo.html") {
-          const basicinfo_form = document.querySelector('div#basicinfo_form');
-          const config = {
-            "url": api.users_api_base_url + "/v1/basicInfo",
-            "method": "GET",
-            "timeout": api.users_api_timeout,
-            "headers": {
-              "Authorization": api.users_api_authorization
-            },
-            "params": {
-              "id": cookies.get('app-login').email
-            }
-          };
-          callApi(config, (data) => {
-            ReactDOM.render(<BasicInfo data={data} />, basicinfo_form);  
-          }, 'basic');  
-      
-        }
+      if (page === "basicinfo.html") {
+        const basicinfo_form = document.querySelector('div#basicinfo_form');
+        const config = {
+          "url": api.users_api_base_url + "/v1/basicInfo",
+          "method": "GET",
+          "timeout": api.users_api_timeout,
+          "headers": {
+            "Authorization": api.users_api_authorization
+          },
+          "params": {
+            "id": cookies.get('app-login').email
+          }
+        };
+        callApi(config, (data) => {
+          ReactDOM.render(<BasicInfo data={data} />, basicinfo_form);
+        }, 'basic');
 
-        if (page === "illnesses.html") {
-          const illnesses_list = document.querySelector('div#illnesses_list');
-          const config = {
-            "url": api.users_api_base_url + "/v1/illnesses",
-            "method": "GET",
-            "timeout": api.users_api_timeout,
-            "headers": {
-              "Authorization": api.users_api_authorization
-            },
-            "params": {
-              "id": cookies.get('app-login').email
-            }
-          };
-          callApi(config, (data) => {
-            ReactDOM.render(<Illnesses data={data} />, illnesses_list);
-          }, 'illnesses');  
+      }
 
-        }
+      if (page === "illnesses.html") {
+        const illnesses_list = document.querySelector('div#illnesses_list');
+        const config = {
+          "url": api.users_api_base_url + "/v1/illnesses",
+          "method": "GET",
+          "timeout": api.users_api_timeout,
+          "headers": {
+            "Authorization": api.users_api_authorization
+          },
+          "params": {
+            "id": cookies.get('app-login').email
+          }
+        };
+        callApi(config, (data) => {
+          ReactDOM.render(<Illnesses data={data} />, illnesses_list);
+        }, 'illnesses');
 
-        if (page === "medications.html") {
-          const medications_list = document.querySelector('div#medications_list');
-          const config = {
-            "url": api.users_api_base_url + "/v1/medications",
-            "method": "GET",
-            "timeout": api.users_api_timeout,
-            "headers": {
-              "Authorization": api.users_api_authorization
-            },
-            "params": {
-              "id": cookies.get('app-login').email
-            }
-          };
-          callApi(config, (data) => {
-            ReactDOM.render(<Medications data={data} />, medications_list);
-          }, 'medications'); 
-        }
+      }
 
-        if (page === "vitalsigns.html") {
-          const vitalsigns_list = document.querySelector('div#vitalsigns_list');
-          ReactDOM.render(<VitalSigns/>, vitalsigns_list);
-        }
+      if (page === "medications.html") {
+        const medications_list = document.querySelector('div#medications_list');
+        const config = {
+          "url": api.users_api_base_url + "/v1/medications",
+          "method": "GET",
+          "timeout": api.users_api_timeout,
+          "headers": {
+            "Authorization": api.users_api_authorization
+          },
+          "params": {
+            "id": cookies.get('app-login').email
+          }
+        };
+        callApi(config, (data) => {
+          ReactDOM.render(<Medications data={data} />, medications_list);
+        }, 'medications');
+      }
 
-        if (page === "diet.html") {
-          const diet_list = document.querySelector('div#diet_list');
-          ReactDOM.render(<Diet/>, diet_list);
-        }
+      if (page === "vitalsigns.html") {
+        const vitalsigns_list = document.querySelector('div#vitalsigns_list');
+        const config = {
+          "url": api.users_api_base_url + "/v1/vitalSigns",
+          "method": "GET",
+          "timeout": api.users_api_timeout,
+          "headers": {
+            "Authorization": api.users_api_authorization
+          },
+          "params": {
+            "id": cookies.get('app-login').email
+          }
+        };
+        callApi(config, (data) => {
+          ReactDOM.render(<VitalSigns data={data} />, vitalsigns_list);
+        }, 'vitalsigns');
+      }
 
-        if (page === "others.html") {
-          const others_list = document.querySelector('div#others_list');
-          ReactDOM.render(<Others/>, others_list);
-        }
+      if (page === "diet.html") {
+        const diet_list = document.querySelector('div#diet_list');
+        ReactDOM.render(<Diet />, diet_list);
+      }
+
+      if (page === "others.html") {
+        const others_list = document.querySelector('div#others_list');
+        ReactDOM.render(<Others />, others_list);
+      }
 
     });
 };
@@ -122,18 +135,18 @@ export class Profile extends React.Component {
       accountInfo: cookies.get('app-login')
     }
   }
-	render() {
-	  return (
-    <div id="main_page">
-      <ons-card>
-        <div className="title">
-        Hello {this.state.accountInfo.firstname}!
+  render() {
+    return (
+      <div id="main_page">
+        <ons-card>
+          <div className="title">
+            Hello {this.state.accountInfo.firstname}!
         </div>
-        <div className="content">
-          Explore the options. Swipe the menu to start.
+          <div className="content">
+            Explore the options. Swipe the menu to start.
         </div>
-      </ons-card>
-    </div>
-	  );
-	}
+        </ons-card>
+      </div>
+    );
+  }
 }

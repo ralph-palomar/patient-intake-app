@@ -80,7 +80,7 @@ export class BasicInfo extends React.Component {
 				<ons-list-item>
 					<label className="form">Date of Birth</label><br />
 					<ons-input id="basic_dob" style={{display: 'none'}} value={this.state.basic_dob}></ons-input>
-					<DatePicker onChange={this.onChange} value={new Date(this.state.basic_dob)} />
+					<DatePicker onChange={this.onChange} value={new Date(this.state.basic_dob)} clearIcon={null} />
 				</ons-list-item>
 				<ons-list-item>
 					<label className="form">Gender</label>
@@ -119,25 +119,6 @@ export class BasicInfo extends React.Component {
 				</ons-list-item>
 			</ons-list>
 			</React.Fragment>
-		);
-	}
-}
-
-export class TimePickerComponent extends React.Component {
-	state = {
-		time: new Date().getHours() + ':' + new Date().getMinutes(),
-	}
-
-	onChange = time => this.setState({ time })
-
-	render() {
-		return (
-			<div>
-				<TimePicker
-					onChange={this.onChange}
-					value={this.state.time}
-				/>
-			</div>
 		);
 	}
 }
