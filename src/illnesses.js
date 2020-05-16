@@ -62,7 +62,7 @@ export class Illnesses extends React.Component {
         return (
         <React.Fragment> 
             <ons-list>
-                <ons-list-header><b>Please select</b></ons-list-header>
+                <ons-list-header style={{ backgroundColor: '#e6f2ff'}}><b>Please select</b></ons-list-header>
                 {
                     this.state.illnessesList.map((value, index) =>
                         <ons-list-item key={value.displayText} tappable>  

@@ -42,11 +42,9 @@ export class Users extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <p style={{ textAlign: 'center', marginTop: '10px'}}>
-                    <ons-search-input placeholder="Search" onKeyUp={this.searchUser}></ons-search-input>
-                </p>
+                <ons-search-input style={{ width: '100%'}}placeholder="Search" onKeyUp={this.searchUser}></ons-search-input>
                 <ons-list>
-                <ons-list-header><b>User accounts</b></ons-list-header>
+                <ons-list-header style={{ backgroundColor: '#e6f2ff'}}><b>User accounts</b></ons-list-header>
                 {
                     this.state.userList.map((value) =>
                         <ons-list-item key={value.email} modifier="chevron" tappable>

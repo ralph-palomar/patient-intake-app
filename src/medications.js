@@ -6,7 +6,7 @@ import { api } from './config.js';
 
 function MedicationForm(props) {
     const id = props.medicationList[props.index].id;
-    const bgcolor = props.index % 2 === 0 ? '#e7f5fe' : '#ffffff'; 
+    const bgcolor = props.index % 2 === 0 ? '#ffffff' : '#f0f0f5'; 
     return (
         <React.Fragment>
             <div style={{ backgroundColor: bgcolor}}>
@@ -50,7 +50,6 @@ export class SaveMedications extends React.Component {
             id: cookies.get('app-login').email,
             medicationList: medicationList
         }
-        console.log(payload);
         const config = {
             "url": api.users_api_base_url + "/v1/medications",
             "method": "POST",
@@ -183,16 +182,28 @@ export class Medications extends React.Component {
     componentDidMount() {
         const medications_saveBtn = document.querySelector('div#medications_saveBtn');
         if (medications_saveBtn != null) ReactDOM.render(<SaveMedications />, medications_saveBtn);
+        this.pullhook.addEventListener('changestate', this.handleChangeState);
+    }
+    handleChangeState = (event) => {
+        if(event.state === "action") {
+            refreshMedications(this.refreshMedicationList);
+        }
+    }
+    refreshMedicationList = (data) => {
+        this.setState(data);
     }
     render() {
         return (
             <React.Fragment>
+                <ons-pull-hook id="pull-hook" ref={ref => {this.pullhook = ref}}>
+                    Pull to refresh
+                </ons-pull-hook>
                 <div className="content">
                     <ons-list>
                         {
                             this.state.medicationList.map((value, index) =>
                                 <div className="medication_list">
-                                    <ons-list-header>
+                                    <ons-list-header style={{backgroundColor: '#e6f2ff'}}>
                                         <b>Medication/Supplement</b>
                                         <div style={{ display: 'inline-block' }}>
                                             <ons-button index={index} modifier="quiet" onClick={this.confirm}>
@@ -213,4 +224,19 @@ export class Medications extends React.Component {
             </React.Fragment>
         );
     }
+}
+
+function refreshMedications(successCallBack) {
+    const config = {
+        "url": api.users_api_base_url + "/v1/medications",
+        "method": "GET",
+        "timeout": api.users_api_timeout,
+        "headers": {
+            "Authorization": api.users_api_authorization
+        },
+        "params": {
+            "id": cookies.get('app-login').email
+        }
+    };
+    callApi(config, successCallBack, 'medications'); 
 }

@@ -161,9 +161,7 @@
       <ons-page id="new_medication">
         <ons-toolbar>
           <div class="left">
-            <ons-toolbar-button onclick="fn.back()">
-              <ons-icon icon="md-close"></ons-icon>
-            </ons-toolbar-button>
+            <ons-back-button></ons-back-button>
           </div>
           <div class="center">
             Add Medication
@@ -248,8 +246,8 @@
             Users
           </div>
         </ons-toolbar>
-        <div id="users_pb" style="display: none;"><ons-progress-circular indeterminate></ons-progress-circular></div>
         <div id="user_list"></div>
+        <div id="users_pb" style="display: none;"><ons-progress-circular indeterminate></ons-progress-circular></div>
       </ons-page>
     </template>
 

@@ -118,7 +118,7 @@ function validateRegistrationForm(email, firstname, lastname, passwd, cpasswd) {
   return false;
 }
 
-export async function callApi(config, successCallback, caller) {
+export async function callApi(config={}, successCallback=(data)=>{}, caller='') {
 	const progress_bar = document.querySelector('#'+caller+'_pb');
 	if (progress_bar != null) progress_bar.style.display = 'block';
 	await axios(config)

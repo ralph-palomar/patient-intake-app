@@ -64,7 +64,7 @@ export class BasicInfo extends React.Component {
 		return (
 			<React.Fragment>
 			<ons-list>
-            	<ons-list-header><b>Please fill up the form</b></ons-list-header>
+            	<ons-list-header style={{ backgroundColor: '#e6f2ff'}}><b>Please fill up the form</b></ons-list-header>
 				<ons-list-item>
 					<label className="form">Last Name</label><br />
 					<ons-input id="basic_lastname" modifier="material" value={this.state.basic_lastname || ""}></ons-input>
