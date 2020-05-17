@@ -135,8 +135,7 @@ export function callApi(config={}, successCallback=(data)=>{}, caller='') {
 			if (progress_bar != null) progress_bar.style.display = 'none';
 		})
 		.catch((error) => {
-			console.log(error);
-			showAlert('Connection failed');
+			showAlert(""+error);
 			if (progress_bar != null) progress_bar.style.display = 'none';
 		});
 }
