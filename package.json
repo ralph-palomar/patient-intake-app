@@ -9,6 +9,7 @@
     "axios": "^0.19.2",
     "onsenui": "^2.10.10",
     "react": "^16.13.1",
+    "react-app-polyfill": "^1.0.6",
     "react-date-picker": "^8.0.1",
     "react-dom": "^16.13.1",
     "react-onsenui": "^1.11.2",
