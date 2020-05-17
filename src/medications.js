@@ -129,13 +129,8 @@ export class Medications extends React.Component {
             const filteredMedicationList = currentMedicationList.filter((item) => item.id !== "_" + id);
             return {
                 medicationList: filteredMedicationList.map((item, index) => {
-                    return {
-                        id: "_" + index,
-                        drug_name: item.drug_name,
-                        dosage: item.dosage,
-                        purpose: item.purpose,
-                        date_started: item.date_started
-                    }
+                    item.id = "_" + index;
+                    return item;
                 })
             }
         }, () => { saveMedications(()=>{}, this.state) });

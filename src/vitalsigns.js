@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import DatePicker from 'react-date-picker';
 import TimePicker from 'react-time-picker';
-import { cookies, callApi, showAlert, formatDate, formatTime, ConfirmDialog } from './index.js';
+import { cookies, callApi, showAlert, formatDate, formatTime, ConfirmDialog, back } from './index.js';
 import { api } from './config.js';
 
 function VitalSignsForm(props) {
@@ -13,13 +13,13 @@ function VitalSignsForm(props) {
             <div style={{ backgroundColor: bgcolor }}>
                 <ons-list-item>
                     <label className="form">Date</label>
-                    <ons-input id={"vs_date" + id} style={{ display: 'block' }} value={props.vsList[props.index].vs_date == null || props.vsList[props.index].vs_date.length === 0 ? formatDate(new Date()) : props.vsList[props.index].vs_date} ></ons-input>
+                    <ons-input id={"vs_date" + id} style={{ display: 'none' }} value={props.vsList[props.index].vs_date == null || props.vsList[props.index].vs_date.length === 0 ? formatDate(new Date()) : props.vsList[props.index].vs_date} ></ons-input>
                     <DatePicker onChange={date => { props.onDateChangeCallback(props.index, date) }} value={props.vsList[props.index].vs_date == null || props.vsList[props.index].vs_date.length === 0 ? new Date() : new Date(props.vsList[props.index].vs_date)} clearIcon={null} />
                 </ons-list-item>
                 <ons-list-item>
                     <label className="form">Time</label>
-                    <ons-input id={"vs_time" + id} style={{ display: 'block' }} value={props.vsList[props.index].vs_time == null || props.vsList[props.index].vs_time.length === 0 ? formatTime(new Date()) : props.vsList[props.index].vs_time} ></ons-input>
-                    <TimePicker onChange={time => { props.onTimeChangeCallback(props.index, time) }} value={props.vsList[props.index].vs_time == null || props.vsList[props.index].vs_time.length === 0 ? new Date() : new Date(props.vsList[props.index].vs_time)} clearIcon={null} />
+                    <ons-input id={"vs_time" + id} style={{ display: 'none' }} value={props.vsList[props.index].vs_time == null || props.vsList[props.index].vs_time.length === 0 ? formatTime(new Date()) : props.vsList[props.index].vs_time} ></ons-input>
+                    <TimePicker onChange={time => { props.onTimeChangeCallback(props.index, time) }} value={props.vsList[props.index].vs_time == null || props.vsList[props.index].vs_time.length === 0 ? new Date() : props.vsList[props.index].vs_time + ':00'} clearIcon={null} />
                 </ons-list-item>
                 <ons-list-item>
                     <label className="form">Blood Pressure</label>
@@ -39,10 +39,10 @@ function VitalSignsForm(props) {
                 </ons-list-item>
                 <ons-list-item>
                     <label className="form">Weight</label>
-                    <ons-input id={"vs_weight" + id} type="number" modifier="material"></ons-input>&nbsp;
-                        <ons-radio name="weight_unit" input-id="weight_kg" checked>kg</ons-radio>&nbsp;
-                        <ons-radio name="weight_unit" input-id="weight_lbs">lbs</ons-radio>
-                    </ons-list-item>
+                    <ons-input id={"vs_weight" + id} type="number" modifier="material" value={props.vsList[props.index].vs_weight}></ons-input>&nbsp;
+                    { props.vsList[props.index].vs_weight_unit === "kg" ? <ons-radio name={"vs_weight_unit" + id} input-id="weight_kg" value="kg" checked>kg</ons-radio> : <ons-radio name={"vs_weight_unit" + id} input-id="weight_kg" value="kg">kg</ons-radio> }&nbsp; 
+                    { props.vsList[props.index].vs_weight_unit === "lbs" ? <ons-radio name={"vs_weight_unit" + id} input-id="weight_lbs" value="lbs" checked>lbs</ons-radio> : <ons-radio name={"vs_weight_unit" + id} input-id="weight_lbs" value="lbs">lbs</ons-radio> }
+                </ons-list-item>
                 <ons-list-item>
                     <label className="form">Height</label>
                     <ons-input id={"vs_height" + id} type="number" modifier="material" value={props.vsList[props.index].vs_height}></ons-input>&nbsp;cm
@@ -70,32 +70,10 @@ function VitalSignsForm(props) {
 
 export class SaveVitalSigns extends React.Component {
     handleClick = (event) => {
-        const vsCount = document.querySelectorAll('div.vs_list').length;
-        let vsList = [];
-        for (let i = 0; i < vsCount; i++) {
-            const vs = {
-                id: "_" + i,
-                // TODO map fields
-            }
-            vsList.push(vs);
-        }
-        const payload = {
-            id: cookies.get('app-login').email,
-            vsList: vsList
-        }
-        const config = {
-            "url": api.users_api_base_url + "/v1/vitalSigns",
-            "method": "POST",
-            "timeout": 60000,
-            "headers": {
-                "Content-Type": "application/json",
-                "Authorization": api.users_api_authorization
-            },
-            "data": payload
-        };
-        callApi(config, (data) => {
-            showAlert("Successfully saved data");
-        }, 'vitalsigns');
+        saveVitalSigns(() => {
+            back();
+            document.querySelector('#pull-hook').dispatchEvent(new Event('changestate'));
+        });
     }
     render() {
         return (
@@ -134,8 +112,14 @@ export class NewVitalSignItem extends React.Component {
         }
     }
     handleTimeChange = (index, time) => {
-        console.log(index);
-        console.log(time);
+        if (time != null) {
+            this.setState(state => {
+                state.vsList[index].vs_time = time
+                return {
+                    vsList: state.vsList
+                }
+            });
+        }
     }
     render() {
         return (
@@ -200,16 +184,11 @@ export class VitalSigns extends React.Component {
             const filteredVSList = currentVSList.filter((item) => item.id !== "_" + id);
             return {
                 vsList: filteredVSList.map((item, index) => {
-                    return {
-                        id: "_" + index,
-                        drug_name: item.drug_name,
-                        dosage: item.dosage,
-                        purpose: item.purpose,
-                        date_started: item.date_started
-                    }
+                    item.id = "_" + index;
+                    return item;
                 })
             }
-        });
+        }, () => { saveVitalSigns(()=>{}, this.state) });
     }
     confirm = (event) => {
         document.querySelector('#confirm-dialog').show();
@@ -227,15 +206,22 @@ export class VitalSigns extends React.Component {
         }
     }
     handleTimeChange = (index, time) => {
-
+        if (time != null) {
+            this.setState(state => {
+                state.vsList[index].vs_time = time
+                return {
+                    vsList: state.vsList
+                }
+            });
+        }
     }
     componentDidMount() {
-        const vs_saveBtn = document.querySelector('div#vs_saveBtn');
-        if (vs_saveBtn != null) ReactDOM.render(<SaveVitalSigns />, vs_saveBtn);
+        const vitalsigns_saveBtn = document.querySelector('div#vitalsigns_saveBtn');
+        if (vitalsigns_saveBtn != null) ReactDOM.render(<SaveVitalSigns />, vitalsigns_saveBtn);
         this.pullhook.addEventListener('changestate', this.handleChangeState);
     }
     handleChangeState = (event) => {
-        if (event.state === "action") {
+        if (event.type === 'changestate' || event.state === "action") {
             refreshVitalSigns(this.refreshVSList);
         }
     }
@@ -246,7 +232,6 @@ export class VitalSigns extends React.Component {
         return (
             <React.Fragment>
                 <ons-pull-hook id="pull-hook" ref={ref => { this.pullhook = ref }}>
-                    Pull to refresh
                 </ons-pull-hook>
                 <div className="content">
                     <ons-list>
@@ -254,7 +239,7 @@ export class VitalSigns extends React.Component {
                             this.state.vsList.map((value, index) =>
                                 <div className="vs_list">
                                     <ons-list-header style={{ backgroundColor: '#e6f2ff' }}>
-                                        <b>Please enter the required details</b>
+                                        <b>Enter the details</b>
                                         <div style={{ display: 'inline-block' }}>
                                             <ons-button index={index} modifier="quiet" onClick={this.confirm}>
                                                 <ons-icon index={index} icon="md-delete"></ons-icon>
@@ -278,7 +263,7 @@ export class VitalSigns extends React.Component {
 
 function refreshVitalSigns(successCallBack) {
     const config = {
-        "url": api.users_api_base_url + "/v1/vitalsigns",
+        "url": api.users_api_base_url + "/v1/vitalSigns",
         "method": "GET",
         "timeout": api.users_api_timeout,
         "headers": {
@@ -289,4 +274,54 @@ function refreshVitalSigns(successCallBack) {
         }
     };
     callApi(config, successCallBack, 'vitalsigns');
+}
+
+function saveVitalSigns(callBack = () => {}, data = null) {
+    let vsList = null;
+    if (data == null) {
+        const vsCount = document.querySelectorAll('div.vs_list').length;
+        vsList = [];
+        for (let i = 0; i < vsCount; i++) {
+            const vs = {
+                id: "_" + i,
+                vs_date: document.querySelector('#vs_date_' + i).value,
+                vs_time: document.querySelector('#vs_time_' + i).value,
+                vs_bloodpressure: document.querySelector('#vs_bloodpressure_' + i).value,
+                vs_heartrate: document.querySelector('#vs_heartrate_' + i).value,
+                vs_respirate: document.querySelector('#vs_respirate_' + i).value,
+                vs_temp: document.querySelector('#vs_temp_' + i).value,
+                vs_weight: document.querySelector('#vs_weight_' + i).value,
+                vs_weight_unit: document.querySelector('input[name=vs_weight_unit_' + i + ']:checked') ? document.querySelector('input[name=vs_weight_unit_' + i + ']:checked').value : "",
+                vs_height: document.querySelector('#vs_height_' + i).value,
+                vs_bmi: document.querySelector('#vs_bmi_' + i).value,
+                vs_waistcirc: document.querySelector('#vs_waistcirc_' + i).value,
+                vs_hipcirc: document.querySelector('#vs_hipcirc_' + i).value,
+                vs_whratio: document.querySelector('#vs_whratio_' + i).value
+            }
+            vsList.push(vs);
+        }
+    } else {
+        vsList = data.vsList;
+    }
+
+    if (vsList != null) {
+        const payload = {
+            id: cookies.get('app-login').email,
+            vsList: vsList
+        }
+        const config = {
+            "url": api.users_api_base_url + "/v1/vitalSigns",
+            "method": "POST",
+            "timeout": 60000,
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": api.users_api_authorization
+            },
+            "data": payload
+        };
+        callApi(config, (data) => {
+            showAlert("Successfully saved data");
+            callBack();
+        }, 'vitalsigns');
+    }
 }
