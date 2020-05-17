@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DatePicker from 'react-date-picker';
-import TimePicker from 'react-time-picker';
 import { callApi, showAlert, cookies } from './index.js';
 import { api } from './config.js';
 

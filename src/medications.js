@@ -1,32 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DatePicker from 'react-date-picker';
-import { cookies, callApi, showAlert, ConfirmDialog, formatDate } from './index.js';
+import { cookies, callApi, showAlert, ConfirmDialog, formatDate, back } from './index.js';
 import { api } from './config.js';
 
 function MedicationForm(props) {
     const id = props.medicationList[props.index].id;
-    const bgcolor = props.index % 2 === 0 ? '#ffffff' : '#f0f0f5'; 
+    const bgcolor = props.index % 2 === 0 ? '#ffffff' : '#f0f0f5';
     return (
         <React.Fragment>
-            <div style={{ backgroundColor: bgcolor}}>
-            <ons-list-item>
-                <label className="form">Name of Drug</label>
-                <ons-input id={"drug_name"+id} modifier="material" value={props.medicationList[props.index].drug_name}></ons-input>
-            </ons-list-item>
-            <ons-list-item>
-                <label className="form">Dosage</label>
-                <ons-input id={"dosage"+id} modifier="material" value={props.medicationList[props.index].dosage}></ons-input>
-            </ons-list-item>
-            <ons-list-item>
-                <label className="form">Purpose</label>
-                <ons-input id={"purpose"+id} modifier="material" value={props.medicationList[props.index].purpose}></ons-input>
-            </ons-list-item>
-            <ons-list-item>
-                <label className="form">Date Started</label>
-                <ons-input id={"date_started"+id} style={{ display: 'none' }} value={props.medicationList[props.index].date_started == null || props.medicationList[props.index].date_started.length === 0 ? formatDate(new Date()) : props.medicationList[props.index].date_started} ></ons-input>
-                <DatePicker onChange={date => { props.onChangeCallback(props.index, date) }} value={props.medicationList[props.index].date_started == null || props.medicationList[props.index].date_started.length === 0 ? new Date() : new Date(props.medicationList[props.index].date_started)} clearIcon={null} />
-            </ons-list-item>
+            <div style={{ backgroundColor: bgcolor }}>
+                <ons-list-item>
+                    <label className="form">Name of Drug</label>
+                    <ons-input id={"drug_name" + id} modifier="material" value={props.medicationList[props.index].drug_name}></ons-input>
+                </ons-list-item>
+                <ons-list-item>
+                    <label className="form">Dosage</label>
+                    <ons-input id={"dosage" + id} modifier="material" value={props.medicationList[props.index].dosage}></ons-input>
+                </ons-list-item>
+                <ons-list-item>
+                    <label className="form">Purpose</label>
+                    <ons-input id={"purpose" + id} modifier="material" value={props.medicationList[props.index].purpose}></ons-input>
+                </ons-list-item>
+                <ons-list-item>
+                    <label className="form">Date Started</label>
+                    <ons-input id={"date_started" + id} style={{ display: 'none' }} value={props.medicationList[props.index].date_started == null || props.medicationList[props.index].date_started.length === 0 ? formatDate(new Date()) : props.medicationList[props.index].date_started} ></ons-input>
+                    <DatePicker onChange={date => { props.onChangeCallback(props.index, date) }} value={props.medicationList[props.index].date_started == null || props.medicationList[props.index].date_started.length === 0 ? new Date() : new Date(props.medicationList[props.index].date_started)} clearIcon={null} />
+                </ons-list-item>
             </div>
         </React.Fragment>
     );
@@ -34,35 +34,10 @@ function MedicationForm(props) {
 
 export class SaveMedications extends React.Component {
     handleClick = (event) => {
-        const medicationCount = document.querySelectorAll('div.medication_list').length;
-        let medicationList = [];
-        for (let i = 0; i < medicationCount; i++) {
-            const medication = {
-                id: "_" + i,
-                drug_name: document.querySelector('#drug_name_' + i).value,
-                dosage: document.querySelector('#dosage_' + i).value,
-                purpose: document.querySelector('#purpose_' + i).value,
-                date_started: document.querySelector('#date_started_' + i).value
-            }
-            medicationList.push(medication);
-        }
-        const payload = {
-            id: cookies.get('app-login').email,
-            medicationList: medicationList
-        }
-        const config = {
-            "url": api.users_api_base_url + "/v1/medications",
-            "method": "POST",
-            "timeout": 60000,
-            "headers": {
-                "Content-Type": "application/json",
-                "Authorization": api.users_api_authorization
-            },
-            "data": payload
-        };
-        callApi(config, (data) => {
-            showAlert("Successfully saved data");
-        }, 'medications');
+        saveMedications(() => {
+            back();
+            document.querySelector('#pull-hook').dispatchEvent(new Event('changestate'));
+        });
     }
     render() {
         return (
@@ -136,7 +111,7 @@ export class Medications extends React.Component {
             const new_component = document.querySelector('#new_medication_component');
             const initial_state = {
                 medicationList: [{
-                    id: "_"+medications_list_length,
+                    id: "_" + medications_list_length,
                     drug_name: "",
                     dosage: "",
                     purpose: "",
@@ -163,7 +138,7 @@ export class Medications extends React.Component {
                     }
                 })
             }
-        });
+        }, () => { saveMedications(()=>{}, this.state) });
     }
     confirm = (event) => {
         document.querySelector('#confirm-dialog').show();
@@ -186,7 +161,7 @@ export class Medications extends React.Component {
         this.pullhook.addEventListener('changestate', this.handleChangeState);
     }
     handleChangeState = (event) => {
-        if(event.state === "action") {
+        if (event.type === 'changestate' || event.state === "action") {
             refreshMedications(this.refreshMedicationList);
         }
     }
@@ -196,15 +171,14 @@ export class Medications extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <ons-pull-hook id="pull-hook" ref={ref => {this.pullhook = ref}}>
-                    Pull to refresh
+                <ons-pull-hook id="pull-hook" ref={ref => { this.pullhook = ref }}>
                 </ons-pull-hook>
                 <div className="content">
                     <ons-list>
                         {
                             this.state.medicationList.map((value, index) =>
                                 <div className="medication_list">
-                                    <ons-list-header style={{backgroundColor: '#e6f2ff'}}>
+                                    <ons-list-header style={{ backgroundColor: '#e6f2ff' }}>
                                         <b>Medication/Supplement</b>
                                         <div style={{ display: 'inline-block' }}>
                                             <ons-button index={index} modifier="quiet" onClick={this.confirm}>
@@ -239,5 +213,46 @@ function refreshMedications(successCallBack) {
             "id": cookies.get('app-login').email
         }
     };
-    callApi(config, successCallBack, 'medications'); 
+    callApi(config, successCallBack, 'medications');
+}
+
+function saveMedications(callBack=()=>{}, data=null) {
+    let medicationList = null;
+    if (data == null) {
+        const medicationCount = document.querySelectorAll('div.medication_list').length;
+        medicationList = [];
+        for (let i = 0; i < medicationCount; i++) {
+            const medication = {
+                id: "_" + i,
+                drug_name: document.querySelector('#drug_name_' + i).value,
+                dosage: document.querySelector('#dosage_' + i).value,
+                purpose: document.querySelector('#purpose_' + i).value,
+                date_started: document.querySelector('#date_started_' + i).value
+            }
+            medicationList.push(medication);
+        }
+    } else {
+        medicationList = data.medicationList;
+    }
+
+    if (medicationList != null) {
+        const payload = {
+            id: cookies.get('app-login').email,
+            medicationList: medicationList
+        }
+        const config = {
+            "url": api.users_api_base_url + "/v1/medications",
+            "method": "POST",
+            "timeout": 60000,
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": api.users_api_authorization
+            },
+            "data": payload
+        };
+        callApi(config, (data) => {
+            showAlert("Successfully saved data");
+            callBack();
+        }, 'medications');
+    }
 }

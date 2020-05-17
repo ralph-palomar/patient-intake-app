@@ -139,7 +139,7 @@ export async function callApi(config={}, successCallback=(data)=>{}, caller='') 
 }
 
 export function showAlert(msg) {
-	ons.notification.alert(msg);
+	ons.notification.toast(msg, { timeout: 2000 });
 }
 
 export function formatDate(date) {
