@@ -50,7 +50,7 @@ export class Others extends React.Component {
                         <ons-input modifier="material" placeholder="Quality" style={{width: '100px'}}></ons-input>
                     </div>
                 </ons-list-item>  
-                <ons-list-item><ons-list-header>Tobbaco Use</ons-list-header></ons-list-item>
+                <ons-list-item><ons-list-header>Tobacco Use</ons-list-header></ons-list-item>
                 <ons-list-item expandable>
                     <div>
                     <ons-select id="tobacco_use" modifier="material" style={{float: 'left'}}>

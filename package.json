@@ -12,6 +12,7 @@
     "react-app-polyfill": "^1.0.6",
     "react-date-picker": "^8.0.1",
     "react-dom": "^16.13.1",
+    "react-facebook-login": "^4.1.1",
     "react-onsenui": "^1.11.2",
     "react-scripts": "3.4.1",
     "react-time-picker": "^4.0.1",
