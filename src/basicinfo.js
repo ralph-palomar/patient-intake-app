@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DatePicker from 'react-date-picker';
-import { callApi, showAlert, cookies } from './index.js';
+import { callApi, showAlert, cookies, formatDate } from './index.js';
 import { api } from './config.js';
 
 export class SaveBasicInfo extends React.Component {
@@ -49,7 +49,7 @@ export class BasicInfo extends React.Component {
 	}
 	onChange = (date) => {
 		if (date != null) {
-			const formattedDate = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+			const formattedDate = formatDate(date);
 			this.setState({
 				basic_dob: formattedDate
 			});
