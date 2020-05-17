@@ -169,14 +169,16 @@ class App extends React.Component {
 		}
 	}
 	responseFacebook = (userInfo) => {
-		const data = {
-			email: userInfo.email,
-			firstname: userInfo.name,
-			type: "user",
-			enabled: true
+		if (userInfo.accessToken != null) {
+			const data = {
+				email: userInfo.email,
+				firstname: userInfo.name,
+				type: "user",
+				enabled: true
+			}
+			setLoginCookie(data);
+			this.nav.pushPage('home.html');
 		}
-		setLoginCookie(data);
-		this.nav.pushPage('home.html');
 	}
 	handleLogout = () => {
 		document.querySelector('#confirm-dialog').show();
