@@ -111,7 +111,20 @@ window.fn.load = function (page) {
 
       if (page === "diet.html") {
         const diet_list = document.querySelector('div#diet_list');
-        ReactDOM.render(<Diet />, diet_list);
+        const config = {
+          "url": api.users_api_base_url + "/v1/diet",
+          "method": "GET",
+          "timeout": api.users_api_timeout,
+          "headers": {
+            "Authorization": api.users_api_authorization
+          },
+          "params": {
+            "id": cookies.get('app-login').email
+          }
+        };
+        callApi(config, (data) => {
+          ReactDOM.render(<Diet data={data} />, diet_list);
+        }, 'diet');
       }
 
       if (page === "others.html") {
