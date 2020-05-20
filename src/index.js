@@ -154,7 +154,7 @@ function setLoginCookie(data) {
 	let d = new Date();
 	d.setDate(d.getDate() + 7); //+7days
 	cookies.set('app-login', data, {
-		path: '/',
+		path: process.env.HOME_PAGE,
 		expires: d
 	});
 }

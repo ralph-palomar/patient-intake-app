@@ -129,7 +129,20 @@ window.fn.load = function (page) {
 
       if (page === "others.html") {
         const others_list = document.querySelector('div#others_list');
-        ReactDOM.render(<Others />, others_list);
+        const config = {
+          "url": api.users_api_base_url + "/v1/others",
+          "method": "GET",
+          "timeout": api.users_api_timeout,
+          "headers": {
+            "Authorization": api.users_api_authorization
+          },
+          "params": {
+            "id": cookies.get('app-login').email
+          }
+        };
+        callApi(config, (data) => {
+          ReactDOM.render(<Others data={data} />, others_list);
+        }, 'diet');
       }
 
     });
