@@ -162,15 +162,17 @@ export class Profile extends React.Component {
     }
   }
   render() {
+    const defaultImg = "http://placekitten.com/g/40/40";
+    const imgSrc = this.state.accountInfo.picture != null ? this.state.accountInfo.picture : defaultImg;
     return (
       <div id="main_page">
         <ons-card>
-          <div className="title">
-            Hello {this.state.accountInfo.firstname}!
-        </div>
-          <div className="content">
-            Explore the options. Swipe the menu to start.
-        </div>
+            <div className="center" align="center">
+              <img className="list-item__thumbnail" src={imgSrc} alt=""></img>
+            </div>
+            <div className="title" align="center">
+                <b>{this.state.accountInfo.firstname} {this.state.accountInfo.lastname}</b>
+            </div>
         </ons-card>
       </div>
     );
