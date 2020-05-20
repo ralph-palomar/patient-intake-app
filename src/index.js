@@ -174,7 +174,8 @@ class App extends React.Component {
 				email: userInfo.email,
 				firstname: userInfo.name,
 				type: "user",
-				enabled: true
+				enabled: true,
+				picture: userInfo.picture.data.url
 			}
 			setLoginCookie(data);
 			this.nav.pushPage('home.html');
