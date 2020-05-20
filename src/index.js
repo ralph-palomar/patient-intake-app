@@ -195,6 +195,7 @@ class App extends React.Component {
 					appId="607869309830124"
 					autoLoad={false}
 					fields="name,email,picture"
+					size="small"
 					callback={this.responseFacebook} />,
 				facebook_loginBtn
 			);
