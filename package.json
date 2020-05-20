@@ -1,5 +1,6 @@
 {
   "name": "patient-intake",
+  "homepage": "/webapp/lifestyleclinic",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
