@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { logout, back, createAccount, login, register, cookies, callApi } from './index.js'
+import { logout, back, createAccount, login, register, cookies, callApi, _default } from './index.js'
 import { Users } from './users.js'
 import { BasicInfo, BasicInfoProfile } from './basicinfo.js';
 import { Illnesses, IllnessesProfile } from './illnesses.js';
@@ -99,7 +99,7 @@ export class Profile extends React.Component {
     const profile_basic_info = document.querySelector('div#profile_basic_info');
     getBasicInfo((data) => {
       ReactDOM.render(<BasicInfoProfile data={data} />, profile_basic_info);
-      this.title.innerHTML = data.basic_lastname + "<br/>" + data.basic_firstname + "<br/>" + data.basic_middlename
+      this.title.innerHTML = _default(data.basic_lastname +" ", "___") + _default(data.basic_firstname +" ", "___") + data.basic_middlename 
     }, 'basic', this.state.email);
 
     const profile_illnesses = document.querySelector('div#profile_illnesses');

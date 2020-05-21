@@ -187,7 +187,7 @@ export function setLoginCookie(data) {
 }
 
 export function _default(input, defaultValue) {
-	if (input !== undefined && input != null && input !== "") return input;
+	if (input !== undefined && input != null && (input+"").trim() !== "") return input;
 	return defaultValue;
 }
 
