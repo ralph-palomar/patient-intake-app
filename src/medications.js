@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DatePicker from 'react-date-picker';
-import { cookies, callApi, showAlert, ConfirmDialog, formatDate, back } from './index.js';
+import { cookies, callApi, showAlert, ConfirmDialog, formatDate, back, formatToDateString, _default } from './index.js';
 import { api } from './config.js';
 
 function MedicationForm(props) {
@@ -251,4 +251,43 @@ function saveMedications(callBack=()=>{}, data=null) {
             callBack();
         }, 'medications');
     }
+}
+
+export class MedicationsProfile extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = props.data;
+	}
+	render() {
+		return (
+			<ons-list>
+				<ons-list-header>Medications and Supplements</ons-list-header>
+                {
+                    this.state.medicationList.map((item, index) => {
+                        const bgcolor = index % 2 === 0 ? '#ffffff' : '#f2f2f2';
+                        return (
+                            <div style={{ backgroundColor: bgcolor }}>
+                                <ons-list-item>
+                                    <label className="profile">Date Started</label>
+					                <div>{_default(formatToDateString(item.date_started), "--")}</div>
+                                </ons-list-item>
+                                <ons-list-item>
+                                    <label className="profile">Drug Name</label>
+					                <div>{_default(item.drug_name, "--")}</div>
+                                </ons-list-item>
+                                <ons-list-item>
+                                    <label className="profile">Dosage</label>
+					                <div>{_default(item.dosage, "--")}</div>
+                                </ons-list-item>
+                                <ons-list-item>
+                                    <label className="profile">Purpose</label>
+					                <div>{_default(item.purpose, "--")}</div>
+                                </ons-list-item>
+                            </div>
+                        )
+                    })
+                }
+			</ons-list>
+		);
+	}
 }

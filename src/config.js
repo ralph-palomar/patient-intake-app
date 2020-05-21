@@ -121,3 +121,11 @@ export const diet_list = [
         id: "diet_other_seafoods"
     }
 ]
+
+export const tobacco_use_0_options = [
+    "Non-smoker",
+    "Current smoker",
+    "Past smoker"
+]
+
+export const emotional_being_options = [ 5, 4, 3, 2, 1 ]

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import DatePicker from 'react-date-picker';
 import TimePicker from 'react-time-picker';
-import { cookies, callApi, showAlert, formatDate, formatTime, ConfirmDialog, back } from './index.js';
+import { cookies, callApi, showAlert, formatDate, formatTime, ConfirmDialog, back, formatToDateString, formatToTimeString, _default } from './index.js';
 import { api } from './config.js';
 
 function VitalSignsForm(props) {
@@ -324,4 +324,75 @@ function saveVitalSigns(callBack = () => {}, data = null) {
             callBack();
         }, 'vitalsigns');
     }
+}
+
+export class VitalSignsProfile extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = props.data;
+	}
+	render() {
+		return (
+			<ons-list>
+				<ons-list-header>Vital Signs</ons-list-header>
+                {
+                    this.state.vsList.map((item, index) => {
+                        const bgcolor = index % 2 === 0 ? '#ffffff' : '#f2f2f2';
+                        return (
+                            <div style={{ backgroundColor: bgcolor }}>
+                                <ons-list-item>
+                                    <label className="profile">Date</label>
+					                <div>{_default(formatToDateString(item.vs_date), "--")}</div>
+                                </ons-list-item>
+                                <ons-list-item>
+                                    <label className="profile">Time</label>
+					                <div>{_default(formatToTimeString(item.vs_time), "--")}</div>
+                                </ons-list-item>
+                                <ons-list-item>
+                                    <label className="profile">Blood Pressure</label>
+					                <div>{_default(item.vs_bloodpressure, "--")}</div>
+                                </ons-list-item>
+                                <ons-list-item>
+                                    <label className="profile">Heart Rate (bpm)</label>
+					                <div>{_default(item.vs_heartrate, "--")}</div>
+                                </ons-list-item>
+                                <ons-list-item>
+                                    <label className="profile">Respiratory Rate (cpm)</label>
+					                <div>{_default(item.vs_respirate, "--")}</div>
+                                </ons-list-item>
+                                <ons-list-item>
+                                    <label className="profile">Temperature (Celsius)</label>
+					                <div>{_default(item.vs_temp, "--")}</div>
+                                </ons-list-item>
+                                <ons-list-item>
+                                    <label className="profile">Weight ({item.vs_weight_unit})</label>
+					                <div>{_default(item.vs_weight, "--")}</div>
+                                </ons-list-item>
+                                <ons-list-item>
+                                    <label className="profile">Height (cm)</label>
+					                <div>{_default(item.vs_height, "--")}</div>
+                                </ons-list-item>
+                                <ons-list-item>
+                                    <label className="profile">Body Mass Index</label>
+					                <div>{_default(item.vs_bmi, "--")}</div>
+                                </ons-list-item>
+                                <ons-list-item>
+                                    <label className="profile">Waist Circumference (cm)</label>
+					                <div>{_default(item.vs_waistcirc, "--")}</div>
+                                </ons-list-item>
+                                <ons-list-item>
+                                    <label className="profile">Hip Circumference (cm)</label>
+					                <div>{_default(item.vs_hipcirc, "--")}</div>
+                                </ons-list-item>
+                                <ons-list-item>
+                                    <label className="profile">Waist/Hip Ratio</label>
+					                <div>{_default(item.vs_whratio, "--")}</div>
+                                </ons-list-item>
+                            </div>
+                        )
+                    })
+                }
+			</ons-list>
+		);
+	}
 }

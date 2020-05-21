@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { diet_list, api } from './config.js';
-import { cookies, callApi, showAlert } from './index.js';
+import { cookies, callApi, showAlert, _default } from './index.js';
 
 function DietForm(props) {
     return(
@@ -108,4 +108,28 @@ export class Diet extends React.Component {
             <DietForm data={this.state} unitRef={this.unit}/>
         );
     }
+}
+
+export class DietProfile extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = props.data;
+	}
+	render() {
+		return (
+			<ons-list>
+				<ons-list-header>Diet</ons-list-header>
+                {
+                    this.state.dietList.map((item) => {
+                        return (
+                            <ons-list-item>
+                                <label className="profile">{item.displayText}</label>
+                                <div>{_default(item.quantity, "--")} {item.unit}</div>
+                            </ons-list-item>
+                        )
+                    })
+                }
+			</ons-list>
+		);
+	}
 }

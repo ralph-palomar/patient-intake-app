@@ -84,3 +84,29 @@ export class Illnesses extends React.Component {
         );
     }
 }
+
+export class IllnessesProfile extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = props.data;
+	}
+	render() {
+		return (
+			<ons-list>
+				<ons-list-header>Illnesses/Conditions</ons-list-header>
+                {
+                    this.state.illnessesList.filter(item => item.selected === true).map(item => {
+                        return (
+                            <ons-list-item>
+                                {item.displayText}
+                            </ons-list-item>
+                        )
+                    })
+                }
+                <ons-list-item>
+                    {this.state.illness_others}
+                </ons-list-item>
+			</ons-list>
+		);
+	}
+}

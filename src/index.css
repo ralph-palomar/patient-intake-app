@@ -6,6 +6,13 @@ label.form {
     padding-bottom: 10px;
 }
 
+label.profile {
+    font-size: 12px;
+    display: block;
+    width: 300px;
+    float: left;
+}
+
 #fab_add {
     position: fixed;
     margin-top: 26px;

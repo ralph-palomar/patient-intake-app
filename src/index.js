@@ -119,10 +119,10 @@ function validateRegistrationForm(email, firstname, lastname, passwd, cpasswd) {
 	return false;
 }
 
-export function callApi(config = {}, successCallback = (data) => { }, caller = '') {
+export async function callApi(config = {}, successCallback = (data)=>{}, caller = '') {
 	const progress_bar = document.querySelector('#' + caller + '_pb');
 	if (progress_bar != null) progress_bar.style.display = 'block';
-	axios(config)
+	await axios(config)
 		.then((response) => {
 			if (!response.data.error) {
 				successCallback(response.data);
@@ -143,20 +143,52 @@ export function showAlert(msg) {
 }
 
 export function formatDate(date) {
-	return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
+	if (date != null && date !== "") {
+		return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
+	}
+	return null;
 }
 
 export function formatTime(date) {
-	return (date.getHours() + "").padStart(2, '0') + ':' + (date.getMinutes() + "").padStart(2, '0');
+	if (date != null && date !== "") {
+		return (date.getHours() + "").padStart(2, '0') + ':' + (date.getMinutes() + "").padStart(2, '0');
+	}
+	return null;
 }
 
-function setLoginCookie(data) {
+export function formatToDateString(date) {
+	if (date != null && date !== "") {
+		const d = new Date(date);
+		return d.toDateString();
+	}
+	return null;
+}
+
+export function formatToTimeString(date) {
+	if (date != null && date !== "") {
+		const d = new Date();
+		const HH = date.split(':')[0];
+		const mm = date.split(':')[1];
+		d.setHours(HH);
+		d.setMinutes(mm);
+		d.setSeconds(0);
+		return d.toLocaleTimeString();
+	}
+	return null;
+}
+
+export function setLoginCookie(data) {
 	let d = new Date();
 	d.setDate(d.getDate() + 7); //+7days
 	cookies.set('app-login', data, {
 		path: process.env.HOME_PAGE,
 		expires: d
 	});
+}
+
+export function _default(input, defaultValue) {
+	if (input !== undefined && input != null && input !== "") return input;
+	return defaultValue;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

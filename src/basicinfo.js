@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DatePicker from 'react-date-picker';
-import { callApi, showAlert, cookies, formatDate } from './index.js';
+import { callApi, showAlert, cookies, formatDate, formatToDateString, _default } from './index.js';
 import { api } from './config.js';
 
 export class SaveBasicInfo extends React.Component {
@@ -118,6 +118,56 @@ export class BasicInfo extends React.Component {
 				</ons-list-item>
 			</ons-list>
 			</React.Fragment>
+		);
+	}
+}
+
+export class BasicInfoProfile extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = props.data;
+	}
+	render() {
+		return (
+			<ons-list>
+				<ons-list-header>Basic Information</ons-list-header>
+				<ons-list-item>
+					<label className="profile">Date of Birth</label>
+					<div>{_default(formatToDateString(this.state.basic_dob), "--")}</div>
+				</ons-list-item>
+				<ons-list-item>
+					<label className="profile">Address</label>
+					<div className="profile">{_default(this.state.basic_addr, "--")}</div>
+				</ons-list-item>
+				<ons-list-item>
+					<label className="profile">Gender</label>
+					<div>{_default(this.state.basic_gender, "--")}</div>
+				</ons-list-item>
+				<ons-list-item>
+					<label className="profile">Email Address</label>
+					<div>{_default(this.state.basic_email, "--")}</div>
+				</ons-list-item>
+				<ons-list-item>
+					<label className="profile">Landline Number</label>
+					<div>{_default(this.state.basic_landlineno, "--")}</div>
+				</ons-list-item>
+				<ons-list-item>
+					<label className="profile">Mobile Number</label>
+					<div>{_default(this.state.basic_mobileno, "--")}</div>
+				</ons-list-item>
+				<ons-list-item>
+					<label className="profile">Support Person</label>
+					<div>{_default(this.state.basic_supportperson, "--")}</div>
+				</ons-list-item>
+				<ons-list-item>
+					<label className="profile">Relationship</label>
+					<div>{_default(this.state.basic_relationship, "--")}</div>
+				</ons-list-item>
+				<ons-list-item>
+					<label className="profile">Support Contact Number</label>
+					<div>{_default(this.state.basic_supportcontactno, "--")}</div>
+				</ons-list-item>
+			</ons-list>
 		);
 	}
 }
