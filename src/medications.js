@@ -83,7 +83,7 @@ export class NewMedicationItem extends React.Component {
                         <div className="medication_list">
                             <MedicationForm value={this.state.medicationList[0]} index={0} medicationList={this.state.medicationList} onChangeCallback={this.handleChange} />
                         </div>
-                        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
                     </ons-list>
                 </div>
             </React.Fragment>

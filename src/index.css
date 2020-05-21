@@ -1,7 +1,7 @@
 label.form {
     font-size: 14px;
     display: block;
-    width: 250px;
+    width: 100%;
     float: left;
     padding-bottom: 10px;
 }
@@ -9,7 +9,7 @@ label.form {
 label.profile {
     font-size: 12px;
     display: block;
-    width: 300px;
+    width: 100%;
     float: left;
 }
 
