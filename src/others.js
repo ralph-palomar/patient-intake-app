@@ -186,7 +186,7 @@ export class OthersProfile extends React.Component {
 		return (
 			<ons-list>
                 <ons-list-header style={{ textAlign: 'center' }}>
-                    <ons-button modifier="light" onClick={()=>{document.querySelector('#carousel').prev()}}><ons-icon icon="md-chevron-left"></ons-icon></ons-button>
+                    <ons-button modifier="quiet" onClick={()=>{document.querySelector('#carousel').prev()}}><ons-icon icon="md-chevron-left"></ons-icon></ons-button>
                     Others
 				</ons-list-header>
 				<ons-list-header>Physical Activity</ons-list-header>

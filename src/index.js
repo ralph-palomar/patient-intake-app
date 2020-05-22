@@ -119,7 +119,7 @@ function validateRegistrationForm(email, firstname, lastname, passwd, cpasswd) {
 	return false;
 }
 
-export async function callApi(config = {}, successCallback = (data)=>{}, caller = '') {
+export async function callApi(config = {}, successCallback = (data)=>{}, caller = '', displayAlert=true) {
 	const progress_bar = document.querySelector('#' + caller + '_pb');
 	if (progress_bar != null) progress_bar.style.display = 'block';
 	await axios(config)
@@ -127,7 +127,7 @@ export async function callApi(config = {}, successCallback = (data)=>{}, caller 
 			if (!response.data.error) {
 				successCallback(response.data);
 			} else {
-				showAlert(response.data.error);
+				if (displayAlert) showAlert(response.data.error);
 				successCallback({})
 			}
 			if (progress_bar != null) progress_bar.style.display = 'none';
@@ -187,8 +187,11 @@ export function setLoginCookie(data) {
 }
 
 export function _default(input, defaultValue) {
-	if (input !== undefined && input != null && (input+"").trim() !== "") return input;
-	return defaultValue;
+	if (input && input !== undefined && input != null && (input+"").trim() !== "") {
+		return input;
+	} else {
+		return defaultValue;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////

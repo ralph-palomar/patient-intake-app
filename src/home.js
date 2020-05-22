@@ -99,7 +99,7 @@ export class Profile extends React.Component {
     const profile_basic_info = document.querySelector('div#profile_basic_info');
     getBasicInfo((data) => {
       ReactDOM.render(<BasicInfoProfile data={data} />, profile_basic_info);
-      this.title.innerHTML = _default(data.basic_lastname +" ", "___") + _default(data.basic_firstname +" ", "___") + data.basic_middlename 
+      this.title.innerHTML = _default(data.basic_lastname, "(lastname)") + " " + _default(data.basic_firstname, "(firstname)") + " " + _default(data.basic_middlename, "(middlename)")
     }, 'profile', this.state.email);
 
     const profile_illnesses = document.querySelector('div#profile_illnesses');
@@ -156,7 +156,7 @@ export function getBasicInfo(successCallback=(data)=>{}, caller="", identifier) 
       "id": identifier
     }
   };
-  callApi(config, successCallback, caller);
+  callApi(config, successCallback, caller, false);
 }
 
 export function getIllnesses(successCallback=(data)=>{}, caller="", identifier) {
@@ -171,7 +171,7 @@ export function getIllnesses(successCallback=(data)=>{}, caller="", identifier) 
       "id": identifier
     }
   };
-  callApi(config, successCallback, caller);
+  callApi(config, successCallback, caller, false);
 }
 
 export function getMedications(successCallback=(data)=>{}, caller="", identifier) {
@@ -186,7 +186,7 @@ export function getMedications(successCallback=(data)=>{}, caller="", identifier
       "id": identifier
     }
   };
-  callApi(config, successCallback, caller);
+  callApi(config, successCallback, caller, false);
 }
 
 export function getVitalSigns(successCallback=(data)=>{}, caller="", identifier) {
@@ -201,7 +201,7 @@ export function getVitalSigns(successCallback=(data)=>{}, caller="", identifier)
       "id": identifier
     }
   };
-  callApi(config, successCallback, caller);
+  callApi(config, successCallback, caller, false);
 }
 
 export function getDiet(successCallback=(data)=>{}, caller="", identifier) {
@@ -216,7 +216,7 @@ export function getDiet(successCallback=(data)=>{}, caller="", identifier) {
       "id": identifier
     }
   };
-  callApi(config, successCallback, caller);
+  callApi(config, successCallback, caller, false);
 }
 
 export function getOthers(successCallback=(data)=>{}, caller="", identifier) {
@@ -231,5 +231,5 @@ export function getOthers(successCallback=(data)=>{}, caller="", identifier) {
       "id": identifier
     }
   };
-  callApi(config, successCallback, caller);
+  callApi(config, successCallback, caller, false);
 }

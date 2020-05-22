@@ -116,15 +116,16 @@ export class DietProfile extends React.Component {
 		this.state = props.data;
 	}
 	render() {
+        const dietList = this.state.dietList || [];
 		return (
 			<ons-list>
 				<ons-list-header style={{ textAlign: 'center' }}>
-                    <ons-button modifier="light" onClick={()=>{document.querySelector('#carousel').prev()}}><ons-icon icon="md-chevron-left"></ons-icon></ons-button>
+                    <ons-button modifier="quiet" onClick={()=>{document.querySelector('#carousel').prev()}}><ons-icon icon="md-chevron-left"></ons-icon></ons-button>
                     Diet
-					<ons-button modifier="light" onClick={()=>{document.querySelector('#carousel').next()}}><ons-icon icon="md-chevron-right"></ons-icon></ons-button>
+					<ons-button modifier="quiet" onClick={()=>{document.querySelector('#carousel').next()}}><ons-icon icon="md-chevron-right"></ons-icon></ons-button>
 				</ons-list-header>
                 {
-                    this.state.dietList.map((item) => {
+                    dietList.map((item) => {
                         return (
                             <ons-list-item>
                                 <label className="profile">{item.displayText}</label>

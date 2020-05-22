@@ -281,6 +281,41 @@
     </ons-page>
   </template>
 
+  <template id="user_profile.html">
+    <ons-page id="user_profile">
+      <ons-toolbar>
+        <div class="left">
+          <ons-back-button></ons-back-button>
+        </div>
+        <div class="center">
+          User Profile
+        </div>
+      </ons-toolbar>
+      <div id="user_profile_component"></div>
+      <ons-carousel swipeable auto-scroll overscrollable id="carousel">
+        <ons-carousel-item>
+          <div id="profile_basic_info"></div>
+        </ons-carousel-item>
+        <ons-carousel-item>
+          <div id="profile_illnesses"></div>
+        </ons-carousel-item>
+        <ons-carousel-item>
+          <div id="profile_medications"></div>
+        </ons-carousel-item>
+        <ons-carousel-item>
+          <div id="profile_vital_signs"></div>
+        </ons-carousel-item>
+        <ons-carousel-item>
+          <div id="profile_diet"></div>
+        </ons-carousel-item>
+        <ons-carousel-item>
+          <div id="profile_others"></div>
+        </ons-carousel-item>
+        </div>
+      </ons-carousel>
+    </ons-page>
+  </template>
+
   <template id="register.html">
     <ons-page id="register">
       <div id="register_pb" hidden>

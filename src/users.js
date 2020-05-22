@@ -1,6 +1,8 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { api } from './config.js';
 import { callApi } from './index.js';
+import { Profile } from './home.js';
 
 export class Users extends React.Component {
     constructor(props) {
@@ -39,22 +41,36 @@ export class Users extends React.Component {
             });
         }, 'users');   
     }
+    handleUserClick = (event) => {
+        const index = event.target.getAttribute('index');
+        if (index != null) {
+            const accountInfo = this.state.userList[index];
+            const nav = document.querySelector('#navigator');
+            nav.pushPage('user_profile.html').then(() => {
+                const user_profile_component = document.querySelector('#user_profile_component');
+                ReactDOM.render(<Profile email={accountInfo.email} />, user_profile_component);
+            });
+        }
+    }
     render() {
         return (
             <React.Fragment>
-                <ons-search-input style={{ width: '100%'}}placeholder="Search" onKeyUp={this.searchUser}></ons-search-input>
+                <ons-search-input style={{ width: '100%'}} placeholder="Search" onKeyUp={this.searchUser}></ons-search-input>
                 <ons-list>
                 <ons-list-header style={{ backgroundColor: '#e6f2ff'}}><b>User accounts</b></ons-list-header>
-                {
-                    this.state.userList.map((value) =>
-                        <ons-list-item key={value.email} modifier="chevron" tappable>
-                            <div className="center">
-                                <span className="list-item__title">{value.firstname + " " + value.lastname}</span>
-                                <span className="list-item__subtitle">{value.email}</span>
-                            </div>
-                        </ons-list-item>
-                    )
-                }
+                    <ons-lazy-repeat>
+                    {
+                        
+                        this.state.userList.map((value, index) =>
+                            <ons-list-item index={index} key={value.email} modifier="chevron" onClick={this.handleUserClick} tappable>
+                                <div className="center">
+                                    <span className="list-item__title">{value.firstname + " " + value.lastname}</span>
+                                    <span className="list-item__subtitle">{value.email}</span>
+                                </div>
+                            </ons-list-item>
+                        )
+                    }
+                    </ons-lazy-repeat>
                 </ons-list>
             </React.Fragment>
         );

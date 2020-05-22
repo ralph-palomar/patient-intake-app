@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { cookies, callApi, showAlert } from './index.js';
+import { cookies, callApi, showAlert, _default } from './index.js';
 import { illnesses, api } from './config.js';
 
 export class SaveIllnesses extends React.Component {
@@ -88,18 +88,19 @@ export class Illnesses extends React.Component {
 export class IllnessesProfile extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = props.data;
+        this.state = props.data;
 	}
 	render() {
+        const illnessesList = this.state.illnessesList || [];
 		return (
 			<ons-list>
                 <ons-list-header style={{ textAlign: 'center' }}>
-                    <ons-button modifier="light" onClick={()=>{document.querySelector('#carousel').prev()}}><ons-icon icon="md-chevron-left"></ons-icon></ons-button>
+                    <ons-button modifier="quiet" onClick={()=>{document.querySelector('#carousel').prev()}}><ons-icon icon="md-chevron-left"></ons-icon></ons-button>
                     Illnesses/Conditions
-					<ons-button modifier="light" onClick={()=>{document.querySelector('#carousel').next()}}><ons-icon icon="md-chevron-right"></ons-icon></ons-button>
+					<ons-button modifier="quiet" onClick={()=>{document.querySelector('#carousel').next()}}><ons-icon icon="md-chevron-right"></ons-icon></ons-button>
 				</ons-list-header>
                 {
-                    this.state.illnessesList.filter(item => item.selected === true).map(item => {
+                    illnessesList.filter(item => item.selected === true).map(item => {
                         return (
                             <ons-list-item>
                                 {item.displayText}
@@ -108,8 +109,9 @@ export class IllnessesProfile extends React.Component {
                     })
                 }
                 <ons-list-item>
-                    {this.state.illness_others}
-                </ons-list-item>
+                    <label className="profile">Others</label>
+                        <div>{_default(this.state.illness_others, "--")}</div>
+                    </ons-list-item>
 			</ons-list>
 		);
 	}

@@ -332,15 +332,16 @@ export class VitalSignsProfile extends React.Component {
 		this.state = props.data;
 	}
 	render() {
+        const vsList = this.state.vsList || [];
 		return (
 			<ons-list>
 				<ons-list-header style={{ textAlign: 'center' }}>
-                    <ons-button modifier="light" onClick={()=>{document.querySelector('#carousel').prev()}}><ons-icon icon="md-chevron-left"></ons-icon></ons-button>
+                    <ons-button modifier="quiet" onClick={()=>{document.querySelector('#carousel').prev()}}><ons-icon icon="md-chevron-left"></ons-icon></ons-button>
                     Vital Signs
-					<ons-button modifier="light" onClick={()=>{document.querySelector('#carousel').next()}}><ons-icon icon="md-chevron-right"></ons-icon></ons-button>
+					<ons-button modifier="quiet" onClick={()=>{document.querySelector('#carousel').next()}}><ons-icon icon="md-chevron-right"></ons-icon></ons-button>
 				</ons-list-header>
                 {
-                    this.state.vsList.map((item, index) => {
+                    vsList.map((item, index) => {
                         const bgcolor = index % 2 === 0 ? '#ffffff' : '#f2f2f2';
                         return (
                             <div style={{ backgroundColor: bgcolor }}>

@@ -132,7 +132,7 @@ export class BasicInfoProfile extends React.Component {
 			<ons-list>
 				<ons-list-header style={{ textAlign: 'center' }}>
 					Basic Information
-					<ons-button modifier="light" onClick={()=>{document.querySelector('#carousel').next()}}><ons-icon icon="md-chevron-right"></ons-icon></ons-button>
+					<ons-button modifier="quiet" onClick={()=>{document.querySelector('#carousel').next()}}><ons-icon icon="md-chevron-right"></ons-icon></ons-button>
 				</ons-list-header>
 				<ons-list-item>
 					<label className="profile">Date of Birth</label>
