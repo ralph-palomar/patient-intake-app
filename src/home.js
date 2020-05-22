@@ -129,14 +129,19 @@ export class Profile extends React.Component {
       ReactDOM.render(<OthersProfile data={data} />, profile_others);
     }, 'profile', this.state.email);
   }
+  handlePicChange = (event) => {
+    const profile_pic = document.querySelector('#profile_pic');
+    profile_pic.click();
+  }
   render() {
     const imgSrc = this.state.accountInfo.picture != null ? this.state.accountInfo.picture : defaultImg;
     return (
       <React.Fragment>
         <ons-card>
             <div className="center" align="center">
-              <img className="list-item--material__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '60px', height: '60px'}}></img>
+              <img className="list-item--material__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '60px', height: '60px'}} onClick={this.handlePicChange} ></img>
             </div>
+            <input type="file" id="profile_pic" style={{ display: 'none'}}></input>
             <div className="title" align="center" ref={ref=>{this.title=ref}}>
             </div>
         </ons-card>
