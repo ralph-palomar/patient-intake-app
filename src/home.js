@@ -100,32 +100,32 @@ export class Profile extends React.Component {
     getBasicInfo((data) => {
       ReactDOM.render(<BasicInfoProfile data={data} />, profile_basic_info);
       this.title.innerHTML = _default(data.basic_lastname +" ", "___") + _default(data.basic_firstname +" ", "___") + data.basic_middlename 
-    }, 'basic', this.state.email);
+    }, 'profile', this.state.email);
 
     const profile_illnesses = document.querySelector('div#profile_illnesses');
     getIllnesses((data) => {
       ReactDOM.render(<IllnessesProfile data={data} />, profile_illnesses);
-    }, 'illnesses', this.state.email);
+    }, 'profile', this.state.email);
 
     const profile_medications = document.querySelector('div#profile_medications');
     getMedications((data) => {
       ReactDOM.render(<MedicationsProfile data={data} />, profile_medications);
-    }, 'medications', this.state.email);
+    }, 'profile', this.state.email);
 
     const profile_vital_signs = document.querySelector('div#profile_vital_signs');
     getVitalSigns((data) => {
       ReactDOM.render(<VitalSignsProfile data={data} />, profile_vital_signs);
-    }, 'vitalsigns', this.state.email);
+    }, 'profile', this.state.email);
 
     const profile_diet = document.querySelector('div#profile_diet');
     getDiet((data) => {
       ReactDOM.render(<DietProfile data={data} />, profile_diet);
-    }, 'diet', this.state.email);
+    }, 'profile', this.state.email);
 
     const profile_others = document.querySelector('div#profile_others');
     getOthers((data) => {
       ReactDOM.render(<OthersProfile data={data} />, profile_others);
-    }, 'others', this.state.email);
+    }, 'profile', this.state.email);
   }
   render() {
     const defaultImg = "http://placekitten.com/g/40/40";

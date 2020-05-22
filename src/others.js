@@ -185,6 +185,10 @@ export class OthersProfile extends React.Component {
 	render() {
 		return (
 			<ons-list>
+                <ons-list-header style={{ textAlign: 'center' }}>
+                    <ons-button modifier="light" onClick={()=>{document.querySelector('#carousel').prev()}}><ons-icon icon="md-chevron-left"></ons-icon></ons-button>
+                    Others
+				</ons-list-header>
 				<ons-list-header>Physical Activity</ons-list-header>
                 <ons-list-item>
                     <label className="profile">Days a week that are engaged in moderate to strenuous exercise, such as brisk walking</label>

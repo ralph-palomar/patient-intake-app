@@ -118,7 +118,11 @@ export class DietProfile extends React.Component {
 	render() {
 		return (
 			<ons-list>
-				<ons-list-header>Diet</ons-list-header>
+				<ons-list-header style={{ textAlign: 'center' }}>
+                    <ons-button modifier="light" onClick={()=>{document.querySelector('#carousel').prev()}}><ons-icon icon="md-chevron-left"></ons-icon></ons-button>
+                    Diet
+					<ons-button modifier="light" onClick={()=>{document.querySelector('#carousel').next()}}><ons-icon icon="md-chevron-right"></ons-icon></ons-button>
+				</ons-list-header>
                 {
                     this.state.dietList.map((item) => {
                         return (
