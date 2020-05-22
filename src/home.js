@@ -8,7 +8,7 @@ import { Medications, MedicationsProfile } from './medications.js';
 import { VitalSigns, VitalSignsProfile } from './vitalsigns.js';
 import { Diet, DietProfile } from './diet.js';
 import { Others, OthersProfile } from './others.js';
-import { api } from './config.js';
+import { api, defaultImg } from './config.js';
 
 window.fn = {};
 
@@ -87,6 +87,8 @@ window.fn.createAccount = createAccount;
 window.fn.login = login;
 window.fn.register = register;
 
+export const loadPage = window.fn.load;
+
 export class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -99,7 +101,7 @@ export class Profile extends React.Component {
     const profile_basic_info = document.querySelector('div#profile_basic_info');
     getBasicInfo((data) => {
       ReactDOM.render(<BasicInfoProfile data={data} />, profile_basic_info);
-      this.title.innerHTML = _default(data.basic_lastname, "(lastname)") + " " + _default(data.basic_firstname, "(firstname)") + " " + _default(data.basic_middlename, "(middlename)")
+      this.title.innerHTML = '<b>'+ _default(data.basic_firstname, "Firstname") + " " + _default(data.basic_lastname, "Lastname") + " " + _default(data.basic_middlename, "") + '</b>'
     }, 'profile', this.state.email);
 
     const profile_illnesses = document.querySelector('div#profile_illnesses');
@@ -128,13 +130,12 @@ export class Profile extends React.Component {
     }, 'profile', this.state.email);
   }
   render() {
-    const defaultImg = "http://placekitten.com/g/40/40";
     const imgSrc = this.state.accountInfo.picture != null ? this.state.accountInfo.picture : defaultImg;
     return (
       <React.Fragment>
         <ons-card>
             <div className="center" align="center">
-              <img className="list-item__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '60px', height: '60px'}}></img>
+              <img className="list-item--material__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '60px', height: '60px'}}></img>
             </div>
             <div className="title" align="center" ref={ref=>{this.title=ref}}>
             </div>

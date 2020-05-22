@@ -37,34 +37,37 @@
         <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
           <ons-page>
             <ons-list>
-              <ons-list-item id="profile-list-item" onclick="fn.load('main.html')" tappable>
+              <ons-list-item id="badge-list-item">
+                <div id="badge"></div>
+              </ons-list-item>
+              <ons-list-item id="home-list-item" onclick="fn.load('main.html')" modifier="chevron" tappable>
                 Home
               </ons-list-item>
-              <ons-list-item id="profile-list-item" onclick="fn.load('profile.html')" tappable>
-                My Profile
+              <ons-list-item id="profile-list-item" onclick="fn.load('profile.html')" modifier="chevron" tappable>
+                Profile
               </ons-list-item>
-              <ons-list-item id="user-list-item" onclick="fn.load('users.html')" tappable>
+              <ons-list-item id="user-list-item" onclick="fn.load('users.html')" modifier="chevron" tappable>
                 Patients
               </ons-list-item>
-              <ons-list-item id="basicinfo-list-item" onclick="fn.load('basicinfo.html')" tappable>
+              <ons-list-item id="basicinfo-list-item" onclick="fn.load('basicinfo.html')" modifier="chevron" tappable>
                 Basic Info
               </ons-list-item>
-              <ons-list-item id="illnesses-list-item" onclick="fn.load('illnesses.html')" tappable>
+              <ons-list-item id="illnesses-list-item" onclick="fn.load('illnesses.html')" modifier="chevron" tappable>
                 Illnesses
               </ons-list-item>
-              <ons-list-item id="medications-list-item" onclick="fn.load('medications.html')" tappable>
+              <ons-list-item id="medications-list-item" onclick="fn.load('medications.html')" modifier="chevron" tappable>
                 Medications
               </ons-list-item>
-              <ons-list-item id="vitalsigns-list-item" onclick="fn.load('vitalsigns.html')" tappable>
+              <ons-list-item id="vitalsigns-list-item" onclick="fn.load('vitalsigns.html')" modifier="chevron" tappable>
                 Vital Signs
               </ons-list-item>
-              <ons-list-item id="diet-list-item" onclick="fn.load('diet.html')" tappable>
+              <ons-list-item id="diet-list-item" onclick="fn.load('diet.html')" modifier="chevron" tappable>
                 Diet
               </ons-list-item>
-              <ons-list-item id="others-list-item" onclick="fn.load('others.html')" tappable>
+              <ons-list-item id="others-list-item" onclick="fn.load('others.html')" modifier="chevron" tappable>
                 Others
               </ons-list-item>
-              <ons-list-item onclick="fn.logout()" tappable>
+              <ons-list-item onclick="fn.logout()" modifier="chevron" tappable>
                 Logout
               </ons-list-item>
             </ons-list>
@@ -85,7 +88,7 @@
           </ons-toolbar-button>
         </div>
         <div class="center">
-          Main
+          Lifestyle Clinic
         </div>
       </ons-toolbar>
       <div id="main_pb" style="display: none;">

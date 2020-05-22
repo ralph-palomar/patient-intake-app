@@ -41,14 +41,12 @@ export class Users extends React.Component {
             });
         }, 'users');   
     }
-    handleUserClick = (event) => {
-        const index = event.target.getAttribute('index');
-        if (index != null) {
-            const accountInfo = this.state.userList[index];
+    handleUserClick = (email) => {
+        if (email != null) {
             const nav = document.querySelector('#navigator');
             nav.pushPage('user_profile.html').then(() => {
                 const user_profile_component = document.querySelector('#user_profile_component');
-                ReactDOM.render(<Profile email={accountInfo.email} />, user_profile_component);
+                ReactDOM.render(<Profile email={email} />, user_profile_component);
             });
         }
     }
@@ -62,11 +60,11 @@ export class Users extends React.Component {
                     {
                         
                         this.state.userList.map((value, index) =>
-                            <ons-list-item index={index} key={value.email} modifier="chevron" onClick={this.handleUserClick} tappable>
+                            <ons-list-item index={index} key={value.email} onClick={(event) => {this.handleUserClick(value.email)}} modifier="chevron" tappable>
                                 <div className="center">
                                     <span className="list-item__title">{value.firstname + " " + value.lastname}</span>
                                     <span className="list-item__subtitle">{value.email}</span>
-                                </div>
+                                </div>                                
                             </ons-list-item>
                         )
                     }

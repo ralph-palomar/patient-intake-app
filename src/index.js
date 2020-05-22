@@ -5,10 +5,10 @@ import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 import './index.css';
 
-import { api } from './config.js';
+import { api, defaultImg } from './config.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './home.js';
+import { loadPage } from './home.js';
 import axios from 'axios';
 import ons from 'onsenui';
 import Cookies from 'universal-cookie';
@@ -200,7 +200,8 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			activeLogin: cookies.get('app-login') != null
+			activeLogin: cookies.get('app-login') != null,
+			accountInfo: cookies.get('app-login')
 		}
 	}
 	responseFacebook = (userInfo) => {
@@ -245,6 +246,9 @@ class App extends React.Component {
 				if (confirm_logout != null) {
 					ReactDOM.render(<ConfirmDialog message="Are you sure you want to log out?" onOk={this.handleLogout} />, confirm_logout);
 				}
+
+				const badge = document.querySelector('#badge');
+				ReactDOM.render(<Badge data={this.state} />, badge);
 			});
 		}
 	}
@@ -278,6 +282,26 @@ export class ConfirmDialog extends React.Component {
 				</div>
 			</ons-alert-dialog>
 		);
+	}
+}
+
+class Badge extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = props.data;
+	}
+	render() {
+    	const imgSrc = this.state.accountInfo.picture != null ? this.state.accountInfo.picture : defaultImg;
+		return (
+			<React.Fragment>
+				<div className="left">
+              		<img className="list-item--material__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '60px', height: '60px'}} onClick={()=>{loadPage('profile.html')}}></img>
+            	</div>
+				<div className="left">
+					<b>{_default(this.state.accountInfo.firstname, "Firstname") + " " + _default(this.state.accountInfo.lastname, "")}</b>
+				</div>
+			</React.Fragment>
+		)
 	}
 }
 
