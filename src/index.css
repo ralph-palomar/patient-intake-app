@@ -22,3 +22,7 @@ ons-progress-circular {
     top: 50%;
     left: 48%;
 }
+
+div.modal {
+    position: fixed;
+}
