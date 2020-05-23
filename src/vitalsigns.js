@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import DatePicker from 'react-date-picker';
 import TimePicker from 'react-time-picker';
 import { cookies, callApi, showAlert, formatDate, formatTime, ConfirmDialog, back, formatToDateString, formatToTimeString, _default } from './index.js';
-import { api } from './config.js';
+import { api, login_cookie } from './config.js';
 
 function VitalSignsForm(props) {
     const id = props.vsList[props.index].id;
@@ -268,10 +268,10 @@ function refreshVitalSigns(successCallBack) {
         "timeout": api.users_api_timeout,
         "headers": {
             "Authorization": api.users_api_authorization,
-            "JWT": cookies.get('app-login').access_token
+            "JWT": cookies.get(login_cookie).access_token
         },
         "params": {
-            "id": cookies.get('app-login').email
+            "id": cookies.get(login_cookie).email
         }
     };
     callApi(config, successCallBack, 'vitalsigns');
@@ -307,7 +307,7 @@ function saveVitalSigns(callBack = () => {}, data = null) {
 
     if (vsList != null) {
         const payload = {
-            id: cookies.get('app-login').email,
+            id: cookies.get(login_cookie).email,
             vsList: vsList
         }
         const config = {
@@ -317,7 +317,7 @@ function saveVitalSigns(callBack = () => {}, data = null) {
             "headers": {
                 "Content-Type": "application/json",
                 "Authorization": api.users_api_authorization,
-                "JWT": cookies.get('app-login').access_token
+                "JWT": cookies.get(login_cookie).access_token
             },
             "data": payload
         };

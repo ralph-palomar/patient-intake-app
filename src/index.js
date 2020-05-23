@@ -5,7 +5,7 @@ import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 import './index.css';
 
-import { api, defaultImg } from './config.js';
+import { api, defaultImg, login_cookie } from './config.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { loadPage, getUserPhoto } from './home.js';
@@ -184,11 +184,11 @@ export function setLoginCookie(data) {
 		lastname: data.lastname, 
 		access_token: data.access_token
 	}
-	let d = new Date();
-	d.setDate(d.getDate() + 7); //+7days
-	cookies.set('app-login', cookieData, {
+	//let d = new Date();
+	//d.setDate(d.getDate() + 7); //+7days
+	cookies.set(login_cookie, cookieData, {
 		path: process.env.HOME_PAGE,
-		expires: d
+		//expires: d
 	});
 }
 
@@ -206,7 +206,7 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			activeLogin: cookies.get('app-login') != null
+			activeLogin: cookies.get(login_cookie) != null
 		}
 	}
 	responseFacebook = (userInfo) => {
@@ -256,8 +256,8 @@ class App extends React.Component {
 				const badge = document.querySelector('#badge');
 				if (badge != null) {
 					getUserPhoto((data) => {
-						ReactDOM.render(<Badge accountInfo={cookies.get('app-login')} picture={data.picture} />, badge);
-					}, null, cookies.get('app-login').email)
+						ReactDOM.render(<Badge accountInfo={cookies.get(login_cookie)} picture={data.picture} />, badge);
+					}, null, cookies.get(login_cookie).email)
 				}
 			});
 		}

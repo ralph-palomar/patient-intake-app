@@ -8,7 +8,7 @@ import { Medications, MedicationsProfile } from './medications.js';
 import { VitalSigns, VitalSignsProfile } from './vitalsigns.js';
 import { Diet, DietProfile } from './diet.js';
 import { Others, OthersProfile } from './others.js';
-import { api, defaultImg } from './config.js';
+import { api, defaultImg, login_cookie } from './config.js';
 
 window.fn = {};
 
@@ -28,8 +28,8 @@ window.fn.load = function (page) {
       if (page === "profile.html") {
         const main = document.querySelector('div#main_display');
         getUserPhoto((data) => {
-          ReactDOM.render(<Profile picture={data.picture} email={cookies.get('app-login').email} />, main);
-        }, null, cookies.get('app-login').email)
+          ReactDOM.render(<Profile picture={data.picture} email={cookies.get(login_cookie).email} />, main);
+        }, null, cookies.get(login_cookie).email)
       }
 
       if (page === "users.html") {
@@ -41,14 +41,14 @@ window.fn.load = function (page) {
         const basicinfo_form = document.querySelector('div#basicinfo_form');
         getBasicInfo((data) => {
           ReactDOM.render(<BasicInfo data={data} />, basicinfo_form);
-        }, 'basic', cookies.get('app-login').email);
+        }, 'basic', cookies.get(login_cookie).email);
       }
 
       if (page === "illnesses.html") {
         const illnesses_list = document.querySelector('div#illnesses_list');
         getIllnesses((data) => {
           ReactDOM.render(<Illnesses data={data} />, illnesses_list);
-        }, 'illnesses', cookies.get('app-login').email);
+        }, 'illnesses', cookies.get(login_cookie).email);
 
       }
 
@@ -56,28 +56,28 @@ window.fn.load = function (page) {
         const medications_list = document.querySelector('div#medications_list');
         getMedications((data) => {
           ReactDOM.render(<Medications data={data} />, medications_list);
-        }, 'medications', cookies.get('app-login').email);
+        }, 'medications', cookies.get(login_cookie).email);
       }
 
       if (page === "vitalsigns.html") {
         const vitalsigns_list = document.querySelector('div#vitalsigns_list');
         getVitalSigns((data) => {
           ReactDOM.render(<VitalSigns data={data} />, vitalsigns_list);
-        }, 'vitalsigns', cookies.get('app-login').email);
+        }, 'vitalsigns', cookies.get(login_cookie).email);
       }
 
       if (page === "diet.html") {
         const diet_list = document.querySelector('div#diet_list');
         getDiet((data) => {
           ReactDOM.render(<Diet data={data} />, diet_list);
-        }, 'diet', cookies.get('app-login').email);
+        }, 'diet', cookies.get(login_cookie).email);
       }
 
       if (page === "others.html") {
         const others_list = document.querySelector('div#others_list');
         getOthers((data) => {
           ReactDOM.render(<Others data={data} />, others_list);
-        }, 'others', cookies.get('app-login').email);
+        }, 'others', cookies.get(login_cookie).email);
       }
 
     });
@@ -193,7 +193,7 @@ export function getBasicInfo(successCallback=(data)=>{}, caller="", identifier) 
     "timeout": api.users_api_timeout,
     "headers": {
       "Authorization": api.users_api_authorization,
-      "JWT": cookies.get('app-login').access_token
+      "JWT": cookies.get(login_cookie).access_token
     },
     "params": {
       "id": identifier
@@ -209,7 +209,7 @@ export function getIllnesses(successCallback=(data)=>{}, caller="", identifier) 
     "timeout": api.users_api_timeout,
     "headers": {
       "Authorization": api.users_api_authorization,
-      "JWT": cookies.get('app-login').access_token
+      "JWT": cookies.get(login_cookie).access_token
     },
     "params": {
       "id": identifier
@@ -225,7 +225,7 @@ export function getMedications(successCallback=(data)=>{}, caller="", identifier
     "timeout": api.users_api_timeout,
     "headers": {
       "Authorization": api.users_api_authorization,
-      "JWT": cookies.get('app-login').access_token
+      "JWT": cookies.get(login_cookie).access_token
     },
     "params": {
       "id": identifier
@@ -241,7 +241,7 @@ export function getVitalSigns(successCallback=(data)=>{}, caller="", identifier)
     "timeout": api.users_api_timeout,
     "headers": {
       "Authorization": api.users_api_authorization,
-      "JWT": cookies.get('app-login').access_token
+      "JWT": cookies.get(login_cookie).access_token
     },
     "params": {
       "id": identifier
@@ -257,7 +257,7 @@ export function getDiet(successCallback=(data)=>{}, caller="", identifier) {
     "timeout": api.users_api_timeout,
     "headers": {
       "Authorization": api.users_api_authorization,
-      "JWT": cookies.get('app-login').access_token
+      "JWT": cookies.get(login_cookie).access_token
     },
     "params": {
       "id": identifier
@@ -273,7 +273,7 @@ export function getOthers(successCallback=(data)=>{}, caller="", identifier) {
     "timeout": api.users_api_timeout,
     "headers": {
       "Authorization": api.users_api_authorization,
-      "JWT": cookies.get('app-login').access_token
+      "JWT": cookies.get(login_cookie).access_token
     },
     "params": {
       "id": identifier
@@ -289,7 +289,7 @@ export function getUserPhoto(successCallback=(data)=>{}, caller="", identifier) 
     "timeout": api.users_api_timeout,
     "headers": {
       "Authorization": api.users_api_authorization,
-      "JWT": cookies.get('app-login').access_token
+      "JWT": cookies.get(login_cookie).access_token
     },
     "params": {
       "id": identifier
@@ -305,7 +305,7 @@ export function putUser(payload, successCallback=(data)=>{}, caller="") {
     "timeout": api.users_api_timeout,
     "headers": {
       "Authorization": api.users_api_authorization,
-      "JWT": cookies.get('app-login').access_token,
+      "JWT": cookies.get(login_cookie).access_token,
       "Content-Type": 'application/json'
     },
     "data": payload

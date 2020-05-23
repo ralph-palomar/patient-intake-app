@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { api, defaultImg } from './config.js';
+import { api, defaultImg, login_cookie } from './config.js';
 import { callApi, cookies } from './index.js';
 import { Profile } from './home.js';
 
@@ -32,7 +32,7 @@ export class Users extends React.Component {
             "timeout": 60000,
             "headers": {
                 "Authorization": api.users_api_authorization,
-                "JWT": cookies.get('app-login').access_token
+                "JWT": cookies.get(login_cookie).access_token
             }
         };
         callApi(config, (data) => {

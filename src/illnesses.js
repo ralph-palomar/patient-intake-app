@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { cookies, callApi, showAlert, _default } from './index.js';
-import { illnesses, api } from './config.js';
+import { illnesses, api, login_cookie } from './config.js';
 
 export class SaveIllnesses extends React.Component {
 	handleClick = (event) => {
 		const payload = {
-            id: cookies.get('app-login').email,
+            id: cookies.get(login_cookie).email,
             illnessesList: illnesses.map((value, index) => {
                 return {
                     selected: document.querySelector('#illness_'+index).checked,
@@ -22,7 +22,7 @@ export class SaveIllnesses extends React.Component {
 			"headers": {
                 "Content-Type": "application/json",
                 "Authorization": api.users_api_authorization,
-                "JWT": cookies.get('app-login').access_token
+                "JWT": cookies.get(login_cookie).access_token
 			},
 			"data": payload
 		};

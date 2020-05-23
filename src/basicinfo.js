@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import DatePicker from 'react-date-picker';
 import { callApi, showAlert, cookies, formatDate, formatToDateString, _default } from './index.js';
-import { api } from './config.js';
+import { api, login_cookie } from './config.js';
 
 export class SaveBasicInfo extends React.Component {
 	handleClick = (event) => {
 		const payload = {
-			id: cookies.get('app-login').email,
+			id: cookies.get(login_cookie).email,
 			basic_lastname: document.querySelector('#basic_lastname').value,
 			basic_firstname: document.querySelector('#basic_firstname').value,
 			basic_middlename: document.querySelector('#basic_middlename').value,
@@ -28,7 +28,7 @@ export class SaveBasicInfo extends React.Component {
 			"headers": {
 				"Content-Type": "application/json",
 				"Authorization": api.users_api_authorization,
-				"JWT": cookies.get('app-login').access_token
+				"JWT": cookies.get(login_cookie).access_token
 			},
 			"data": payload
 		};

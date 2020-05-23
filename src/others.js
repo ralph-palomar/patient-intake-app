@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { callApi, showAlert, cookies, _default } from './index.js';
-import { api, tobacco_use_0_options, emotional_being_options } from './config.js';
+import { api, tobacco_use_0_options, emotional_being_options, login_cookie } from './config.js';
 
 function OtherForm(props) {
     return (
@@ -111,7 +111,7 @@ function OtherForm(props) {
 export class SaveOthers extends React.Component {
     handleClick = (event) => {
 		const payload = {
-            id: cookies.get('app-login').email,
+            id: cookies.get(login_cookie).email,
             physical_activity_0: document.querySelector('#physical_activity_0').value,
             physical_activity_1: document.querySelector('#physical_activity_1').value,
             physical_activity_2: document.querySelector('#physical_activity_2').value,
@@ -134,7 +134,7 @@ export class SaveOthers extends React.Component {
 			"headers": {
 				"Content-Type": "application/json",
                 "Authorization": api.users_api_authorization,
-                "JWT": cookies.get('app-login').access_token
+                "JWT": cookies.get(login_cookie).access_token
 			},
 			"data": payload
 		};
