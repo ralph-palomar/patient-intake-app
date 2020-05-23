@@ -184,11 +184,11 @@ export function setLoginCookie(data) {
 		lastname: data.lastname, 
 		access_token: data.access_token
 	}
-	//let d = new Date();
-	//d.setDate(d.getDate() + 7); //+7days
+	let d = new Date();
+	d.setDate(d.getDate() + 7); //+7days
 	cookies.set(login_cookie, cookieData, {
 		path: process.env.HOME_PAGE,
-		//expires: d
+		expires: d
 	});
 }
 
@@ -228,7 +228,7 @@ class App extends React.Component {
 		this.nav.resetToPage('login.html', { pop: true }).then(() => {
 			this.renderFacebookLogin();
 		});
-		cookies.remove('app-login');
+		cookies.remove(login_cookie);
 	}
 	renderFacebookLogin = () => {
 		const facebook_loginBtn = document.querySelector('div#facebook_loginBtn');
