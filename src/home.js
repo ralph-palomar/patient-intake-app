@@ -145,11 +145,11 @@ export class Profile extends React.Component {
       img.src = event.target.result;
       img.onload = (event) => {
         const elem = document.createElement('canvas');
-        elem.width = 60;
-        elem.height = 60;
+        elem.width = 100;
+        elem.height = 100;
         const ctx = elem.getContext('2d');
-        ctx.drawImage(img, 0, 0, 60, 60);
-        const imageData = ctx.canvas.toDataURL(img, 'image/png', 1);
+        ctx.drawImage(img, 0, 0, 100, 100);
+        const imageData = ctx.canvas.toDataURL(img, 'image/jpg', 1);
         const payload = {
           email: this.state.email,
           picture: imageData
@@ -172,7 +172,7 @@ export class Profile extends React.Component {
       <React.Fragment>
         <ons-card>
             <div className="center" align="center">
-              <img className="list-item--material__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '60px', height: '60px'}} ></img>
+              <img className="list-item--material__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '100px', height: '100px'}} ></img>
             </div>
             <div id="profile_cam_icon" align="center" style={{ display: showChangePic }}>
               <ons-icon icon="md-camera" onClick={this.handlePictureClick}></ons-icon>
