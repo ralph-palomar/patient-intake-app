@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { api } from './config.js';
+import { api, defaultImg } from './config.js';
 import { callApi, cookies } from './index.js';
-import { Profile } from './home.js';
+import { Profile, getUserPhoto } from './home.js';
 
 export class Users extends React.Component {
     constructor(props) {
@@ -42,12 +42,12 @@ export class Users extends React.Component {
             });
         }, 'users');   
     }
-    handleUserClick = (email) => {
+    handleUserClick = (email, picture) => {
         if (email != null) {
             const nav = document.querySelector('#navigator');
             nav.pushPage('user_profile.html').then(() => {
                 const user_profile_component = document.querySelector('#user_profile_component');
-                ReactDOM.render(<Profile email={email} />, user_profile_component);
+                ReactDOM.render(<Profile picture={picture} email={email} />, user_profile_component);
             });
         }
     }
@@ -56,12 +56,15 @@ export class Users extends React.Component {
             <React.Fragment>
                 <ons-search-input style={{ width: '100%'}} placeholder="Search" onKeyUp={this.searchUser}></ons-search-input>
                 <ons-list>
-                <ons-list-header style={{ backgroundColor: '#e6f2ff'}}><b>User accounts</b></ons-list-header>
+                <ons-list-header style={{ backgroundColor: '#e6f2ff'}}><b>List of Patients</b></ons-list-header>
                     <ons-lazy-repeat>
                     {
                         
                         this.state.userList.map((value, index) =>
-                            <ons-list-item index={index} key={value.email} onClick={(event) => {this.handleUserClick(value.email)}} modifier="chevron" tappable>
+                            <ons-list-item index={index} key={value.email} onClick={(event) => {this.handleUserClick(value.email, value.picture)}} modifier="chevron" tappable>
+                                <div className="left" align="center">
+                                    <img className="list-item--material__thumbnail" src={value.picture != null ? value.picture : defaultImg} alt="Profile Pic" style={{width: '60px', height: '60px'}} ></img>
+                                </div>
                                 <div className="center">
                                     <span className="list-item__title">{value.firstname + " " + value.lastname}</span>
                                     <span className="list-item__subtitle">{value.email}</span>

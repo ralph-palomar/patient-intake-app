@@ -27,9 +27,9 @@ window.fn.load = function (page) {
 
       if (page === "profile.html") {
         const main = document.querySelector('div#main_display');
-        getUserAccountInfo((data) => {
-        }, '', cookies.get('app-login').email);
-        ReactDOM.render(<Profile accountInfo email={cookies.get('app-login').email} />, main);
+        getUserPhoto((data) => {
+          ReactDOM.render(<Profile picture={data.picture} email={cookies.get('app-login').email} />, main);
+        }, null, cookies.get('app-login').email)
       }
 
       if (page === "users.html") {
@@ -95,7 +95,9 @@ export class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      accountInfo: props.accountInfo, 
+      accountInfo: {
+        picture: props.picture
+      },
       email: props.email
     }
   }
@@ -280,9 +282,9 @@ export function getOthers(successCallback=(data)=>{}, caller="", identifier) {
   callApi(config, successCallback, caller, false);
 }
 
-export function getUserAccountInfo(successCallback=(data)=>{}, caller="", identifier) {
+export function getUserPhoto(successCallback=(data)=>{}, caller="", identifier) {
   const config = {
-    "url": api.users_api_base_url + "/v1/users",
+    "url": api.users_api_base_url + "/v1/users/photo",
     "method": "GET",
     "timeout": api.users_api_timeout,
     "headers": {
@@ -290,7 +292,7 @@ export function getUserAccountInfo(successCallback=(data)=>{}, caller="", identi
       "JWT": cookies.get('app-login').access_token
     },
     "params": {
-      "email": identifier
+      "id": identifier
     }
   };
   callApi(config, successCallback, caller, false);

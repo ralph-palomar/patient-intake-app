@@ -8,7 +8,7 @@ import './index.css';
 import { api, defaultImg } from './config.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { loadPage } from './home.js';
+import { loadPage, getUserPhoto } from './home.js';
 import axios from 'axios';
 import ons from 'onsenui';
 import Cookies from 'universal-cookie';
@@ -255,7 +255,9 @@ class App extends React.Component {
 
 				const badge = document.querySelector('#badge');
 				if (badge != null) {
-					ReactDOM.render(<Badge data={cookies.get('app-login')} />, badge);
+					getUserPhoto((data) => {
+						ReactDOM.render(<Badge accountInfo={cookies.get('app-login')} picture={data.picture} />, badge);
+					}, null, cookies.get('app-login').email)
 				}
 			});
 		}
@@ -296,7 +298,10 @@ export class ConfirmDialog extends React.Component {
 class Badge extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = props.data;
+		this.state = {
+			accountInfo: props.accountInfo,
+			picture: props.picture
+		}
 	}
 	render() {
     	const imgSrc = this.state.picture != null ? this.state.picture : defaultImg;
@@ -306,7 +311,7 @@ class Badge extends React.Component {
               		<img className="list-item--material__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '60px', height: '60px'}} onClick={()=>{loadPage('profile.html')}}></img>
             	</div>
 				<div className="left">
-					<b>{_default(this.state.firstname, "Firstname") + " " + _default(this.state.lastname, "")}</b>
+					<b>{_default(this.state.accountInfo.firstname, "Firstname") + " " + _default(this.state.accountInfo.lastname, "")}</b>
 				</div>
 			</React.Fragment>
 		)
