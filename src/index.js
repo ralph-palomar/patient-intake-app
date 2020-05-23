@@ -178,9 +178,15 @@ export function formatToTimeString(date) {
 }
 
 export function setLoginCookie(data) {
+	const cookieData = {
+		email: data.email,
+		firstname: data.firstname,
+		lastname: data.lastname, 
+		access_token: data.access_token
+	}
 	let d = new Date();
 	d.setDate(d.getDate() + 7); //+7days
-	cookies.set('app-login', data, {
+	cookies.set('app-login', cookieData, {
 		path: process.env.HOME_PAGE,
 		expires: d
 	});
@@ -200,8 +206,7 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			activeLogin: cookies.get('app-login') != null,
-			accountInfo: cookies.get('app-login')
+			activeLogin: cookies.get('app-login') != null
 		}
 	}
 	responseFacebook = (userInfo) => {
@@ -211,7 +216,8 @@ class App extends React.Component {
 				firstname: userInfo.name,
 				type: "user",
 				enabled: true,
-				picture: userInfo.picture.data.url
+				picture: userInfo.picture.data.url,
+				thirdPartyLogin: true
 			}
 			setLoginCookie(data);
 			this.nav.pushPage('home.html');
@@ -248,7 +254,9 @@ class App extends React.Component {
 				}
 
 				const badge = document.querySelector('#badge');
-				ReactDOM.render(<Badge data={this.state} />, badge);
+				if (badge != null) {
+					ReactDOM.render(<Badge data={cookies.get('app-login')} />, badge);
+				}
 			});
 		}
 	}
@@ -291,14 +299,14 @@ class Badge extends React.Component {
 		this.state = props.data;
 	}
 	render() {
-    	const imgSrc = this.state.accountInfo.picture != null ? this.state.accountInfo.picture : defaultImg;
+    	const imgSrc = this.state.picture != null ? this.state.picture : defaultImg;
 		return (
 			<React.Fragment>
 				<div className="left">
               		<img className="list-item--material__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '60px', height: '60px'}} onClick={()=>{loadPage('profile.html')}}></img>
             	</div>
 				<div className="left">
-					<b>{_default(this.state.accountInfo.firstname, "Firstname") + " " + _default(this.state.accountInfo.lastname, "")}</b>
+					<b>{_default(this.state.firstname, "Firstname") + " " + _default(this.state.lastname, "")}</b>
 				</div>
 			</React.Fragment>
 		)

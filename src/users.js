@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { api } from './config.js';
-import { callApi } from './index.js';
+import { callApi, cookies } from './index.js';
 import { Profile } from './home.js';
 
 export class Users extends React.Component {
@@ -31,7 +31,8 @@ export class Users extends React.Component {
             "method": "GET",
             "timeout": 60000,
             "headers": {
-                "Authorization": api.users_api_authorization
+                "Authorization": api.users_api_authorization,
+                "JWT": cookies.get('app-login').access_token
             }
         };
         callApi(config, (data) => {

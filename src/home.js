@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { logout, back, createAccount, login, register, cookies, callApi, _default } from './index.js'
+import { logout, back, createAccount, login, register, cookies, callApi, _default, showAlert } from './index.js'
 import { Users } from './users.js'
 import { BasicInfo, BasicInfoProfile } from './basicinfo.js';
 import { Illnesses, IllnessesProfile } from './illnesses.js';
@@ -27,7 +27,9 @@ window.fn.load = function (page) {
 
       if (page === "profile.html") {
         const main = document.querySelector('div#main_display');
-        ReactDOM.render(<Profile email={cookies.get('app-login').email} />, main);
+        getUserAccountInfo((data) => {
+        }, '', cookies.get('app-login').email);
+        ReactDOM.render(<Profile accountInfo email={cookies.get('app-login').email} />, main);
       }
 
       if (page === "users.html") {
@@ -93,7 +95,7 @@ export class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      accountInfo: cookies.get('app-login'), 
+      accountInfo: props.accountInfo, 
       email: props.email
     }
   }
@@ -129,19 +131,51 @@ export class Profile extends React.Component {
       ReactDOM.render(<OthersProfile data={data} />, profile_others);
     }, 'profile', this.state.email);
   }
-  handlePicChange = (event) => {
+  handlePictureClick = (event) => {
     const profile_pic = document.querySelector('#profile_pic');
     profile_pic.click();
   }
+  handlePictureChange = (event) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onloadend = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = (event) => {
+        const elem = document.createElement('canvas');
+        elem.width = 60;
+        elem.height = 60;
+        const ctx = elem.getContext('2d');
+        ctx.drawImage(img, 0, 0, 60, 60);
+        const imageData = ctx.canvas.toDataURL(img, 'image/png', 1);
+        const payload = {
+          email: this.state.email,
+          picture: imageData
+        }
+        putUser(payload, (data) => {
+          showAlert('Successfully updated profile picture');
+          this.setState({
+            accountInfo: {
+              picture: imageData
+            }
+          });
+        });
+      }
+    }    
+  }
   render() {
     const imgSrc = this.state.accountInfo.picture != null ? this.state.accountInfo.picture : defaultImg;
+    const showChangePic = this.state.accountInfo.thirdPartyLogin == null ? 'block' : 'none';
     return (
       <React.Fragment>
         <ons-card>
             <div className="center" align="center">
-              <img className="list-item--material__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '60px', height: '60px'}} onClick={this.handlePicChange} ></img>
+              <img className="list-item--material__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '60px', height: '60px'}} ></img>
             </div>
-            <input type="file" id="profile_pic" style={{ display: 'none'}}></input>
+            <div id="profile_cam_icon" align="center" style={{ display: showChangePic }}>
+              <ons-icon icon="md-camera" onClick={this.handlePictureClick}></ons-icon>
+              <input type="file" id="profile_pic" style={{ display: 'none'}} onChange={this.handlePictureChange} ></input>
+            </div>
             <div className="title" align="center" ref={ref=>{this.title=ref}}>
             </div>
         </ons-card>
@@ -156,7 +190,8 @@ export function getBasicInfo(successCallback=(data)=>{}, caller="", identifier) 
     "method": "GET",
     "timeout": api.users_api_timeout,
     "headers": {
-      "Authorization": api.users_api_authorization
+      "Authorization": api.users_api_authorization,
+      "JWT": cookies.get('app-login').access_token
     },
     "params": {
       "id": identifier
@@ -171,7 +206,8 @@ export function getIllnesses(successCallback=(data)=>{}, caller="", identifier) 
     "method": "GET",
     "timeout": api.users_api_timeout,
     "headers": {
-      "Authorization": api.users_api_authorization
+      "Authorization": api.users_api_authorization,
+      "JWT": cookies.get('app-login').access_token
     },
     "params": {
       "id": identifier
@@ -186,7 +222,8 @@ export function getMedications(successCallback=(data)=>{}, caller="", identifier
     "method": "GET",
     "timeout": api.users_api_timeout,
     "headers": {
-      "Authorization": api.users_api_authorization
+      "Authorization": api.users_api_authorization,
+      "JWT": cookies.get('app-login').access_token
     },
     "params": {
       "id": identifier
@@ -201,7 +238,8 @@ export function getVitalSigns(successCallback=(data)=>{}, caller="", identifier)
     "method": "GET",
     "timeout": api.users_api_timeout,
     "headers": {
-      "Authorization": api.users_api_authorization
+      "Authorization": api.users_api_authorization,
+      "JWT": cookies.get('app-login').access_token
     },
     "params": {
       "id": identifier
@@ -216,7 +254,8 @@ export function getDiet(successCallback=(data)=>{}, caller="", identifier) {
     "method": "GET",
     "timeout": api.users_api_timeout,
     "headers": {
-      "Authorization": api.users_api_authorization
+      "Authorization": api.users_api_authorization,
+      "JWT": cookies.get('app-login').access_token
     },
     "params": {
       "id": identifier
@@ -231,11 +270,43 @@ export function getOthers(successCallback=(data)=>{}, caller="", identifier) {
     "method": "GET",
     "timeout": api.users_api_timeout,
     "headers": {
-      "Authorization": api.users_api_authorization
+      "Authorization": api.users_api_authorization,
+      "JWT": cookies.get('app-login').access_token
     },
     "params": {
       "id": identifier
     }
   };
   callApi(config, successCallback, caller, false);
+}
+
+export function getUserAccountInfo(successCallback=(data)=>{}, caller="", identifier) {
+  const config = {
+    "url": api.users_api_base_url + "/v1/users",
+    "method": "GET",
+    "timeout": api.users_api_timeout,
+    "headers": {
+      "Authorization": api.users_api_authorization,
+      "JWT": cookies.get('app-login').access_token
+    },
+    "params": {
+      "email": identifier
+    }
+  };
+  callApi(config, successCallback, caller, false);
+}
+
+export function putUser(payload, successCallback=(data)=>{}, caller="") {
+  const config = {
+    "url": api.users_api_base_url + "/v1/users",
+    "method": "PUT",
+    "timeout": api.users_api_timeout,
+    "headers": {
+      "Authorization": api.users_api_authorization,
+      "JWT": cookies.get('app-login').access_token,
+      "Content-Type": 'application/json'
+    },
+    "data": payload
+  };
+  callApi(config, successCallback, caller, true);
 }

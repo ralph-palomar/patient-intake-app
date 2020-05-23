@@ -21,7 +21,8 @@ export class SaveIllnesses extends React.Component {
 			"timeout": api.users_api_timeout,
 			"headers": {
                 "Content-Type": "application/json",
-                "Authorization": api.users_api_authorization
+                "Authorization": api.users_api_authorization,
+                "JWT": cookies.get('app-login').access_token
 			},
 			"data": payload
 		};

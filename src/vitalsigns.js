@@ -267,7 +267,8 @@ function refreshVitalSigns(successCallBack) {
         "method": "GET",
         "timeout": api.users_api_timeout,
         "headers": {
-            "Authorization": api.users_api_authorization
+            "Authorization": api.users_api_authorization,
+            "JWT": cookies.get('app-login').access_token
         },
         "params": {
             "id": cookies.get('app-login').email
@@ -315,7 +316,8 @@ function saveVitalSigns(callBack = () => {}, data = null) {
             "timeout": 60000,
             "headers": {
                 "Content-Type": "application/json",
-                "Authorization": api.users_api_authorization
+                "Authorization": api.users_api_authorization,
+                "JWT": cookies.get('app-login').access_token
             },
             "data": payload
         };
