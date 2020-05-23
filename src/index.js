@@ -182,8 +182,13 @@ export function setLoginCookie(data) {
 		email: data.email,
 		firstname: data.firstname,
 		lastname: data.lastname, 
-		access_token: data.access_token
+		access_token: data.access_token,
+		type: data.type,
+		enabled: data.enabled,
+		picture: data.thirdPartyLogin ? data.picture : null,
+		thirdPartyLogin: data.thirdPartyLogin
 	}
+	console.log(cookieData)
 	let d = new Date();
 	d.setDate(d.getDate() + 7); //+7days
 	cookies.set(login_cookie, cookieData, {
@@ -219,7 +224,8 @@ class App extends React.Component {
 				type: "user",
 				enabled: true,
 				picture: userInfo.picture.data.url,
-				thirdPartyLogin: true
+				thirdPartyLogin: true,
+				access_token: userInfo.accessToken
 			}
 			setLoginCookie(data);
 			this.nav.pushPage('home.html');
@@ -238,10 +244,10 @@ class App extends React.Component {
 			ReactDOM.render(
 				<FacebookLogin
 					appId="607869309830124"
-					autoLoad={false}
 					fields="name,email,picture"
 					size="small"
-					callback={this.responseFacebook} />,
+					callback={this.responseFacebook}
+					icon="fa-facebook"/>,
 				facebook_loginBtn
 			);
 		}
