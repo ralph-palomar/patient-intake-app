@@ -145,10 +145,10 @@ export class Profile extends React.Component {
       img.src = event.target.result;
       img.onload = (event) => {
         const elem = document.createElement('canvas');
-        elem.width = 100;
-        elem.height = 100;
+        elem.width = 200;
+        elem.height = 200;
         const ctx = elem.getContext('2d');
-        ctx.drawImage(img, 0, 0, 100, 100);
+        ctx.drawImage(img, 0, 0, 200, 200);
         const imageData = ctx.canvas.toDataURL('image/jpeg', 1.0);
         const payload = {
           email: this.state.email,
