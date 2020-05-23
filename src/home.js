@@ -167,7 +167,7 @@ export class Profile extends React.Component {
   }
   render() {
     const imgSrc = this.state.accountInfo.picture != null ? this.state.accountInfo.picture : defaultImg;
-    const showChangePic = this.state.accountInfo.thirdPartyLogin == null ? 'block' : 'none';
+    const showChangePic = (this.state.accountInfo.thirdPartyLogin == null && this.props.openedBy == null && this.props.openedBy !== "admin") ? 'block' : 'none';
     return (
       <React.Fragment>
         <ons-card>

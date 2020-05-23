@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { api, defaultImg } from './config.js';
 import { callApi, cookies } from './index.js';
-import { Profile, getUserPhoto } from './home.js';
+import { Profile } from './home.js';
 
 export class Users extends React.Component {
     constructor(props) {
@@ -47,7 +47,7 @@ export class Users extends React.Component {
             const nav = document.querySelector('#navigator');
             nav.pushPage('user_profile.html').then(() => {
                 const user_profile_component = document.querySelector('#user_profile_component');
-                ReactDOM.render(<Profile picture={picture} email={email} />, user_profile_component);
+                ReactDOM.render(<Profile picture={picture} email={email} openedBy="admin" />, user_profile_component);
             });
         }
     }
