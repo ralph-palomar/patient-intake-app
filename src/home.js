@@ -149,7 +149,7 @@ export class Profile extends React.Component {
         elem.height = 100;
         const ctx = elem.getContext('2d');
         ctx.drawImage(img, 0, 0, 100, 100);
-        const imageData = ctx.canvas.toDataURL(img, 'image/jpg', 1);
+        const imageData = ctx.canvas.toDataURL('image/jpeg', 1.0);
         const payload = {
           email: this.state.email,
           picture: imageData
