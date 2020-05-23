@@ -5,7 +5,7 @@ import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 import './index.css';
 
-import { api, defaultImg, login_cookie } from './config.js';
+import { api, defaultImg, login_cookie, cookieSettings } from './config.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { loadPage, getUserPhoto } from './home.js';
@@ -187,8 +187,10 @@ export function setLoginCookie(data) {
 	let d = new Date();
 	d.setDate(d.getDate() + 7); //+7days
 	cookies.set(login_cookie, cookieData, {
-		path: process.env.HOME_PAGE,
-		expires: d
+		path: cookieSettings.path,
+		expires: d, 
+		secure: cookieSettings.secure,
+		sameSite: cookieSettings.sameSite
 	});
 }
 
