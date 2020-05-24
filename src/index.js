@@ -185,15 +185,14 @@ export function setLoginCookie(data) {
 		access_token: data.access_token,
 		type: data.type,
 		enabled: data.enabled,
-		picture: data.thirdPartyLogin ? data.picture : null,
-		thirdPartyLogin: data.thirdPartyLogin
+		thirdPartyLogin: _default(data.thirdPartyLogin, null),
+		application: _default(data.application, null)
 	}
-	console.log(cookieData)
 	let d = new Date();
 	d.setDate(d.getDate() + 7); //+7days
 	cookies.set(login_cookie, cookieData, {
 		path: cookieSettings.path,
-		expires: d, 
+		expires: d,
 		secure: cookieSettings.secure,
 		sameSite: cookieSettings.sameSite
 	});
@@ -225,18 +224,22 @@ class App extends React.Component {
 				enabled: true,
 				picture: userInfo.picture.data.url,
 				thirdPartyLogin: true,
-				access_token: userInfo.accessToken
+				access_token: userInfo.accessToken,
+				application: "facebook"
 			}
 			setLoginCookie(data);
 			this.nav.pushPage('home.html');
 		}
 	}
 	handleLogout = () => {
-		document.querySelector('#confirm-dialog').show();
+		document.querySelector('#confirm-dialog').hide();
+		cookies.remove(login_cookie, {
+			path: cookieSettings.path
+		});
 		this.nav.resetToPage('login.html', { pop: true }).then(() => {
+			window.location.href = process.env.PUBLIC_URL
 			this.renderFacebookLogin();
 		});
-		cookies.remove(login_cookie);
 	}
 	renderFacebookLogin = () => {
 		const facebook_loginBtn = document.querySelector('div#facebook_loginBtn');
@@ -244,6 +247,7 @@ class App extends React.Component {
 			ReactDOM.render(
 				<FacebookLogin
 					appId="607869309830124"
+					autoLoad={false}
 					fields="name,email,picture"
 					size="small"
 					callback={this.responseFacebook}
@@ -254,18 +258,23 @@ class App extends React.Component {
 	}
 	componentDidMount() {		
 		if (this.nav != null) {
-			this.nav.addEventListener('postpush', () => {
-				this.renderFacebookLogin();
-				const confirm_logout = document.querySelector('div#confirm_logout');
-				if (confirm_logout != null) {
-					ReactDOM.render(<ConfirmDialog message="Are you sure you want to log out?" onOk={this.handleLogout} />, confirm_logout);
+			this.nav.addEventListener('postpush', (event) => {
+				if (event.enterPage.matches('#login')) {
+					this.renderFacebookLogin();
 				}
 
-				const badge = document.querySelector('#badge');
-				if (badge != null) {
-					getUserPhoto((data) => {
-						ReactDOM.render(<Badge accountInfo={cookies.get(login_cookie)} picture={data.picture} />, badge);
-					}, null, cookies.get(login_cookie).email)
+				if (event.enterPage.matches('#home')) {
+					const confirm_logout = document.querySelector('div#confirm_logout');
+					if (confirm_logout != null) {
+						ReactDOM.render(<ConfirmDialog message="Are you sure you want to log out?" onOk={this.handleLogout} />, confirm_logout);
+					}
+
+					const badge = document.querySelector('#badge');
+					if (badge != null && cookies.get(login_cookie) != null) {
+						getUserPhoto((data) => {
+							ReactDOM.render(<Badge accountInfo={cookies.get(login_cookie)} picture={data.picture} />, badge);
+						}, null, cookies.get(login_cookie).email)
+					}
 				}
 			});
 		}
@@ -316,7 +325,7 @@ class Badge extends React.Component {
 		return (
 			<React.Fragment>
 				<div className="left">
-              		<img className="list-item--material__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '60px', height: '60px'}} onClick={()=>{loadPage('profile.html')}}></img>
+              		<img className="list-item--material__thumbnail" id="badge_pic" src={imgSrc} alt="Profile Pic" style={{width: '60px', height: '60px'}} onClick={()=>{loadPage('profile.html')}}></img>
             	</div>
 				<div className="left">
 					<b>{_default(this.state.accountInfo.firstname, "Firstname") + " " + _default(this.state.accountInfo.lastname, "")}</b>

@@ -27,9 +27,9 @@ window.fn.load = function (page) {
 
       if (page === "profile.html") {
         const main = document.querySelector('div#main_display');
-        getUserPhoto((data) => {
-          ReactDOM.render(<Profile picture={data.picture} email={cookies.get(login_cookie).email} />, main);
-        }, null, cookies.get(login_cookie).email)
+          getUserPhoto((data) => {
+            ReactDOM.render(<Profile picture={data.picture} email={cookies.get(login_cookie).email} />, main);
+          }, null, cookies.get(login_cookie).email)
       }
 
       if (page === "users.html") {
@@ -145,10 +145,10 @@ export class Profile extends React.Component {
       img.src = event.target.result;
       img.onload = (event) => {
         const elem = document.createElement('canvas');
-        elem.width = 200;
-        elem.height = 200;
+        elem.width = 100;
+        elem.height = 100;
         const ctx = elem.getContext('2d');
-        ctx.drawImage(img, 0, 0, 200, 200);
+        ctx.drawImage(img, 0, 0, 100, 100);
         const imageData = ctx.canvas.toDataURL('image/jpeg', 1.0);
         const payload = {
           email: this.state.email,
@@ -161,20 +161,21 @@ export class Profile extends React.Component {
               picture: imageData
             }
           });
+          const badge_pic = document.querySelector('#badge_pic');
+          badge_pic.src = imageData;
         });
       }
     }    
   }
   render() {
     const imgSrc = this.state.accountInfo.picture != null ? this.state.accountInfo.picture : defaultImg;
-    const showChangePic = (this.state.accountInfo.thirdPartyLogin == null && this.props.openedBy == null && this.props.openedBy !== "admin") ? 'block' : 'none';
     return (
       <React.Fragment>
         <ons-card>
             <div className="center" align="center">
               <img className="list-item--material__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '100px', height: '100px'}} ></img>
             </div>
-            <div id="profile_cam_icon" align="center" style={{ display: showChangePic }}>
+            <div id="profile_cam_icon" align="center" style={{ display: 'block' }}>
               <ons-icon icon="md-camera" onClick={this.handlePictureClick}></ons-icon>
               <input type="file" id="profile_pic" style={{ display: 'none'}} onChange={this.handlePictureChange} ></input>
             </div>
@@ -192,8 +193,7 @@ export function getBasicInfo(successCallback=(data)=>{}, caller="", identifier) 
     "method": "GET",
     "timeout": api.users_api_timeout,
     "headers": {
-      "Authorization": api.users_api_authorization,
-      "JWT": cookies.get(login_cookie).access_token
+      "Authorization": api.users_api_authorization      
     },
     "params": {
       "id": identifier
@@ -208,8 +208,7 @@ export function getIllnesses(successCallback=(data)=>{}, caller="", identifier) 
     "method": "GET",
     "timeout": api.users_api_timeout,
     "headers": {
-      "Authorization": api.users_api_authorization,
-      "JWT": cookies.get(login_cookie).access_token
+      "Authorization": api.users_api_authorization      
     },
     "params": {
       "id": identifier
@@ -224,8 +223,7 @@ export function getMedications(successCallback=(data)=>{}, caller="", identifier
     "method": "GET",
     "timeout": api.users_api_timeout,
     "headers": {
-      "Authorization": api.users_api_authorization,
-      "JWT": cookies.get(login_cookie).access_token
+      "Authorization": api.users_api_authorization      
     },
     "params": {
       "id": identifier
@@ -240,8 +238,7 @@ export function getVitalSigns(successCallback=(data)=>{}, caller="", identifier)
     "method": "GET",
     "timeout": api.users_api_timeout,
     "headers": {
-      "Authorization": api.users_api_authorization,
-      "JWT": cookies.get(login_cookie).access_token
+      "Authorization": api.users_api_authorization      
     },
     "params": {
       "id": identifier
@@ -256,8 +253,7 @@ export function getDiet(successCallback=(data)=>{}, caller="", identifier) {
     "method": "GET",
     "timeout": api.users_api_timeout,
     "headers": {
-      "Authorization": api.users_api_authorization,
-      "JWT": cookies.get(login_cookie).access_token
+      "Authorization": api.users_api_authorization      
     },
     "params": {
       "id": identifier
@@ -272,8 +268,7 @@ export function getOthers(successCallback=(data)=>{}, caller="", identifier) {
     "method": "GET",
     "timeout": api.users_api_timeout,
     "headers": {
-      "Authorization": api.users_api_authorization,
-      "JWT": cookies.get(login_cookie).access_token
+      "Authorization": api.users_api_authorization      
     },
     "params": {
       "id": identifier
@@ -288,8 +283,7 @@ export function getUserPhoto(successCallback=(data)=>{}, caller="", identifier) 
     "method": "GET",
     "timeout": api.users_api_timeout,
     "headers": {
-      "Authorization": api.users_api_authorization,
-      "JWT": cookies.get(login_cookie).access_token
+      "Authorization": api.users_api_authorization      
     },
     "params": {
       "id": identifier
@@ -305,7 +299,6 @@ export function putUser(payload, successCallback=(data)=>{}, caller="") {
     "timeout": api.users_api_timeout,
     "headers": {
       "Authorization": api.users_api_authorization,
-      "JWT": cookies.get(login_cookie).access_token,
       "Content-Type": 'application/json'
     },
     "data": payload
