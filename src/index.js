@@ -275,6 +275,14 @@ class App extends React.Component {
 							ReactDOM.render(<Badge accountInfo={cookies.get(login_cookie)} picture={data.picture} />, badge);
 						}, null, cookies.get(login_cookie).email)
 					}
+
+					const admin_menu = document.querySelector('#admin_menu');
+					if (cookies.get(login_cookie) != null && (cookies.get(login_cookie).thirdPartyLogin === true || cookies.get(login_cookie).thirdPartyLogin == null) && cookies.get(login_cookie).type === "user") {
+						admin_menu.style.display = 'none';
+					} 
+					else if (cookies.get(login_cookie) != null && cookies.get(login_cookie).thirdPartyLogin == null && cookies.get(login_cookie).type === "admin") {
+						admin_menu.style.display = 'block';
+					} 
 				}
 			});
 		}

@@ -169,13 +169,14 @@ export class Profile extends React.Component {
   }
   render() {
     const imgSrc = this.state.accountInfo.picture != null ? this.state.accountInfo.picture : defaultImg;
+    const displayImg = this.props.openedBy === 'admin' ? 'none' : 'block';
     return (
       <React.Fragment>
         <ons-card>
             <div className="center" align="center">
               <img className="list-item--material__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '100px', height: '100px'}} ></img>
             </div>
-            <div id="profile_cam_icon" align="center" style={{ display: 'block' }}>
+            <div id="profile_cam_icon" align="center" style={{ display: displayImg }}>
               <ons-icon icon="md-camera" onClick={this.handlePictureClick}></ons-icon>
               <input type="file" id="profile_pic" style={{ display: 'none'}} onChange={this.handlePictureChange} ></input>
             </div>
