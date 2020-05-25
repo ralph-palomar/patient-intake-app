@@ -65,7 +65,7 @@ export class Users extends React.Component {
                                 <div className="left" align="center">
                                     <img className="list-item--material__thumbnail" src={value.picture != null ? value.picture : defaultImg} alt="Profile Pic" style={{width: '60px', height: '60px'}} ></img>
                                 </div>
-                                <div className="center">
+                                <div className="center" style={{ marginLeft: '8px'}}>
                                     <span className="list-item__title">{value.firstname + " " + value.lastname}</span>
                                     <span className="list-item__subtitle">{value.email}</span>
                                 </div>                                
