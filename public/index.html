@@ -14,18 +14,20 @@
         </div>
       </div>
       <div style="text-align: center; margin-top: 120px">
-        <p>
-          <ons-input id="index_email" placeholder="Email" modifier="material"></ons-input>
-        </p>
-        <p>
-          <ons-input id="index_password" placeholder="Password" type="password" modifier="material"></ons-input>
-        </p>
-        <p>
-          <ons-button onclick="fn.register()" modifier="quiet">Register</ons-button>
-          <ons-button onclick="fn.login()">Sign in</ons-button>
-        </p>
+        <ons-card style="text-align: center">
+          <p>
+            <ons-input id="index_email" placeholder="Email" modifier="material"></ons-input>
+          </p>
+          <p>
+            <ons-input id="index_password" placeholder="Password" type="password" modifier="material"></ons-input>
+          </p>
+          <p>
+            <ons-button onclick="fn.register()" modifier="quiet">Register</ons-button>
+            <ons-button onclick="fn.login()">Sign in</ons-button>
+          </p>
+        </ons-card>
       </div>
-      <div id="facebook_loginBtn" style="text-align: center; margin-top: 50px"></div>
+      <div id="facebook_loginBtn" style="text-align: center; margin-top: 60px"></div>
       <div id="google_loginBtn" style="text-align: center; margin-top: 10px"></div>
       <div id="forgotPasswordBtn" style="text-align: center; margin-top: 100px"></div>
     </ons-page>
@@ -338,27 +340,29 @@
           </div>
         </div>
       </div>
-      <div style="text-align: center; margin-top: 150px">
-        <p>
-          <ons-input id="register_email" placeholder="Email" modifier="material"></ons-input>
-        </p>
-        <p>
-          <ons-input id="register_firstname" placeholder="First Name" modifier="material"></ons-input>
-        </p>
-        <p>
-          <ons-input id="register_lastname" placeholder="Last Name" modifier="material"></ons-input>
-        </p>
-        <p>
-          <ons-input id="register_password" placeholder="Password" type="password" modifier="material"></ons-input>
-        </p>
-        <p>
-          <ons-input id="register_cpassword" placeholder="Confirm Password" type="password" modifier="material">
-          </ons-input>
-        </p>
-        <p>
-          <ons-button onclick="fn.back()" modifier="quiet">Back</ons-button>
-          <ons-button onclick="fn.createAccount()">Submit</ons-button>
-        </p>
+      <div style="text-align: center; margin-top: 120px">
+        <ons-card style="text-align: center">
+          <p>
+            <ons-input id="register_email" placeholder="Email" modifier="material"></ons-input>
+          </p>
+          <p>
+            <ons-input id="register_firstname" placeholder="First Name" modifier="material"></ons-input>
+          </p>
+          <p>
+            <ons-input id="register_lastname" placeholder="Last Name" modifier="material"></ons-input>
+          </p>
+          <p>
+            <ons-input id="register_password" placeholder="Password" type="password" modifier="material"></ons-input>
+          </p>
+          <p>
+            <ons-input id="register_cpassword" placeholder="Confirm Password" type="password" modifier="material">
+            </ons-input>
+          </p>
+          <p>
+            <ons-button onclick="fn.back()" modifier="quiet">Back</ons-button>
+            <ons-button onclick="fn.createAccount()">Submit</ons-button>
+          </p>
+        </ons-card>
       </div>
     </ons-page>
   </template>
