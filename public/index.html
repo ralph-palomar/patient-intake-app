@@ -7,11 +7,12 @@
   <template id="login.html">
     <ons-page id="login">
       <div id="login_pb" style="display: none;">
-        <div class="modal">
-          <div class="modal__content">
-            <ons-progress-circular indeterminate></ons-progress-bar>
+        <ons-progress-circular indeterminate>
+          </ons-progress-bar>
+          <div class="modal">
+            <div class="modal__content">
+            </div>
           </div>
-        </div>
       </div>
       <div style="text-align: center; margin-top: 120px">
         <ons-card style="text-align: center">
@@ -59,16 +60,20 @@
               <ons-list-item expandable>
                 Medical Record
                 <div class="expandable-content">
-                  <ons-list-item id="basicinfo-list-item" onclick="fn.load('basicinfo.html')" modifier="chevron" tappable>
+                  <ons-list-item id="basicinfo-list-item" onclick="fn.load('basicinfo.html')" modifier="chevron"
+                    tappable>
                     Basic Info
                   </ons-list-item>
-                  <ons-list-item id="illnesses-list-item" onclick="fn.load('illnesses.html')" modifier="chevron" tappable>
+                  <ons-list-item id="illnesses-list-item" onclick="fn.load('illnesses.html')" modifier="chevron"
+                    tappable>
                     Illnesses
                   </ons-list-item>
-                  <ons-list-item id="medications-list-item" onclick="fn.load('medications.html')" modifier="chevron" tappable>
+                  <ons-list-item id="medications-list-item" onclick="fn.load('medications.html')" modifier="chevron"
+                    tappable>
                     Medications
                   </ons-list-item>
-                  <ons-list-item id="vitalsigns-list-item" onclick="fn.load('vitalsigns.html')" modifier="chevron" tappable>
+                  <ons-list-item id="vitalsigns-list-item" onclick="fn.load('vitalsigns.html')" modifier="chevron"
+                    tappable>
                     Vital Signs
                   </ons-list-item>
                   <ons-list-item id="diet-list-item" onclick="fn.load('diet.html')" modifier="chevron" tappable>
@@ -104,11 +109,12 @@
         </div>
       </ons-toolbar>
       <div id="main_pb" style="display: none;">
-        <div class="modal">
-          <div class="modal__content">
-            <ons-progress-circular indeterminate></ons-progress-bar>
+        <ons-progress-circular indeterminate>
+          </ons-progress-bar>
+          <div class="modal">
+            <div class="modal__content">
+            </div>
           </div>
-        </div>
       </div>
       <p style="text-align: center; opacity: 0.6; padding-top: 20px;">
         Swipe right to open the menu!
@@ -131,11 +137,12 @@
         </div>
       </ons-toolbar>
       <div id="basic_pb" style="display: none;">
-        <div class="modal">
-          <div class="modal__content">
-            <ons-progress-circular indeterminate></ons-progress-bar>
+        <ons-progress-circular indeterminate>
+          <div class="modal">
+            <div class="modal__content">
+              </ons-progress-bar>
+            </div>
           </div>
-        </div>
       </div>
       <div id="basicinfo_form"></div>
     </ons-page>
@@ -155,11 +162,12 @@
         <div class="right" id="illnesses_saveBtn"></div>
       </ons-toolbar>
       <div id="illnesses_pb" style="display: none;">
-        <div class="modal">
-          <div class="modal__content">
-            <ons-progress-circular indeterminate></ons-progress-bar>
+        <ons-progress-circular indeterminate>
+          <div class="modal">
+            <div class="modal__content">
+              </ons-progress-bar>
+            </div>
           </div>
-        </div>
       </div>
       <div id="illnesses_list"></div>
     </ons-page>
@@ -179,11 +187,12 @@
         <div class="right" id="diet_saveBtn"></div>
       </ons-toolbar>
       <div id="diet_pb" style="display: none;">
-        <div class="modal">
-          <div class="modal__content">
-            <ons-progress-circular indeterminate></ons-progress-bar>
+        <ons-progress-circular indeterminate>
+          <div class="modal">
+            <div class="modal__content">
+              </ons-progress-bar>
+            </div>
           </div>
-        </div>
       </div>
       <div id="diet_list"></div>
     </ons-page>
@@ -203,11 +212,12 @@
         <div class="right" id="medications_saveBtn"></div>
       </ons-toolbar>
       <div id="medications_pb" style="display: none;">
-        <div class="modal">
-          <div class="modal__content">
-            <ons-progress-circular indeterminate></ons-progress-bar>
+        <ons-progress-circular indeterminate>
+          <div class="modal">
+            <div class="modal__content">
+              </ons-progress-bar>
+            </div>
           </div>
-        </div>
       </div>
       <div id="medications_list"></div>
     </ons-page>
@@ -242,11 +252,12 @@
         <div class="right" id="others_saveBtn"></div>
       </ons-toolbar>
       <div id="others_pb" style="display: none;">
-        <div class="modal">
-          <div class="modal__content">
-            <ons-progress-circular indeterminate></ons-progress-bar>
+        <ons-progress-circular indeterminate>
+          <div class="modal">
+            <div class="modal__content">
+              </ons-progress-bar>
+            </div>
           </div>
-        </div>
       </div>
       <div id="others_list"></div>
     </ons-page>
@@ -265,11 +276,12 @@
         </div>
       </ons-toolbar>
       <div id="profile_pb" style="display: none;">
-        <div class="modal">
-          <div class="modal__content">
-            <ons-progress-circular indeterminate></ons-progress-bar>
+        <ons-progress-circular indeterminate>
+          <div class="modal">
+            <div class="modal__content">
+              </ons-progress-bar>
+            </div>
           </div>
-        </div>
       </div>
       <div id="main_display"></div>
       <ons-carousel swipeable auto-scroll overscrollable id="carousel">
@@ -334,11 +346,12 @@
   <template id="register.html">
     <ons-page id="register">
       <div id="register_pb" hidden>
-        <div class="modal">
-          <div class="modal__content">
-            <ons-progress-circular indeterminate></ons-progress-bar>
+        <ons-progress-circular indeterminate>
+          <div class="modal">
+            <div class="modal__content">
+              </ons-progress-bar>
+            </div>
           </div>
-        </div>
       </div>
       <div style="text-align: center; margin-top: 120px">
         <ons-card style="text-align: center">
@@ -381,9 +394,9 @@
       </ons-toolbar>
       <div id="user_list"></div>
       <div id="users_pb" style="display: none;">
+        <ons-progress-circular indeterminate></ons-progress-circular>
         <div class="modal">
           <div class="modal__content">
-            <ons-progress-circular indeterminate></ons-progress-bar>
           </div>
         </div>
       </div>
@@ -404,11 +417,12 @@
         <div class="right" id="vitalsigns_saveBtn"></div>
       </ons-toolbar>
       <div id="vitalsigns_pb" style="display: none;">
-        <div class="modal">
-          <div class="modal__content">
-            <ons-progress-circular indeterminate></ons-progress-bar>
+        <ons-progress-circular indeterminate>
+          <div class="modal">
+            <div class="modal__content">
+              </ons-progress-bar>
+            </div>
           </div>
-        </div>
       </div>
       <div id="vitalsigns_list"></div>
     </ons-page>
