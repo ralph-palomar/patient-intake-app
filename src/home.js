@@ -9,6 +9,7 @@ import { VitalSigns, VitalSignsProfile } from './vitalsigns.js';
 import { Diet, DietProfile } from './diet.js';
 import { Others, OthersProfile } from './others.js';
 import { api, defaultImg, login_cookie } from './config.js';
+import ReactCrop from 'react-image-crop';
 
 window.fn = {};
 
@@ -169,35 +170,72 @@ export class Profile extends React.Component {
     const profile_pic = document.querySelector('#profile_pic');
     profile_pic.click();
   }
-  handlePictureChange = (event) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(event.target.files[0]);
-    reader.onloadend = (event) => {
-      const img = new Image();
-      img.src = event.target.result;
-      img.onload = (event) => {
-        const elem = document.createElement('canvas');
-        elem.width = 100;
-        elem.height = 100;
-        const ctx = elem.getContext('2d');
-        ctx.drawImage(img, 0, 0, 100, 100);
-        const imageData = ctx.canvas.toDataURL('image/jpeg', 1.0);
-        const payload = {
-          email: this.state.email,
-          picture: imageData
-        }
-        putUser(payload, (data) => {
-          showAlert('Successfully updated profile picture');
-          this.setState({
-            accountInfo: {
-              picture: imageData
-            }
-          });
-          const badge_pic = document.querySelector('#badge_pic');
-          badge_pic.src = imageData;
+  handlePictureChange = (event, nav) => {
+    if (nav != null) {
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onloadend = (event) => {
+        const src = event.target.result;
+        nav.pushPage('new_profile_pic.html').then(()=>{
+          const new_pp_component = document.querySelector('#new_pp_component');
+          const crop = {
+            unit: 'px',
+            width: 65,
+            aspect: 1
+          };
+          if (new_pp_component != null) {
+            ReactDOM.render(<ReactCrop src={src} crop={crop} circularCrop={true} onChange={newCrop => this.setCrop(newCrop)} onImageLoaded={image => {this.imageRef=image}} />, new_pp_component);
+          }
+          const save_new_pp = document.querySelector('#save_new_pp');
+          if (save_new_pp != null) {
+            save_new_pp.addEventListener('click', (event) => {
+              const payload = {
+                email: this.state.email,
+                picture: this.croppedImageRef
+              }
+              putUser(payload, (data) => {
+                  showAlert('Successfully updated profile picture');
+                  this.setState({
+                    accountInfo: {
+                      picture: this.croppedImageRef
+                    }
+                  });
+                  const badge_pic = document.querySelector('#badge_pic');
+                  badge_pic.src = this.croppedImageRef;
+              });
+            });
+          }
         });
-      }
-    }    
+      };
+    }
+  }
+  setCrop = (crop) => {
+    const image = this.imageRef;
+    const canvas = document.createElement('canvas');
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(
+      image,
+      crop.x * scaleX,
+      crop.y * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
+      0,
+      0,
+      crop.width,
+      crop.height
+    );
+    this.setCroppedImage(ctx.canvas.toDataURL('image/jpeg', 1.0));
+  }
+  setCroppedImage(imageData) {
+    const cropped_img = document.querySelector('#cropped_img');
+    if (cropped_img != null) {
+      cropped_img.src = imageData;
+    }
+    this.croppedImageRef = imageData;
   }
   handleEditAccess = (event) => {
     this.popover.show(event.target);
@@ -206,6 +244,7 @@ export class Profile extends React.Component {
     const imgSrc = this.state.accountInfo.picture != null ? this.state.accountInfo.picture : defaultImg;
     const displayCamIcon = this.state.openedBy === 'admin' ? 'none' : 'block';
     const displayEditIcon = this.state.openedBy === 'admin' ? 'block' : 'none';
+    const nav = document.querySelector('#navigator');
     return (
       <React.Fragment>
         <ons-card>
@@ -214,7 +253,7 @@ export class Profile extends React.Component {
             </div>
             <div id="profile_cam_icon" align="center" style={{ display: displayCamIcon }}>
               <ons-icon icon="md-camera" onClick={this.handlePictureClick}></ons-icon>
-              <input type="file" id="profile_pic" style={{ display: 'none'}} onChange={this.handlePictureChange} ></input>
+              <input type="file" id="profile_pic" style={{ display: 'none'}} onChange={(event)=>{this.handlePictureChange(event, nav)}} ></input>
             </div>
             <div className="title" align="center" ref={ref=>{this.title=ref}}></div>
             <div align="center" style={{ display: displayEditIcon }}>

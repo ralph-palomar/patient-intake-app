@@ -443,6 +443,28 @@
     </ons-page>
   </template>
 
+  <template id="new_profile_pic.html">
+    <ons-page id="new_profile_pic">
+      <ons-toolbar>
+        <div class="left">
+          <ons-back-button></ons-back-button>
+        </div>
+        <div class="center">
+          New Photo
+        </div>
+        <div class="right">
+          <ons-button modifier="quiet" id="save_new_pp">Save</ons-button>
+        </div>
+      </ons-toolbar>
+      <div id="new_pp_component"></div>
+      <ons-card>
+        <div style="text-align: center">
+            <img id="cropped_img"></img>
+        </div>
+      </ons-card>
+    </ons-page>
+  </template>
+
 </body>
 
 </html>
