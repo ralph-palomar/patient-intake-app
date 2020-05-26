@@ -203,8 +203,7 @@ function refreshMedications(successCallBack) {
         "method": "GET",
         "timeout": api.users_api_timeout,
         "headers": {
-            "Authorization": api.users_api_authorization,
-            "JWT": cookies.get(login_cookie).access_token
+            "Authorization": api.users_api_authorization
         },
         "params": {
             "id": cookies.get(login_cookie).email
@@ -243,8 +242,7 @@ function saveMedications(callBack=()=>{}, data=null) {
             "timeout": 60000,
             "headers": {
                 "Content-Type": "application/json",
-                "Authorization": api.users_api_authorization,
-                "JWT": cookies.get(login_cookie).access_token
+                "Authorization": api.users_api_authorization
             },
             "data": payload
         };

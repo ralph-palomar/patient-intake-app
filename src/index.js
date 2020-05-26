@@ -4,6 +4,7 @@ import 'react-app-polyfill/stable';
 import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 import './index.css';
+import 'material-design-iconic-font/dist/css/material-design-iconic-font.min.css';
 
 import { api, defaultImg, login_cookie, cookieSettings } from './config.js';
 import React from 'react';
@@ -61,7 +62,7 @@ export function createAccount() {
 			"firstname": firstname,
 			"lastname": lastname,
 			"type": "user",
-			"enabled": true
+			"enabled": false
 		};
 		const config = {
 			"url": api.users_api_base_url + "/v1/users",
@@ -138,8 +139,8 @@ export async function callApi(config = {}, successCallback = (data)=>{}, caller 
 		});
 }
 
-export function showAlert(msg) {
-	ons.notification.toast(msg, { timeout: 2000 });
+export function showAlert(msg, timeout=3000) {
+	ons.notification.toast(msg, { timeout: timeout });
 }
 
 export function formatDate(date) {
@@ -193,8 +194,8 @@ export function setLoginCookie(data) {
 	cookies.set(login_cookie, cookieData, {
 		path: cookieSettings.path,
 		expires: d,
-		secure: cookieSettings.secure,
-		sameSite: cookieSettings.sameSite
+		//secure: cookieSettings.secure,
+		//sameSite: cookieSettings.sameSite
 	});
 }
 
@@ -283,6 +284,15 @@ class App extends React.Component {
 					else if (cookies.get(login_cookie) != null && cookies.get(login_cookie).thirdPartyLogin == null && cookies.get(login_cookie).type === "admin") {
 						admin_menu.style.display = 'block';
 					} 
+				}
+			});
+
+			this.nav.addEventListener('postpop', (event) => {
+				if(event.leavePage.matches('#user_profile')) {
+					const pull_hook = document.querySelector('#pull-hook');
+					if(pull_hook != null) {
+						pull_hook.dispatchEvent(new Event('changestate'));
+					}
 				}
 			});
 		}

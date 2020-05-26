@@ -98,7 +98,10 @@ export class Profile extends React.Component {
       accountInfo: {
         picture: props.picture
       },
-      email: props.email
+      email: props.email,
+      type: props.type,
+      enabled: props.enabled,
+      openedBy: props.openedBy
     }
   }
   componentDidMount() {
@@ -132,6 +135,35 @@ export class Profile extends React.Component {
     getOthers((data) => {
       ReactDOM.render(<OthersProfile data={data} />, profile_others);
     }, 'profile', this.state.email);
+
+    this.isAdminSwitch.checked = this.state.type === "admin" ? true : false;
+    this.isEnabledSwitch.checked = this.state.enabled;
+
+    this.isEnabledSwitch.addEventListener('change', (event) => {
+      const payload = {
+        email: this.state.email,
+        enabled: event.target.checked
+      }
+      putUser(payload, (data) => {
+        showAlert('Successfully updated settings');
+        this.setState({
+          enabled: event.target.checked
+        });
+      });
+    });
+
+    this.isAdminSwitch.addEventListener('change', (event) => {
+      const payload = {
+        email: this.state.email,
+        type: event.target.checked ? 'admin': 'user'
+      }
+      putUser(payload, (data) => {
+        showAlert('Successfully updated settings');
+        this.setState({
+          type: event.target.checked ? 'admin': 'user'
+        });
+      });
+    });
   }
   handlePictureClick = (event) => {
     const profile_pic = document.querySelector('#profile_pic');
@@ -167,22 +199,54 @@ export class Profile extends React.Component {
       }
     }    
   }
+  handleEditAccess = (event) => {
+    this.popover.show(event.target);
+  }
   render() {
     const imgSrc = this.state.accountInfo.picture != null ? this.state.accountInfo.picture : defaultImg;
-    const displayImg = this.props.openedBy === 'admin' ? 'none' : 'block';
+    const displayCamIcon = this.state.openedBy === 'admin' ? 'none' : 'block';
+    const displayEditIcon = this.state.openedBy === 'admin' ? 'block' : 'none';
     return (
       <React.Fragment>
         <ons-card>
             <div className="center" align="center">
               <img className="list-item--material__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '100px', height: '100px'}} ></img>
             </div>
-            <div id="profile_cam_icon" align="center" style={{ display: displayImg }}>
+            <div id="profile_cam_icon" align="center" style={{ display: displayCamIcon }}>
               <ons-icon icon="md-camera" onClick={this.handlePictureClick}></ons-icon>
               <input type="file" id="profile_pic" style={{ display: 'none'}} onChange={this.handlePictureChange} ></input>
             </div>
-            <div className="title" align="center" ref={ref=>{this.title=ref}}>
+            <div className="title" align="center" ref={ref=>{this.title=ref}}></div>
+            <div align="center" style={{ display: displayEditIcon }}>
+              <ons-button modifier="quiet" onClick={this.handleEditAccess}>
+                <ons-icon icon="md-edit"></ons-icon>&nbsp;Edit Access
+              </ons-button>
             </div>
         </ons-card>
+        <ons-popover direction="down" id="popover" ref={ref=>{this.popover=ref}}>
+            <ons-list>
+                <div align="right">
+                  <ons-button modifier="quiet" onClick={(event)=>{this.popover.hide()}}>
+                    <ons-icon icon="md-close"></ons-icon>
+                  </ons-button>
+                </div>
+              <ons-list-header>
+                <div className="left">Settings</div>
+              </ons-list-header>
+              <ons-list-item>
+                <div className="left">Set As Admin</div>
+                <div className="right">
+                  <ons-switch ref={ref=>{this.isAdminSwitch=ref}} ></ons-switch>
+                </div>
+              </ons-list-item>
+              <ons-list-item>
+                <div className="left">Enable User</div>
+                <div className="right">
+                  <ons-switch ref={ref=>{this.isEnabledSwitch=ref}}></ons-switch>
+                </div>
+              </ons-list-item>
+            </ons-list>
+        </ons-popover>
       </React.Fragment>
     );
   }
@@ -289,6 +353,18 @@ export function getUserPhoto(successCallback=(data)=>{}, caller="", identifier) 
     "params": {
       "id": identifier
     }
+  };
+  callApi(config, successCallback, caller, false);
+}
+
+export function getAllUsers(successCallback=(data)=>{}, caller="") {
+  const config = {
+      "url": api.users_api_base_url + "/v1/users/all",
+      "method": "GET",
+      "timeout": 60000,
+      "headers": {
+          "Authorization": api.users_api_authorization
+      }
   };
   callApi(config, successCallback, caller, false);
 }

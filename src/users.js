@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { api, defaultImg } from './config.js';
-import { callApi } from './index.js';
-import { Profile } from './home.js';
+import { defaultImg } from './config.js';
+import { Profile, getAllUsers } from './home.js';
 
 export class Users extends React.Component {
     constructor(props) {
@@ -10,6 +9,7 @@ export class Users extends React.Component {
         this.state = {
             userList: []
         }
+
     }
     searchUser = (event) => {
         const keyword = event.target.value;
@@ -26,33 +26,39 @@ export class Users extends React.Component {
         })
     }
     componentDidMount() {
-        const config = {
-            "url": api.users_api_base_url + "/v1/users/all",
-            "method": "GET",
-            "timeout": 60000,
-            "headers": {
-                "Authorization": api.users_api_authorization
-            }
-        };
-        callApi(config, (data) => {
+        getAllUsers((data) => {
             this.setState({
                 userList: data,
                 originalUserList: data
             });
-        }, 'users');   
+        }, 'users');
+
+        this.pullhook.addEventListener('changestate', this.handlePullHookChangeState);
     }
-    handleUserClick = (email, picture) => {
-        if (email != null) {
+    handlePullHookChangeState = (event) => {
+        if (event.type === 'changestate' || event.state === "action") {
+            getAllUsers((data) => {
+                this.setState({
+                    userList: data,
+                    originalUserList: data
+                });
+            }, 'users');
+        }
+    }
+    handleUserViewClick = (user) => {
+        if (user.email != null) {
             const nav = document.querySelector('#navigator');
             nav.pushPage('user_profile.html').then(() => {
                 const user_profile_component = document.querySelector('#user_profile_component');
-                ReactDOM.render(<Profile picture={picture} email={email} openedBy="admin" />, user_profile_component);
+                ReactDOM.render(<Profile picture={user.picture} email={user.email} openedBy="admin" type={user.type} enabled={user.enabled} />, user_profile_component);
             });
         }
     }
     render() {
         return (
             <React.Fragment>
+                <ons-pull-hook id="pull-hook" ref={ref => { this.pullhook = ref }}>
+                </ons-pull-hook>
                 <ons-search-input style={{ width: '100%'}} placeholder="Search" onKeyUp={this.searchUser}></ons-search-input>
                 <ons-list>
                 <ons-list-header style={{ backgroundColor: '#e6f2ff'}}><b>List of Patients</b></ons-list-header>
@@ -60,15 +66,16 @@ export class Users extends React.Component {
                     {
                         
                         this.state.userList.map((value, index) =>
-                            <ons-list-item index={index} key={value.email} onClick={(event) => {this.handleUserClick(value.email, value.picture)}} modifier="chevron" tappable>
+                            <ons-list-item index={index} key={value.email} modifier="chevron" tappable onClick={(event) => {this.handleUserViewClick(value)}} >
                                 <div className="left" align="center">
                                     <img className="list-item--material__thumbnail" src={value.picture != null ? value.picture : defaultImg} alt="Profile Pic" style={{width: '60px', height: '60px'}} ></img>
                                 </div>
                                 <div className="center" style={{ marginLeft: '8px'}}>
                                     <span className="list-item__title">{value.firstname + " " + value.lastname}</span>
                                     <span className="list-item__subtitle">{value.email}</span>
-                                </div>                                
+                                </div>                                              
                             </ons-list-item>
+ 
                         )
                     }
                     </ons-lazy-repeat>
