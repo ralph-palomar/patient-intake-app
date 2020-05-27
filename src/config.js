@@ -139,3 +139,7 @@ export const tobacco_use_0_options = [
 export const emotional_being_options = [ 5, 4, 3, 2, 1 ]
 
 export const login_cookie = "webapp-lifestyleclinic-login-0";
+
+export const emailRegExp = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+
+export const defaultEmailSender = "donotreply@lifestyleclinic.tes8.link";

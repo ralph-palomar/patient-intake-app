@@ -6,10 +6,10 @@ import 'onsenui/css/onsen-css-components.css';
 import './index.css';
 import 'material-design-iconic-font/dist/css/material-design-iconic-font.min.css';
 
-import { api, defaultImg, login_cookie, cookieSettings } from './config.js';
+import { api, defaultImg, login_cookie, cookieSettings, emailRegExp, defaultEmailSender } from './config.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { loadPage, getUserPhoto } from './home.js';
+import { loadPage, getUserPhoto, resetUserPassword, sendEmail } from './home.js';
 import axios from 'axios';
 import ons from 'onsenui';
 import Cookies from 'universal-cookie';
@@ -100,7 +100,7 @@ export function logout() {
 /////// HELPER FUNCTIONS ///////
 
 function validateRegistrationForm(email, firstname, lastname, passwd, cpasswd) {
-	if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+	if (!emailRegExp.test(email)) {
 		showAlert('Invalid Email Address');
 	} else if (firstname.length === 0) {
 		showAlert('First Name is blank');
@@ -240,6 +240,7 @@ class App extends React.Component {
 		this.nav.resetToPage('login.html', { pop: true }).then(() => {
 			window.location.href = process.env.PUBLIC_URL
 			this.renderFacebookLogin();
+			this.renderForgotPassword();
 		});
 	}
 	renderFacebookLogin = () => {
@@ -257,11 +258,18 @@ class App extends React.Component {
 			);
 		}
 	}
+	renderForgotPassword = () => {
+		const forgotPasswordBtn = document.querySelector('#forgotPasswordBtn');
+		if (forgotPasswordBtn != null) {
+			ReactDOM.render(<ForgotPassword />, forgotPasswordBtn);
+		}
+	}
 	componentDidMount() {		
 		if (this.nav != null) {
 			this.nav.addEventListener('postpush', (event) => {
 				if (event.enterPage.matches('#login')) {
 					this.renderFacebookLogin();
+					this.renderForgotPassword();
 				}
 
 				if (event.enterPage.matches('#home')) {
@@ -348,6 +356,56 @@ class Badge extends React.Component {
 				<div className="left">
 					<b>{_default(this.state.accountInfo.firstname, "Firstname") + " " + _default(this.state.accountInfo.lastname, "")}</b>
 				</div>
+			</React.Fragment>
+		)
+	}
+}
+
+class ForgotPassword extends React.Component {
+	handlePopoverClick = (event) => {
+		this.popover.show(event.target);
+	}
+	handleSubmit = (event) => {
+		if (!emailRegExp.test(this.email.value)) {
+			showAlert('Invalid Email Address');
+		} else {
+			this.popover.hide();
+			resetUserPassword((data)=>{
+				sendEmail({
+					to: this.email.value,
+					from: defaultEmailSender,
+					subject: "Change Password Request",
+					body:
+						'<div>' +
+							'To proceed please click the link below:<br/>' +
+							'<a href='+data.callbackUrl+'>Change Password Now</a>' +
+						'</div>'
+				}, (data)=>{
+					
+				});
+
+				showAlert("Please check your email to proceed")
+			}, this.email.value);
+		}
+	}
+	render() {
+		return (
+			<React.Fragment>
+				<ons-button modifier="outline" onClick={this.handlePopoverClick}>Forgot Password?</ons-button>
+				<ons-popover direction="up" id="popover" ref={ref=>{this.popover=ref}}>
+					<ons-list>
+						<div align="right">
+							<ons-button modifier="quiet" onClick={(event)=>{this.popover.hide()}}>
+								<ons-icon icon="md-close"></ons-icon>
+							</ons-button>
+						</div>
+						<ons-list-header>Please provide</ons-list-header>
+						<div align="center">
+							<ons-input placeholder="Email" ref={ref=>{this.email=ref}} ></ons-input>
+							<ons-button modifier="quiet" onClick={this.handleSubmit} >Submit</ons-button>
+						</div>
+					</ons-list>
+				</ons-popover>
 			</React.Fragment>
 		)
 	}

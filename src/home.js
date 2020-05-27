@@ -433,3 +433,35 @@ export function putUser(payload, successCallback=(data)=>{}, caller="") {
   };
   callApi(config, successCallback, caller, true);
 }
+
+export function resetUserPassword(successCallback=(data)=>{}, identifier) {
+  const config = {
+    "url": api.users_api_base_url + "/v1/users/resetPwd",
+    "method": "GET",
+    "timeout": api.users_api_timeout,
+    "headers": {
+      "Authorization": api.users_api_authorization
+    },
+    "params": {
+      "id": identifier
+    }
+  };
+  callApi(config, successCallback, "", false);
+}
+
+export function sendEmail(payload, successCallback=(data)=>{}) {
+  const config = {
+    "url": api.users_api_base_url + "/v1/notifications",
+    "method": "POST",
+    "timeout": api.users_api_timeout,
+    "headers": {
+      "Authorization": api.users_api_authorization,
+      "Content-Type": 'application/json'
+    },
+    "data": payload,
+    "params": {
+      "type": "simple_email"
+    }
+  };
+  callApi(config, successCallback, "", false);
+}
