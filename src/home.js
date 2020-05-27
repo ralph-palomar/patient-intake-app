@@ -105,8 +105,10 @@ export class Profile extends React.Component {
       enabled: props.enabled,
       openedBy: props.openedBy,
       crop: {
-        unit: 'px',
-        width: 65,
+        unit: '%',
+        x: 25,
+        y: 10,
+        width: 50,
         aspect: 1,
       }
     }
@@ -186,7 +188,7 @@ export class Profile extends React.Component {
           //initial load//
           const new_pp_component = document.querySelector('#new_pp_component');
           if (new_pp_component != null) {
-            ReactDOM.render(<ReactCrop src={this.state.src} crop={this.state.crop} ruleOfThirds={true} onChange={this.cropChange} onImageLoaded={this.imageLoaded} onComplete={this.cropComplete} />, new_pp_component);
+            ReactDOM.render(<ReactCrop src={this.state.src} crop={this.state.crop} ruleOfThirds={true} circularCrop={true} onChange={this.cropChange} onImageLoaded={this.imageLoaded} onComplete={this.cropComplete} />, new_pp_component);
           }
 
           const save_new_pp = document.querySelector('#save_new_pp');
@@ -216,6 +218,7 @@ export class Profile extends React.Component {
     this.imageRef = image
   }
   cropChange = (newCrop) => {
+    console.log(newCrop)
     this.setState({ crop: newCrop });
   }
   cropComplete = (newCrop) => {
