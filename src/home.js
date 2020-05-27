@@ -443,7 +443,7 @@ export function resetUserPassword(successCallback=(data)=>{}, identifier) {
       "Authorization": api.users_api_authorization
     },
     "params": {
-      "id": identifier
+      "email": identifier
     }
   };
   callApi(config, successCallback, "", false);
