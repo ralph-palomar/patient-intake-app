@@ -376,10 +376,8 @@ class ForgotPassword extends React.Component {
 					from: defaultEmailSender,
 					subject: "Change Password Request",
 					body:
-						'<div>' +
-							'To proceed please click the link below:<br/>' +
-							'<a href='+data.callbackUrl+'>Change Password Now</a>' +
-						'</div>'
+						'To proceed please click the link below:\n\n' +
+							data.callbackUrl
 				}, (data)=>{
 					
 				});
