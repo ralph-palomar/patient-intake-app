@@ -10,6 +10,7 @@ import { Diet, DietProfile } from './diet.js';
 import { Others, OthersProfile } from './others.js';
 import { api, defaultImg, login_cookie } from './config.js';
 import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 
 window.fn = {};
 
@@ -102,7 +103,12 @@ export class Profile extends React.Component {
       email: props.email,
       type: props.type,
       enabled: props.enabled,
-      openedBy: props.openedBy
+      openedBy: props.openedBy,
+      crop: {
+        unit: 'px',
+        width: 65,
+        aspect: 1,
+      }
     }
   }
   componentDidMount() {
@@ -175,33 +181,30 @@ export class Profile extends React.Component {
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onloadend = (event) => {
-        const src = event.target.result;
+        this.setState({ src: event.target.result });
         nav.pushPage('new_profile_pic.html').then(()=>{
+          //initial load//
           const new_pp_component = document.querySelector('#new_pp_component');
-          const crop = {
-            unit: 'px',
-            width: 65,
-            aspect: 1
-          };
           if (new_pp_component != null) {
-            ReactDOM.render(<ReactCrop src={src} crop={crop} circularCrop={true} onChange={newCrop => this.setCrop(newCrop)} onImageLoaded={image => {this.imageRef=image}} />, new_pp_component);
+            ReactDOM.render(<ReactCrop src={this.state.src} crop={this.state.crop} ruleOfThirds={true} onChange={this.cropChange} onImageLoaded={this.imageLoaded} onComplete={this.cropComplete} />, new_pp_component);
           }
+
           const save_new_pp = document.querySelector('#save_new_pp');
           if (save_new_pp != null) {
             save_new_pp.addEventListener('click', (event) => {
               const payload = {
                 email: this.state.email,
-                picture: this.croppedImageRef
+                picture: this.state.croppedImageData
               }
               putUser(payload, (data) => {
                   showAlert('Successfully updated profile picture');
                   this.setState({
                     accountInfo: {
-                      picture: this.croppedImageRef
+                      picture: this.state.croppedImageData
                     }
                   });
                   const badge_pic = document.querySelector('#badge_pic');
-                  badge_pic.src = this.croppedImageRef;
+                  badge_pic.src = this.state.croppedImageData;
               });
             });
           }
@@ -209,33 +212,33 @@ export class Profile extends React.Component {
       };
     }
   }
-  setCrop = (crop) => {
+  imageLoaded = (image) => {
+    this.imageRef = image
+  }
+  cropChange = (newCrop) => {
+    this.setState({ crop: newCrop });
+  }
+  cropComplete = (newCrop) => {
     const image = this.imageRef;
     const canvas = document.createElement('canvas');
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
-    canvas.width = crop.width;
-    canvas.height = crop.height;
+    canvas.width = newCrop.width;
+    canvas.height = newCrop.height;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(
       image,
-      crop.x * scaleX,
-      crop.y * scaleY,
-      crop.width * scaleX,
-      crop.height * scaleY,
+      newCrop.x * scaleX,
+      newCrop.y * scaleY,
+      newCrop.width * scaleX,
+      newCrop.height * scaleY,
       0,
       0,
-      crop.width,
-      crop.height
+      newCrop.width,
+      newCrop.height
     );
-    this.setCroppedImage(ctx.canvas.toDataURL('image/jpeg', 1.0));
-  }
-  setCroppedImage(imageData) {
-    const cropped_img = document.querySelector('#cropped_img');
-    if (cropped_img != null) {
-      cropped_img.src = imageData;
-    }
-    this.croppedImageRef = imageData;
+    const croppedImage = ctx.canvas.toDataURL('image/jpeg', 1.0);
+    this.setState({ croppedImageData: croppedImage });
   }
   handleEditAccess = (event) => {
     this.popover.show(event.target);
@@ -245,6 +248,12 @@ export class Profile extends React.Component {
     const displayCamIcon = this.state.openedBy === 'admin' ? 'none' : 'block';
     const displayEditIcon = this.state.openedBy === 'admin' ? 'block' : 'none';
     const nav = document.querySelector('#navigator');
+
+    const new_pp_component = document.querySelector('#new_pp_component');
+    if (new_pp_component != null) {
+      ReactDOM.render(<ReactCrop src={this.state.src} crop={this.state.crop} ruleOfThirds={true} onChange={this.cropChange} onImageLoaded={this.imageLoaded} onComplete={this.cropComplete} />, new_pp_component);
+    }
+
     return (
       <React.Fragment>
         <ons-card>

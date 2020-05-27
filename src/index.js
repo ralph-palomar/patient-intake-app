@@ -5,7 +5,6 @@ import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 import './index.css';
 import 'material-design-iconic-font/dist/css/material-design-iconic-font.min.css';
-import 'react-image-crop/dist/ReactCrop.css';
 
 import { api, defaultImg, login_cookie, cookieSettings } from './config.js';
 import React from 'react';
