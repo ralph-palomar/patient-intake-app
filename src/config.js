@@ -142,4 +142,4 @@ export const login_cookie = "webapp-lifestyleclinic-login-0";
 
 export const emailRegExp = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
-export const defaultEmailSender = "donotreply@lifestyleclinic.tes8.link";
+export const defaultEmailSender = "LifestyleClinic@tes8.link";
