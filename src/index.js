@@ -9,7 +9,7 @@ import 'material-design-iconic-font/dist/css/material-design-iconic-font.min.css
 import { api, defaultImg, login_cookie, cookieSettings, emailRegExp, defaultEmailSender } from './config.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { loadPage, getUserPhoto, resetUserPassword, sendEmail, verifyResetPassword, putUser } from './home.js';
+import { loadPage, getUserPhoto, resetUserPassword, sendEmail, verifyResetPassword, putUser, verifyUserId } from './home.js';
 import axios from 'axios';
 import ons from 'onsenui';
 import Cookies from 'universal-cookie';
@@ -386,20 +386,26 @@ class ForgotPassword extends React.Component {
 			showAlert('Invalid Email Address');
 		} else {
 			this.popover.hide();
-			resetUserPassword((data)=>{
-				sendEmail({
-					to: this.email.value,
-					from: defaultEmailSender,
-					subject: "Change Password Request",
-					body:
-						'To proceed please click the link below:\n\n' +
-							data.callbackUrl
-				}, (data)=>{
-					
-				});
-
-				showAlert("Please check your email to proceed")
-			}, this.email.value);
+			verifyUserId((data)=>{
+				if (data.exists) {
+					resetUserPassword((data)=>{
+						sendEmail({
+							to: this.email.value,
+							from: defaultEmailSender,
+							subject: "Change Password Request",
+							body:
+								'To proceed please click the link below:\n\n' +
+									data.callbackUrl
+						}, (data)=>{
+							
+						});
+		
+						showAlert("Please check your email to proceed")
+					}, this.email.value);
+				} else {
+					showAlert('Unregistered email address')
+				}
+			}, this.email.value)
 		}
 	}
 	render() {

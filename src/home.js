@@ -485,3 +485,18 @@ export function verifyResetPassword(successCallback=(data)=>{}, code, email) {
   callApi(config, successCallback, "", false);
 }
 
+export function verifyUserId(successCallback=(data)=>{}, email) {
+  const config = {
+    "url": api.users_api_base_url + "/v1/users/verify",
+    "method": "GET",
+    "timeout": api.users_api_timeout,
+    "headers": {
+      "Authorization": api.users_api_authorization
+    },
+    "params": {
+      "id": email
+    }
+  };
+  callApi(config, successCallback, "", false);
+}
+
