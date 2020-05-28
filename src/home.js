@@ -465,3 +465,20 @@ export function sendEmail(payload, successCallback=(data)=>{}) {
   };
   callApi(config, successCallback, "", false);
 }
+
+export function verifyResetPassword(successCallback=(data)=>{}, code, email) {
+  const config = {
+    "url": api.users_api_base_url + "/v1/users/verifyResetPwd",
+    "method": "GET",
+    "timeout": api.users_api_timeout,
+    "headers": {
+      "Authorization": api.users_api_authorization
+    },
+    "params": {
+      "code": code, 
+      "email": email
+    }
+  };
+  callApi(config, successCallback, "", false);
+}
+

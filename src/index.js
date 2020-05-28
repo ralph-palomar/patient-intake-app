@@ -9,7 +9,7 @@ import 'material-design-iconic-font/dist/css/material-design-iconic-font.min.css
 import { api, defaultImg, login_cookie, cookieSettings, emailRegExp, defaultEmailSender } from './config.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { loadPage, getUserPhoto, resetUserPassword, sendEmail } from './home.js';
+import { loadPage, getUserPhoto, resetUserPassword, sendEmail, verifyResetPassword, putUser } from './home.js';
 import axios from 'axios';
 import ons from 'onsenui';
 import Cookies from 'universal-cookie';
@@ -106,7 +106,16 @@ function validateRegistrationForm(email, firstname, lastname, passwd, cpasswd) {
 		showAlert('First Name is blank');
 	} else if (lastname.length === 0) {
 		showAlert('Last Name is blank');
-	} else if (passwd.length === 0) {
+	} else if (!validatePasswords(passwd, cpasswd)) {
+		// no pass
+	} else {
+		return true;
+	}
+	return false;
+}
+
+function validatePasswords(passwd, cpasswd) {
+	if (passwd.length === 0) {
 		showAlert('Password is blank');
 	} else if (cpasswd.length === 0) {
 		showAlert('Confirm Password is blank');
@@ -206,6 +215,13 @@ export function _default(input, defaultValue) {
 		return defaultValue;
 	}
 }
+
+export function getUrlParameter(name) {
+    name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(window.location.search);
+    return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -409,6 +425,65 @@ class ForgotPassword extends React.Component {
 	}
 }
 
+class ChangePassword extends React.Component {
+	handleSubmit = (event) => {
+		if (!validatePasswords(this.passwd.value, this.cpasswd.value)) {
+			// no pass
+		} else {
+			verifyResetPassword((data)=>{
+				if (data.verified) {
+					putUser({
+						email: this.props.email,
+						enabled: true,
+						password: this.passwd.value
+					}, (data)=>{
+						showAlert('Successfully changed password');
+						setTimeout(()=>{
+							window.location.href = process.env.PUBLIC_URL
+						}, 5000);						
+					})
+
+				} else {
+					showAlert('Failed to verify this request')
+				}
+
+			}, this.props.code, this.props.email)
+		}
+	}
+	render() {
+		return (
+			<React.Fragment>
+				<div style={{ marginTop: '50%' }}>
+					<ons-card>
+						<ons-list>
+							<ons-list-header>Change Password</ons-list-header>
+							<div align="center">
+								<p>
+									<ons-input type="password" placeholder="New Password" modifier="material" ref={ref=>{this.passwd=ref}}></ons-input>
+								</p>
+								<p>
+									<ons-input type="password" placeholder="Confirm Password" modifier="material" ref={ref=>{this.cpasswd=ref}}></ons-input>
+								</p>
+								<p>
+									<ons-button onClick={this.handleSubmit}>Submit</ons-button>
+								</p>
+							</div>
+						</ons-list>
+					</ons-card>
+				</div>
+			</React.Fragment>
+		)
+	}
+}
+
 window.onload = () => {
-	ReactDOM.render(<App />, document.querySelector('div#root'));
+	const op = getUrlParameter('op');
+	const email = getUrlParameter('email'); 
+	const code = getUrlParameter('code');
+	
+	if (op === "changePassword" && email != null && code != null) {
+		ReactDOM.render(<ChangePassword email={email} code={code} />, document.querySelector('div#root'));
+	} else {
+		ReactDOM.render(<App />, document.querySelector('div#root'));
+	}
 }
