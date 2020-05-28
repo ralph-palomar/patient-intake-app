@@ -5,6 +5,7 @@ import 'onsenui/css/onsenui.css';
 import 'onsenui/css/onsen-css-components.css';
 import './index.css';
 import 'material-design-iconic-font/dist/css/material-design-iconic-font.min.css';
+import 'typeface-roboto';
 
 import { api, defaultImg, login_cookie, cookieSettings, emailRegExp, defaultEmailSender } from './config.js';
 import React from 'react';
