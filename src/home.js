@@ -207,6 +207,7 @@ export class Profile extends React.Component {
                   });
                   const badge_pic = document.querySelector('#badge_pic');
                   badge_pic.src = this.state.croppedImageData;
+                  back();
               });
             });
           }
@@ -218,7 +219,6 @@ export class Profile extends React.Component {
     this.imageRef = image
   }
   cropChange = (newCrop) => {
-    console.log(newCrop)
     this.setState({ crop: newCrop });
   }
   cropComplete = (newCrop) => {
@@ -226,8 +226,10 @@ export class Profile extends React.Component {
     const canvas = document.createElement('canvas');
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
-    canvas.width = newCrop.width;
-    canvas.height = newCrop.height;
+    const maxWidth = 100;
+    const maxHeight = 100;
+    canvas.width = maxWidth;
+    canvas.height = maxHeight;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(
       image,
@@ -237,10 +239,11 @@ export class Profile extends React.Component {
       newCrop.height * scaleY,
       0,
       0,
-      newCrop.width,
-      newCrop.height
+      maxWidth,
+      maxHeight
     );
-    const croppedImage = ctx.canvas.toDataURL('image/jpeg', 1.0);
+    
+    const croppedImage = ctx.canvas.toDataURL('image/png', 1.0);
     this.setState({ croppedImageData: croppedImage });
   }
   handleEditAccess = (event) => {
