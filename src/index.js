@@ -367,7 +367,7 @@ class Badge extends React.Component {
 		return (
 			<React.Fragment>
 				<div className="left">
-              		<img className="list-item--material__thumbnail" id="badge_pic" src={imgSrc} alt="Profile Pic" style={{width: '60px', height: '60px'}} onClick={()=>{loadPage('profile.html')}}></img>
+              		<img className="list-item--material__thumbnail" id="badge_pic" src={imgSrc} alt="Profile Pic" style={{width: '80px', height: '80px'}} onClick={()=>{loadPage('profile.html')}}></img>
             	</div>
 				<div className="left">
 					<b>{_default(this.state.accountInfo.firstname, "Firstname") + " " + _default(this.state.accountInfo.lastname, "")}</b>
