@@ -395,7 +395,8 @@ class ForgotPassword extends React.Component {
 							subject: "Change Password Request",
 							body:
 								'To proceed please click the link below:\n\n' +
-									data.callbackUrl
+									data.callbackUrl +
+								'\n\nPlease note that this request is only valid for 1 hour. Please ignore this email if you did not request for any password change.'
 						}, (data)=>{
 							
 						});
