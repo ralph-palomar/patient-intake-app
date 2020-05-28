@@ -19,7 +19,7 @@
     "react-onsenui": "^1.11.2",
     "react-scripts": "3.4.1",
     "react-time-picker": "^4.0.1",
-    "typeface-roboto": "0.0.75",
+    "typeface-open-sans": "0.0.75",
     "universal-cookie": "^4.0.3"
   },
   "scripts": {
