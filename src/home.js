@@ -226,8 +226,8 @@ export class Profile extends React.Component {
     const canvas = document.createElement('canvas');
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
-    const maxWidth = 100;
-    const maxHeight = 100;
+    const maxWidth = 200;
+    const maxHeight = 200;
     canvas.width = maxWidth;
     canvas.height = maxHeight;
     const ctx = canvas.getContext('2d');
