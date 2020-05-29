@@ -8,7 +8,7 @@ import { Medications, MedicationsProfile } from './medications.js';
 import { VitalSigns, VitalSignsProfile } from './vitalsigns.js';
 import { Diet, DietProfile } from './diet.js';
 import { Others, OthersProfile } from './others.js';
-import { api, defaultImg, login_cookie } from './config.js';
+import { api, defaultImg, login_cookie, defaultEmailSender } from './config.js';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 
@@ -275,6 +275,13 @@ export class Profile extends React.Component {
             this.passwd.value = "";
             this.cpasswd.value = "";
             this.currentpasswd.value = "";
+            sendEmail({
+							to: this.state.email,
+							from: defaultEmailSender,
+							subject: "Change Password Successful",
+							body:
+								'You have successfully changed your password.'
+						});
           })
         } else {
           showAlert('Current password cannot be verified')
