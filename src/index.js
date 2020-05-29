@@ -9,7 +9,7 @@ import 'material-design-iconic-font/dist/css/material-design-iconic-font.min.css
 import { api, defaultImg, login_cookie, cookieSettings, emailRegExp, defaultEmailSender } from './config.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { loadPage, getUserPhoto, resetUserPassword, sendEmail, verifyResetPassword, putUser, verifyUserId } from './home.js';
+import { loadPage, getUserPhoto, resetUserPassword, sendEmail, verifyResetPassword, putUser, verifyUserId, obtainVerificationCode, verifyAccount } from './home.js';
 import axios from 'axios';
 import ons from 'onsenui';
 import Cookies from 'universal-cookie';
@@ -234,18 +234,44 @@ class App extends React.Component {
 	}
 	responseFacebook = (userInfo) => {
 		if (userInfo.accessToken != null) {
-			const data = {
+			const userInfoData = {
 				email: userInfo.email,
 				firstname: userInfo.name,
+				lastname: "",
 				type: "user",
 				enabled: true,
-				picture: userInfo.picture.data.url,
+				//picture: userInfo.picture.data.url,
 				thirdPartyLogin: true,
-				access_token: userInfo.accessToken,
+				//access_token: userInfo.accessToken,
 				application: "facebook"
 			}
-			setLoginCookie(data);
-			this.nav.pushPage('home.html');
+			verifyUserId((data)=>{
+				if (data.exists) {
+					setLoginCookie(userInfoData);
+					this.nav.pushPage('home.html');
+
+				} else {
+					ons.notification.confirm('Facebook account is not registered or enabled for this application. Do you want to proceed with the registration?')
+						.then((value)=> {
+							if (value === 1) {
+								obtainVerificationCode((data)=>{
+									console.log(data.callbackUrl);
+									sendEmail({
+										to: userInfoData.email,
+										from: defaultEmailSender,
+										subject: "Account Verification Request",
+										body:
+											'To proceed please click the link below:\n\n' +
+												data.callbackUrl +
+											'\n\nPlease note that this request is only valid for 1 hour. Please ignore this email if you did not request for account verification.'
+									});
+
+									showAlert("Please check your email to proceed")
+								}, userInfoData);
+							}
+						});
+				}
+			}, userInfo.email)
 		}
 	}
 	handleLogout = () => {
@@ -397,14 +423,12 @@ class ForgotPassword extends React.Component {
 								'To proceed please click the link below:\n\n' +
 									data.callbackUrl +
 								'\n\nPlease note that this request is only valid for 1 hour. Please ignore this email if you did not request for any password change.'
-						}, (data)=>{
-							
 						});
 		
 						showAlert("Please check your email to proceed")
 					}, this.email.value);
 				} else {
-					showAlert('Unregistered email address')
+					showAlert('Email address is unverified or disabled. Please contact administrator.')
 				}
 			}, this.email.value)
 		}
@@ -414,12 +438,12 @@ class ForgotPassword extends React.Component {
 			<React.Fragment>
 				<ons-button modifier="outline" onClick={this.handlePopoverClick}>Forgot Password?</ons-button>
 				<ons-popover direction="up" id="popover" cancelable={true} ref={ref=>{this.popover=ref}}>
-					<p>
-						<div align="center">
-							<ons-input placeholder="Email" modifier="material" ref={ref=>{this.email=ref}} ></ons-input>
-							<ons-button modifier="quiet" onClick={this.handleSubmit} >Submit</ons-button>
-						</div>
-					</p>
+					<div align="center">
+						<p>
+						<ons-input placeholder="Email" modifier="material" ref={ref=>{this.email=ref}} ></ons-input>
+						<ons-button modifier="quiet" onClick={this.handleSubmit} >Submit</ons-button>
+						</p>
+					</div>
 				</ons-popover>
 			</React.Fragment>
 		)
@@ -445,8 +469,6 @@ class ChangePassword extends React.Component {
 							subject: "Change Password Successful",
 							body:
 								'You have successfully changed your password.'
-						}, (data)=>{
-							
 						});
 						setTimeout(()=>{
 							window.location.href = process.env.PUBLIC_URL
@@ -486,6 +508,29 @@ class ChangePassword extends React.Component {
 	}
 }
 
+class VerifyAccount extends React.Component {
+	render() {
+		verifyAccount((data)=>{
+			let message;
+			if (data.validated) {
+				message = "Account has been successfully verified"
+			} else {
+				message = "Failed to verify account"
+			}
+			ons.notification.alert(message)
+				.then(value=>{
+					window.location.href = process.env.PUBLIC_URL
+				});
+
+		}, this.props.email, this.props.code, true);
+		return (
+			<React.Fragment>
+				<div align="center"></div>
+			</React.Fragment>
+		)
+	}
+}
+
 window.onload = () => {
 	const op = getUrlParameter('op');
 	const email = getUrlParameter('email'); 
@@ -493,6 +538,10 @@ window.onload = () => {
 	
 	if (op === "changePassword" && email != null && code != null) {
 		ReactDOM.render(<ChangePassword email={email} code={code} />, document.querySelector('div#root'));
+
+	} else if (op === "verifyAccount" && email != null && code != null) {
+		ReactDOM.render(<VerifyAccount email={email} code={code} />, document.querySelector('div#root'));
+
 	} else {
 		ReactDOM.render(<App />, document.querySelector('div#root'));
 	}

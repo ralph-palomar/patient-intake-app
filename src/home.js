@@ -569,3 +569,34 @@ export function verifyUserPwd(successCallback=(data)=>{}, payload) {
   callApi(config, successCallback, "", false);
 }
 
+export function obtainVerificationCode(successCallback=(data)=>{}, payload) {
+  const config = {
+    "url": api.users_api_base_url + "/v1/users/verificationCode",
+    "method": "POST",
+    "timeout": api.users_api_timeout,
+    "headers": {
+      "Authorization": api.users_api_authorization,
+      "Content-Type": "application/json"
+    },
+    "data": payload
+  };
+  callApi(config, successCallback, "", false);
+}
+
+export function verifyAccount(successCallback=(data)=>{}, email, code, create) {
+  const config = {
+    "url": api.users_api_base_url + "/v1/users/verifyAccount",
+    "method": "GET",
+    "timeout": api.users_api_timeout,
+    "headers": {
+      "Authorization": api.users_api_authorization
+    },
+    "params": {
+      "email": email,
+      "code": code,
+      "create": create
+    }
+  };
+  callApi(config, successCallback, "", false);
+}
+
