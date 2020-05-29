@@ -268,8 +268,11 @@ class App extends React.Component {
 						setLoginCookie(userInfoData);
 						this.nav.pushPage('home.html');
 					} else {
-						ons.notification.alert('An existing account with the same Email ID has not been registered via Facebook Login. Please login with your registered username and password instead.');
-						window.location.href = process.env.PUBLIC_URL;
+						ons.notification.alert('An existing account with the same Email ID has not been registered via Facebook Login. Please login with your registered username and password instead.')
+							.then((value)=>{
+								window.location.href = process.env.PUBLIC_URL;
+							});
+						
 					}
 
 				} else {
