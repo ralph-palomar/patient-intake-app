@@ -76,7 +76,24 @@ export function createAccount() {
 		};
 		callApi(config, (data) => {
 			if (Object.keys(data).length !== 0) {
-				showAlert("Account successfully created")
+				const userInfoData = {
+					email: email,
+					enabled: true
+				}
+				obtainVerificationCode((data)=>{
+					sendEmail({
+						to: userInfoData.email,
+						from: defaultEmailSender,
+						subject: "Account Verification Request",
+						body:
+							'To proceed please click the link below:\n\n' +
+								data.callbackUrl +
+							'\n\nPlease note that this request is only valid for 1 hour. Please ignore this email if you did not request for account verification.'
+					});
+
+					showAlert("Account successfully created. Please check your email to verify your account.")
+				}, userInfoData);
+
 				back();
 			}
 		}, 'register');
@@ -247,15 +264,18 @@ class App extends React.Component {
 			}
 			verifyUserId((data)=>{
 				if (data.exists) {
-					setLoginCookie(userInfoData);
-					this.nav.pushPage('home.html');
+					if(data.thirdPartyLogin) {
+						setLoginCookie(userInfoData);
+						this.nav.pushPage('home.html');
+					} else {
+						ons.notification.alert('An existing account with the same Email ID has not been registered via Facebook Login. Please login with your registered username and password instead.');
+					}
 
 				} else {
 					ons.notification.confirm('Facebook account is not registered or enabled for this application. Do you want to proceed with the registration?')
 						.then((value)=> {
 							if (value === 1) {
 								obtainVerificationCode((data)=>{
-									console.log(data.callbackUrl);
 									sendEmail({
 										to: userInfoData.email,
 										from: defaultEmailSender,
@@ -328,10 +348,10 @@ class App extends React.Component {
 					}
 
 					const admin_menu = document.querySelector('#admin_menu');
-					if (cookies.get(login_cookie) != null && (cookies.get(login_cookie).thirdPartyLogin === true || cookies.get(login_cookie).thirdPartyLogin == null) && cookies.get(login_cookie).type === "user") {
+					if (cookies.get(login_cookie) != null && cookies.get(login_cookie).type === "user") {
 						admin_menu.style.display = 'none';
 					} 
-					else if (cookies.get(login_cookie) != null && cookies.get(login_cookie).thirdPartyLogin == null && cookies.get(login_cookie).type === "admin") {
+					else if (cookies.get(login_cookie) != null && cookies.get(login_cookie).type === "admin") {
 						admin_menu.style.display = 'block';
 					} 
 				}
@@ -514,6 +534,13 @@ class VerifyAccount extends React.Component {
 			let message;
 			if (data.validated) {
 				message = "Account has been successfully verified"
+				sendEmail({
+					to: this.props.email,
+					from: defaultEmailSender,
+					subject: "Account Verification Successful",
+					body:
+						'You have successfully verified your account. You may now be able to login.'
+				});
 			} else {
 				message = "Failed to verify account"
 			}
