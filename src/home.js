@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { logout, back, createAccount, login, register, cookies, callApi, _default, showAlert } from './index.js'
+import { logout, back, createAccount, login, register, cookies, callApi, _default, showAlert, validatePasswords } from './index.js'
 import { Users } from './users.js'
 import { BasicInfo, BasicInfoProfile } from './basicinfo.js';
 import { Illnesses, IllnessesProfile } from './illnesses.js';
@@ -173,6 +173,13 @@ export class Profile extends React.Component {
         });
       });
     });
+
+    const profile_settings = document.querySelector('#profile_settings');
+    if (profile_settings != null) {
+      profile_settings.addEventListener('click', (event) => {
+        this.profile_settings_popover.show(event.target);
+      });
+    }
   }
   handlePictureClick = (event) => {
     const profile_pic = document.querySelector('#profile_pic');
@@ -249,6 +256,35 @@ export class Profile extends React.Component {
   handleEditAccess = (event) => {
     this.popover.show(event.target);
   }
+  handleChangePassword = (event) => {
+    this.change_password_popover.show(event.target);
+    this.profile_settings_popover.hide();    
+  }
+  handleChangePasswdSubmit = (event) => {
+    if(!validatePasswords(this.passwd.value, this.cpasswd.value)) {
+      // no pass
+    } else {
+      verifyUserPwd((data)=>{
+        if (data.verified) {
+          putUser({
+            email: this.state.email,
+            password: this.passwd.value
+          }, (data)=> {
+            showAlert('Successfully changed password')
+            this.change_password_popover.hide();
+            this.passwd.value = "";
+            this.cpasswd.value = "";
+            this.currentpasswd.value = "";
+          })
+        } else {
+          showAlert('Current password cannot be verified')
+        }
+      }, {
+        email: this.state.email,
+        password: this.currentpasswd.value
+      });
+    }
+  }
   render() {
     const imgSrc = this.state.accountInfo.picture != null ? this.state.accountInfo.picture : defaultImg;
     const displayCamIcon = this.state.openedBy === 'admin' ? 'none' : 'block';
@@ -277,13 +313,8 @@ export class Profile extends React.Component {
               </ons-button>
             </div>
         </ons-card>
-        <ons-popover direction="down" id="popover" ref={ref=>{this.popover=ref}}>
+        <ons-popover direction="down" id="popover" cancelable={true} ref={ref=>{this.popover=ref}}>
             <ons-list>
-                <div align="right">
-                  <ons-button modifier="quiet" onClick={(event)=>{this.popover.hide()}}>
-                    <ons-icon icon="md-close"></ons-icon>
-                  </ons-button>
-                </div>
               <ons-list-header>
                 <div className="left">Settings</div>
               </ons-list-header>
@@ -300,6 +331,30 @@ export class Profile extends React.Component {
                 </div>
               </ons-list-item>
             </ons-list>
+        </ons-popover>
+        <ons-popover direction="left" id="popover" cancelable={true} ref={ref=>{this.profile_settings_popover=ref}} >
+            <p>
+              <ons-button modifier="quiet" onClick={this.handleChangePassword}>Change Password</ons-button>
+            </p>
+        </ons-popover>
+        <ons-popover direction="down" id="popover" cancelable={true} ref={ref=>{this.change_password_popover=ref}} >
+          <ons-list>
+							<ons-list-header>Change Password</ons-list-header>
+							<div align="center">
+                <p>
+									<ons-input type="password" placeholder="Current Password" modifier="material" ref={ref=>{this.currentpasswd=ref}}></ons-input>
+								</p>
+								<p>
+									<ons-input type="password" placeholder="New Password" modifier="material" ref={ref=>{this.passwd=ref}}></ons-input>
+								</p>
+								<p>
+									<ons-input type="password" placeholder="Confirm Password" modifier="material" ref={ref=>{this.cpasswd=ref}}></ons-input>
+								</p>
+								<p>
+									<ons-button onClick={this.handleChangePasswdSubmit}>Submit</ons-button>
+								</p>
+							</div>
+						</ons-list>
         </ons-popover>
       </React.Fragment>
     );
@@ -496,6 +551,20 @@ export function verifyUserId(successCallback=(data)=>{}, email) {
     "params": {
       "id": email
     }
+  };
+  callApi(config, successCallback, "", false);
+}
+
+export function verifyUserPwd(successCallback=(data)=>{}, payload) {
+  const config = {
+    "url": api.users_api_base_url + "/v1/users/verifyPwd",
+    "method": "POST",
+    "timeout": api.users_api_timeout,
+    "headers": {
+      "Authorization": api.users_api_authorization,
+      "Content-Type": "application/json"
+    },
+    "data": payload
   };
   callApi(config, successCallback, "", false);
 }

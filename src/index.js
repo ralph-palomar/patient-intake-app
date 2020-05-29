@@ -114,7 +114,7 @@ function validateRegistrationForm(email, firstname, lastname, passwd, cpasswd) {
 	return false;
 }
 
-function validatePasswords(passwd, cpasswd) {
+export function validatePasswords(passwd, cpasswd) {
 	if (passwd.length === 0) {
 		showAlert('Password is blank');
 	} else if (cpasswd.length === 0) {
@@ -413,19 +413,13 @@ class ForgotPassword extends React.Component {
 		return (
 			<React.Fragment>
 				<ons-button modifier="outline" onClick={this.handlePopoverClick}>Forgot Password?</ons-button>
-				<ons-popover direction="up" id="popover" ref={ref=>{this.popover=ref}}>
-					<ons-list>
-						<div align="right">
-							<ons-button modifier="quiet" onClick={(event)=>{this.popover.hide()}}>
-								<ons-icon icon="md-close"></ons-icon>
-							</ons-button>
-						</div>
-						<ons-list-header>Please provide</ons-list-header>
+				<ons-popover direction="up" id="popover" cancelable={true} ref={ref=>{this.popover=ref}}>
+					<p>
 						<div align="center">
-							<ons-input placeholder="Email" ref={ref=>{this.email=ref}} ></ons-input>
+							<ons-input placeholder="Email" modifier="material" ref={ref=>{this.email=ref}} ></ons-input>
 							<ons-button modifier="quiet" onClick={this.handleSubmit} >Submit</ons-button>
 						</div>
-					</ons-list>
+					</p>
 				</ons-popover>
 			</React.Fragment>
 		)
@@ -445,6 +439,15 @@ class ChangePassword extends React.Component {
 						password: this.passwd.value
 					}, (data)=>{
 						showAlert('Successfully changed password');
+						sendEmail({
+							to: this.props.email,
+							from: defaultEmailSender,
+							subject: "Change Password Successful",
+							body:
+								'You have successfully changed your password.'
+						}, (data)=>{
+							
+						});
 						setTimeout(()=>{
 							window.location.href = process.env.PUBLIC_URL
 						}, 5000);						
