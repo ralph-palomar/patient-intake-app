@@ -231,7 +231,7 @@ export class VitalSigns extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <ons-pull-hook id="pull-hook" ref={ref => { this.pullhook = ref }}>
+                <ons-pull-hook id="pull-hook" threshold-height="800px" ref={ref => { this.pullhook = ref }}>
                 </ons-pull-hook>
                 <div className="content">
                     <ons-list>

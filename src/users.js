@@ -57,11 +57,11 @@ export class Users extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <ons-pull-hook id="pull-hook" ref={ref => { this.pullhook = ref }}>
+                <ons-pull-hook id="pull-hook" threshold-height="300px" ref={ref => { this.pullhook = ref }}>
                 </ons-pull-hook>
                 <ons-search-input style={{ width: '100%'}} placeholder="Search" onKeyUp={this.searchUser}></ons-search-input>
                 <ons-list>
-                <ons-list-header style={{ backgroundColor: '#e6f2ff'}}><b>List of Patients</b></ons-list-header>
+                <ons-list-header style={{ backgroundColor: '#e6f2ff'}}><b>User Accounts</b></ons-list-header>
                     <ons-lazy-repeat>
                     {
                         
@@ -73,6 +73,10 @@ export class Users extends React.Component {
                                 <div className="center" style={{ marginLeft: '8px'}}>
                                     <span className="list-item__title">{value.firstname + " " + value.lastname}</span>
                                     <span className="list-item__subtitle">{value.email}</span>
+                                    <span className="list-item__subtitle">
+                                        <i className={value.type === "user" ? "zmdi zmdi-account zmdi-hc-lg" : "zmdi zmdi-star-outline zmdi-hc-lg"}></i>&nbsp;
+                                        <i className={value.enabled ? "zmdi zmdi-check zmdi-hc-lg" : "zmdi zmdi-close zmdi-hc-lg"}></i>
+                                    </span>
                                 </div>                                              
                             </ons-list-item>
  

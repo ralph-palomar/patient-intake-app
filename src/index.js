@@ -102,12 +102,16 @@ export function createAccount() {
 
 export function back() {
 	const navigator = document.querySelector('#navigator');
-	navigator.popPage();
+	if (navigator != null) {
+		navigator.popPage();
+	}
 }
 
 function home() {
 	const navigator = document.querySelector('#navigator');
-	navigator.pushPage('home.html');
+	if (navigator != null) {
+		navigator.pushPage('home.html');
+	}
 }
 
 export function logout() {
