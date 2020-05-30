@@ -102,7 +102,7 @@ export function createAccount() {
 
 export function back() {
 	const navigator = document.querySelector('#navigator');
-	if (navigator != null) {
+	if (navigator != null && navigator.getAttribute('_is-running') !== false) {
 		navigator.popPage();
 	}
 }
