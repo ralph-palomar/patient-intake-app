@@ -33,17 +33,32 @@ export class Users extends React.Component {
             });
         }, 'users');
 
-        this.pullhook.addEventListener('changestate', this.handlePullHookChangeState);
-    }
-    handlePullHookChangeState = (event) => {
-        if (event.type === 'changestate' || event.state === "action") {
-            getAllUsers((data) => {
-                this.setState({
-                    userList: data,
-                    originalUserList: data
-                });
-            }, 'users');
+        const refreshUsersBtn = document.querySelector('#refreshUsersBtn');
+        if (refreshUsersBtn != null) {
+            refreshUsersBtn.addEventListener('click', this.handleClickRefresh);
         }
+
+        const nav = document.querySelector('#navigator');
+        if (nav != null) {
+            nav.addEventListener('postpop', (event)=> {
+                if (event.leavePage.matches('#user_profile')) {
+                    getAllUsers((data) => {
+                        this.setState({
+                            userList: data,
+                            originalUserList: data
+                        });
+                    }, 'users');
+                }
+            });
+        }
+    }
+    handleClickRefresh = (event) => {
+        getAllUsers((data) => {
+            this.setState({
+                userList: data,
+                originalUserList: data
+            });
+        }, 'users');
     }
     handleUserViewClick = (user) => {
         if (user.email != null) {
@@ -57,8 +72,6 @@ export class Users extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <ons-pull-hook id="pull-hook" threshold-height="300px" ref={ref => { this.pullhook = ref }}>
-                </ons-pull-hook>
                 <ons-search-input style={{ width: '100%'}} placeholder="Search" onKeyUp={this.searchUser}></ons-search-input>
                 <ons-list>
                 <ons-list-header style={{ backgroundColor: '#e6f2ff'}}><b>User Accounts</b></ons-list-header>

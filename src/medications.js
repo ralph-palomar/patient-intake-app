@@ -36,12 +36,17 @@ export class SaveMedications extends React.Component {
     handleClick = (event) => {
         saveMedications(() => {
             back();
-            document.querySelector('#pull-hook').dispatchEvent(new Event('changestate'));
+            const refresh = document.querySelector('#refresh');
+            if (refresh != null) {
+                refresh.click();
+            }
         });
     }
     render() {
         return (
-            <ons-button modifier="quiet" onClick={this.handleClick}>Save</ons-button>
+            <React.Fragment>
+                <ons-button modifier="quiet" onClick={this.handleClick}>Save</ons-button>
+            </React.Fragment>
         );
     }
 }
@@ -154,12 +159,6 @@ export class Medications extends React.Component {
     componentDidMount() {
         const medications_saveBtn = document.querySelector('div#medications_saveBtn');
         if (medications_saveBtn != null) ReactDOM.render(<SaveMedications />, medications_saveBtn);
-        this.pullhook.addEventListener('changestate', this.handleChangeState);
-    }
-    handleChangeState = (event) => {
-        if (event.type === 'changestate' || event.state === "action") {
-            refreshMedications(this.refreshMedicationList);
-        }
     }
     refreshMedicationList = (data) => {
         this.setState(data);
@@ -167,8 +166,6 @@ export class Medications extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <ons-pull-hook id="pull-hook" threshold-height="800px" ref={ref => { this.pullhook = ref }}>
-                </ons-pull-hook>
                 <div className="content">
                     <ons-list>
                         {
@@ -192,12 +189,13 @@ export class Medications extends React.Component {
                     <ons-icon icon="md-plus"></ons-icon>
                 </ons-fab>
                 <ConfirmDialog message="Are you sure you want to delete?" onOk={this.removeMedication} />
+                <div id="refresh" onClick={(event)=>{ refreshMedications((data)=> {this.refreshMedicationList(data)}) }}></div>
             </React.Fragment>
         );
     }
 }
 
-function refreshMedications(successCallBack) {
+function refreshMedications(successCallBack=(data)=>{}) {
     const config = {
         "url": api.users_api_base_url + "/v1/medications",
         "method": "GET",

@@ -43,16 +43,16 @@
               <ons-list-item id="badge-list-item">
                 <div id="badge"></div>
               </ons-list-item>
-              <ons-list-item id="home-list-item" onclick="fn.load('main.html')" modifier="chevron" tappable>
+              <ons-list-item id="home-list-item" onclick="fn.load('main.html')" tappable>
                 <i class="zmdi zmdi-home zmdi-hc-fw"></i>&nbsp;Home
               </ons-list-item>
-              <ons-list-item id="profile-list-item" onclick="fn.load('profile.html')" modifier="chevron" tappable>
+              <ons-list-item id="profile-list-item" onclick="fn.load('profile.html')" tappable>
                 <i class="zmdi zmdi-account zmdi-hc-fw"></i>&nbsp;Profile
               </ons-list-item>
               <ons-list-item id="admin_menu" style="display: none" expandable>
                 <i class="zmdi zmdi-settings zmdi-hc-fw"></i>&nbsp;Administration
                 <div class="expandable-content">
-                  <ons-list-item id="user-list-item" onclick="fn.load('users.html')" modifier="chevron" tappable>
+                  <ons-list-item id="user-list-item" onclick="fn.load('users.html')" tappable>
                     <i class="zmdi zmdi-accounts zmdi-hc-fw"></i>&nbsp;Manage Accounts
                   </ons-list-item>
                 </div>
@@ -60,31 +60,31 @@
               <ons-list-item expandable>
                 <i class="zmdi zmdi-folder-person zmdi-hc-fw"></i>&nbsp;Medical Record
                 <div class="expandable-content">
-                  <ons-list-item id="basicinfo-list-item" onclick="fn.load('basicinfo.html')" modifier="chevron"
+                  <ons-list-item id="basicinfo-list-item" onclick="fn.load('basicinfo.html')" 
                     tappable>
                     <i class="zmdi zmdi-info zmdi-hc-fw"></i>&nbsp;Basic Info
                   </ons-list-item>
-                  <ons-list-item id="illnesses-list-item" onclick="fn.load('illnesses.html')" modifier="chevron"
+                  <ons-list-item id="illnesses-list-item" onclick="fn.load('illnesses.html')" 
                     tappable>
                     <i class="zmdi zmdi-info zmdi-hc-fw"></i>&nbsp;Illnesses
                   </ons-list-item>
-                  <ons-list-item id="medications-list-item" onclick="fn.load('medications.html')" modifier="chevron"
+                  <ons-list-item id="medications-list-item" onclick="fn.load('medications.html')" 
                     tappable>
                     <i class="zmdi zmdi-info zmdi-hc-fw"></i>&nbsp;Medications
                   </ons-list-item>
-                  <ons-list-item id="vitalsigns-list-item" onclick="fn.load('vitalsigns.html')" modifier="chevron"
+                  <ons-list-item id="vitalsigns-list-item" onclick="fn.load('vitalsigns.html')" 
                     tappable>
                     <i class="zmdi zmdi-info zmdi-hc-fw"></i>&nbsp;Vital Signs
                   </ons-list-item>
-                  <ons-list-item id="diet-list-item" onclick="fn.load('diet.html')" modifier="chevron" tappable>
+                  <ons-list-item id="diet-list-item" onclick="fn.load('diet.html')" tappable>
                     <i class="zmdi zmdi-info zmdi-hc-fw"></i>&nbsp;Diet
                   </ons-list-item>
-                  <ons-list-item id="others-list-item" onclick="fn.load('others.html')" modifier="chevron" tappable>
+                  <ons-list-item id="others-list-item" onclick="fn.load('others.html')" tappable>
                     <i class="zmdi zmdi-info zmdi-hc-fw"></i>&nbsp;Others
                   </ons-list-item>
                 </div>
               </ons-list-item>
-              <ons-list-item onclick="fn.logout()" modifier="chevron" tappable>
+              <ons-list-item onclick="fn.logout()" tappable>
                 <i class="zmdi zmdi-close zmdi-hc-fw"></i>&nbsp;Logout
               </ons-list-item>
             </ons-list>
@@ -395,6 +395,9 @@
         </div>
         <div class="center">
           Accounts
+        </div>
+        <div class="right">
+          <ons-button id="refreshUsersBtn" modifier="quiet"><i class="zmdi zmdi-refresh-sync zmdi-hc-2x"></i></ons-button>
         </div>
       </ons-toolbar>
       <div id="user_list"></div>

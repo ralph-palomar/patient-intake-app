@@ -72,7 +72,10 @@ export class SaveVitalSigns extends React.Component {
     handleClick = (event) => {
         saveVitalSigns(() => {
             back();
-            document.querySelector('#pull-hook').dispatchEvent(new Event('changestate'));
+            const refresh = document.querySelector('#refresh');
+            if (refresh != null) {
+                refresh.click();
+            }
         });
     }
     render() {
@@ -218,7 +221,6 @@ export class VitalSigns extends React.Component {
     componentDidMount() {
         const vitalsigns_saveBtn = document.querySelector('div#vitalsigns_saveBtn');
         if (vitalsigns_saveBtn != null) ReactDOM.render(<SaveVitalSigns />, vitalsigns_saveBtn);
-        this.pullhook.addEventListener('changestate', this.handleChangeState);
     }
     handleChangeState = (event) => {
         if (event.type === 'changestate' || event.state === "action") {
@@ -231,8 +233,6 @@ export class VitalSigns extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <ons-pull-hook id="pull-hook" threshold-height="800px" ref={ref => { this.pullhook = ref }}>
-                </ons-pull-hook>
                 <div className="content">
                     <ons-list>
                         {
@@ -256,6 +256,7 @@ export class VitalSigns extends React.Component {
                     <ons-icon icon="md-plus"></ons-icon>
                 </ons-fab>
                 <ConfirmDialog message="Are you sure you want to delete?" onOk={this.removeVitalSign} />
+                <div id="refresh" onClick={(event)=>{ refreshVitalSigns((data)=> {this.refreshVSList(data)}) }}></div>
             </React.Fragment>
         );
     }
