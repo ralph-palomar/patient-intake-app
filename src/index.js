@@ -224,7 +224,7 @@ export function setLoginCookie(data) {
 	cookies.set(login_cookie, cookieData, {
 		path: cookieSettings.path,
 		expires: d,
-		secure: cookieSettings.secure,
+		//secure: cookieSettings.secure,
 		sameSite: cookieSettings.sameSite
 	});
 }
@@ -464,8 +464,8 @@ class ForgotPassword extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<ons-button modifier="outline" onClick={this.handlePopoverClick}>Forgot Password?</ons-button>
-				<ons-popover direction="up" id="popover" cancelable={true} ref={ref=>{this.popover=ref}}>
+				<ons-button modifier="quiet" onClick={this.handlePopoverClick}>Forgot Password?</ons-button>
+				<ons-popover direction="down" id="popover" cancelable={true} ref={ref=>{this.popover=ref}}>
 					<div align="center">
 						<p>
 						<ons-input placeholder="Email" modifier="material" ref={ref=>{this.email=ref}} ></ons-input>
