@@ -37,23 +37,23 @@
   <template id="home.html">
     <ons-page id="home">
       <ons-splitter>
-        <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
+        <ons-splitter-side id="menu" side="left" width="75%" collapse swipeable>
           <ons-page>
             <ons-list>
               <ons-list-item id="badge-list-item">
                 <div id="badge"></div>
               </ons-list-item>
-              <ons-list-item id="home-list-item" onclick="fn.load('main.html')" tappable>
+              <ons-list-item id="home-list-item" onclick="fn.load('main.html')" tappable modifier="chevron">
                 <i class="zmdi zmdi-home zmdi-hc-fw"></i>&nbsp;Home
               </ons-list-item>
-              <ons-list-item id="profile-list-item" onclick="fn.load('profile.html')" tappable>
+              <ons-list-item id="profile-list-item" onclick="fn.load('profile.html')" tappable modifier="chevron">
                 <i class="zmdi zmdi-account zmdi-hc-fw"></i>&nbsp;Profile
               </ons-list-item>
               <ons-list-item id="admin_menu" style="display: none" expandable>
                 <i class="zmdi zmdi-settings zmdi-hc-fw"></i>&nbsp;Administration
                 <div class="expandable-content">
-                  <ons-list-item id="user-list-item" onclick="fn.load('users.html')" tappable>
-                    <i class="zmdi zmdi-accounts zmdi-hc-fw"></i>&nbsp;Manage Accounts
+                  <ons-list-item id="user-list-item" onclick="fn.load('users.html')" tappable modifier="chevron">
+                    <i class="zmdi zmdi-accounts zmdi-hc-fw"></i>&nbsp;Accounts
                   </ons-list-item>
                 </div>
               </ons-list-item>
@@ -61,25 +61,27 @@
                 <i class="zmdi zmdi-folder-person zmdi-hc-fw"></i>&nbsp;Medical Record
                 <div class="expandable-content">
                   <ons-list-item id="basicinfo-list-item" onclick="fn.load('basicinfo.html')" 
-                    tappable>
+                    tappable modifier="chevron">
                     <i class="zmdi zmdi-info zmdi-hc-fw"></i>&nbsp;Basic Info
                   </ons-list-item>
                   <ons-list-item id="illnesses-list-item" onclick="fn.load('illnesses.html')" 
-                    tappable>
+                    tappable modifier="chevron">
                     <i class="zmdi zmdi-info zmdi-hc-fw"></i>&nbsp;Illnesses
                   </ons-list-item>
                   <ons-list-item id="medications-list-item" onclick="fn.load('medications.html')" 
-                    tappable>
+                    tappable modifier="chevron">
                     <i class="zmdi zmdi-info zmdi-hc-fw"></i>&nbsp;Medications
                   </ons-list-item>
                   <ons-list-item id="vitalsigns-list-item" onclick="fn.load('vitalsigns.html')" 
-                    tappable>
+                    tappable modifier="chevron">
                     <i class="zmdi zmdi-info zmdi-hc-fw"></i>&nbsp;Vital Signs
                   </ons-list-item>
-                  <ons-list-item id="diet-list-item" onclick="fn.load('diet.html')" tappable>
+                  <ons-list-item id="diet-list-item" onclick="fn.load('diet.html')" 
+                    tappable modifier="chevron">
                     <i class="zmdi zmdi-info zmdi-hc-fw"></i>&nbsp;Diet
                   </ons-list-item>
-                  <ons-list-item id="others-list-item" onclick="fn.load('others.html')" tappable>
+                  <ons-list-item id="others-list-item" onclick="fn.load('others.html')" 
+                    tappable modifier="chevron">
                     <i class="zmdi zmdi-info zmdi-hc-fw"></i>&nbsp;Others
                   </ons-list-item>
                 </div>
