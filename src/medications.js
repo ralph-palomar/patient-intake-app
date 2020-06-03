@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DatePicker from 'react-date-picker';
-import { cookies, callApi, showAlert, ConfirmDialog, formatDate, back, formatToDateString, _default } from './index.js';
+import { cookies, callApi, showAlert, formatDate, back, formatToDateString, _default } from './index.js';
 import { api, login_cookie } from './config.js';
+import ons from 'onsenui';
 
 function MedicationForm(props) {
     const id = props.medicationList[props.index].id;
@@ -36,15 +37,33 @@ export class SaveMedications extends React.Component {
     handleClick = (event) => {
         saveMedications(() => {
             back();
-            const refresh = document.querySelector('#refresh');
+            const refresh = document.querySelector('#refresh_medications');
             if (refresh != null) {
                 refresh.click();
             }
         });
     }
+    addMedication = (event) => {
+        const nav = document.querySelector('#navigator');
+        const medications_list_length = document.querySelectorAll('div.medication_list') ? document.querySelectorAll('div.medication_list').length : 0;
+        nav.pushPage('new_medication.html').then(() => {
+            const new_component = document.querySelector('#new_medication_component');
+            const initial_state = {
+                medicationList: [{
+                    id: "_" + medications_list_length,
+                    drug_name: "",
+                    dosage: "",
+                    purpose: "",
+                    date_started: ""
+                }]
+            };
+            ReactDOM.render(<NewMedicationItem data={initial_state} />, new_component);
+        });
+    }
     render() {
         return (
             <React.Fragment>
+                <ons-button modifier="quiet" onClick={this.addMedication} style={{ display: (this.props.displayAddBtn ? 'inline-block' : 'none') }}><ons-icon icon="md-plus"></ons-icon></ons-button>
                 <ons-button modifier="quiet" onClick={this.handleClick}>Save</ons-button>
             </React.Fragment>
         );
@@ -67,7 +86,7 @@ export class NewMedicationItem extends React.Component {
     }
     componentDidMount() {
         const save_new_medication = document.querySelector('div#save_new_medication');
-        if (save_new_medication != null) ReactDOM.render(<SaveMedications />, save_new_medication);
+        if (save_new_medication != null) ReactDOM.render(<SaveMedications displayAddBtn={false} />, save_new_medication);
     }
     handleChange = (index, date) => {
         if (date != null) {
@@ -110,40 +129,24 @@ export class Medications extends React.Component {
 
         this.index = null;
     }
-    addMedication = (event) => {
-        const nav = document.querySelector('#navigator');
-        const medications_list_length = document.querySelectorAll('div.medication_list') ? document.querySelectorAll('div.medication_list').length : 0;
-        nav.pushPage('new_medication.html').then(() => {
-            const new_component = document.querySelector('#new_medication_component');
-            const initial_state = {
-                medicationList: [{
-                    id: "_" + medications_list_length,
-                    drug_name: "",
-                    dosage: "",
-                    purpose: "",
-                    date_started: ""
-                }]
-            };
-            ReactDOM.render(<NewMedicationItem data={initial_state} />, new_component);
-        });
-    }
-    removeMedication = (event) => {
-        document.querySelector('#confirm-dialog').hide();
-        const id = this.index;
-        this.setState(state => {
-            const currentMedicationList = state.medicationList;
-            const filteredMedicationList = currentMedicationList.filter((item) => item.id !== "_" + id);
-            return {
-                medicationList: filteredMedicationList.map((item, index) => {
-                    item.id = "_" + index;
-                    return item;
-                })
-            }
-        }, () => { saveMedications(()=>{}, this.state) });
+    removeMedication = (value) => {
+        if (value === 1) {
+            const id = this.index;
+            this.setState(state => {
+                const currentMedicationList = state.medicationList;
+                const filteredMedicationList = currentMedicationList.filter((item) => item.id !== "_" + id);
+                return {
+                    medicationList: filteredMedicationList.map((item, index) => {
+                        item.id = "_" + index;
+                        return item;
+                    })
+                }
+            }, () => { saveMedications(()=>{}, this.state) });
+        }
     }
     confirm = (event) => {
-        document.querySelector('#confirm-dialog').show();
         this.index = event.target.getAttribute('index');
+        ons.notification.confirm('Are you sure you want to delete?').then(this.removeMedication);
     }
     handleChange = (index, date) => {
         if (date != null) {
@@ -158,7 +161,7 @@ export class Medications extends React.Component {
     }
     componentDidMount() {
         const medications_saveBtn = document.querySelector('div#medications_saveBtn');
-        if (medications_saveBtn != null) ReactDOM.render(<SaveMedications />, medications_saveBtn);
+        if (medications_saveBtn != null) ReactDOM.render(<SaveMedications displayAddBtn={true} />, medications_saveBtn);
     }
     refreshMedicationList = (data) => {
         this.setState(data);
@@ -185,11 +188,7 @@ export class Medications extends React.Component {
                         }
                     </ons-list>
                 </div>
-                <ons-fab ripple position="bottom right" id="fab_add" modifier="mini" onClick={this.addMedication}>
-                    <ons-icon icon="md-plus"></ons-icon>
-                </ons-fab>
-                <ConfirmDialog message="Are you sure you want to delete?" onOk={this.removeMedication} />
-                <div id="refresh" onClick={(event)=>{ refreshMedications((data)=> {this.refreshMedicationList(data)}) }}></div>
+                <div id="refresh_medications" onClick={(event)=>{ refreshMedications((data)=> {this.refreshMedicationList(data)}) }}></div>
             </React.Fragment>
         );
     }

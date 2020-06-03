@@ -39,47 +39,9 @@ window.fn.load = function (page) {
         ReactDOM.render(<Users />, user_list);
       }
 
-      if (page === "basicinfo.html") {
-        const basicinfo_form = document.querySelector('div#basicinfo_form');
-        getBasicInfo((data) => {
-          ReactDOM.render(<BasicInfo data={data} />, basicinfo_form);
-        }, 'basic', cookies.get(login_cookie).email);
-      }
-
-      if (page === "illnesses.html") {
-        const illnesses_list = document.querySelector('div#illnesses_list');
-        getIllnesses((data) => {
-          ReactDOM.render(<Illnesses data={data} />, illnesses_list);
-        }, 'illnesses', cookies.get(login_cookie).email);
-
-      }
-
-      if (page === "medications.html") {
-        const medications_list = document.querySelector('div#medications_list');
-        getMedications((data) => {
-          ReactDOM.render(<Medications data={data} />, medications_list);
-        }, 'medications', cookies.get(login_cookie).email);
-      }
-
-      if (page === "vitalsigns.html") {
-        const vitalsigns_list = document.querySelector('div#vitalsigns_list');
-        getVitalSigns((data) => {
-          ReactDOM.render(<VitalSigns data={data} />, vitalsigns_list);
-        }, 'vitalsigns', cookies.get(login_cookie).email);
-      }
-
-      if (page === "diet.html") {
-        const diet_list = document.querySelector('div#diet_list');
-        getDiet((data) => {
-          ReactDOM.render(<Diet data={data} />, diet_list);
-        }, 'diet', cookies.get(login_cookie).email);
-      }
-
-      if (page === "others.html") {
-        const others_list = document.querySelector('div#others_list');
-        getOthers((data) => {
-          ReactDOM.render(<Others data={data} />, others_list);
-        }, 'others', cookies.get(login_cookie).email);
+      if (page === "medical_record.html") {
+        const medical_record_main = document.querySelector('div#medical_record_main');
+        ReactDOM.render(<MedicalRecord email={cookies.get(login_cookie).email} />, medical_record_main);
       }
 
     });
@@ -366,6 +328,158 @@ export class Profile extends React.Component {
       </React.Fragment>
     );
   }
+}
+
+export class MedicalRecord extends React.Component {
+    state = {
+      email: this.props.email
+    }
+    componentDidMount() {
+
+      this.tabbar.addEventListener('postchange', (event) => {
+          if (event.index === 0) {
+            const basicinfo_form = document.querySelector('div#basicinfo_form');
+            getBasicInfo((data) => {
+              ReactDOM.render(<BasicInfo data={data} />, basicinfo_form);
+            }, 'basic', cookies.get(login_cookie).email);
+          }
+    
+          if (event.index === 1) {
+            const illnesses_list = document.querySelector('div#illnesses_list');
+            getIllnesses((data) => {
+              ReactDOM.render(<Illnesses data={data} />, illnesses_list);
+            }, 'illnesses', cookies.get(login_cookie).email);
+    
+          }
+    
+          if (event.index === 2) {
+            const medications_list = document.querySelector('div#medications_list');
+            getMedications((data) => {
+              ReactDOM.render(<Medications data={data} />, medications_list);
+            }, 'medications', cookies.get(login_cookie).email);
+          }
+    
+          if (event.index === 3) {
+            const vitalsigns_list = document.querySelector('div#vitalsigns_list');
+            getVitalSigns((data) => {
+              ReactDOM.render(<VitalSigns data={data} />, vitalsigns_list);
+            }, 'vitalsigns', cookies.get(login_cookie).email);
+          }
+    
+          if (event.index === 4) {
+            const diet_list = document.querySelector('div#diet_list');
+            getDiet((data) => {
+              ReactDOM.render(<Diet data={data} />, diet_list);
+            }, 'diet', cookies.get(login_cookie).email);
+          }
+    
+          if (event.index === 5) {
+            const others_list = document.querySelector('div#others_list');
+            getOthers((data) => {
+              ReactDOM.render(<Others data={data} />, others_list);
+            }, 'others', cookies.get(login_cookie).email);
+          }
+      });
+
+      this.tabbar.addEventListener('reactive', (event) => {
+        if (event.index === 0) {
+          const basicinfo_form = document.querySelector('div#basicinfo_form');
+          getBasicInfo((data) => {
+            ReactDOM.render(<BasicInfo data={data} />, basicinfo_form);
+          }, 'basic', cookies.get(login_cookie).email);
+        }
+      });
+
+      setTimeout(() => {
+        const basicinfo_form = document.querySelector('div#basicinfo_form');
+        getBasicInfo((data) => {
+          ReactDOM.render(<BasicInfo data={data} />, basicinfo_form);
+        }, 'basic', cookies.get(login_cookie).email);
+
+        const illnesses_list = document.querySelector('div#illnesses_list');
+        getIllnesses((data) => {
+          ReactDOM.render(<Illnesses data={data} />, illnesses_list);
+        }, 'illnesses', cookies.get(login_cookie).email);
+
+        const medications_list = document.querySelector('div#medications_list');
+        getMedications((data) => {
+          ReactDOM.render(<Medications data={data} />, medications_list);
+        }, 'medications', cookies.get(login_cookie).email);
+
+        const vitalsigns_list = document.querySelector('div#vitalsigns_list');
+        getVitalSigns((data) => {
+          ReactDOM.render(<VitalSigns data={data} />, vitalsigns_list);
+        }, 'vitalsigns', cookies.get(login_cookie).email);
+
+        const diet_list = document.querySelector('div#diet_list');
+        getDiet((data) => {
+          ReactDOM.render(<Diet data={data} />, diet_list);
+        }, 'diet', cookies.get(login_cookie).email);
+
+        const others_list = document.querySelector('div#others_list');
+        getOthers((data) => {
+          ReactDOM.render(<Others data={data} />, others_list);
+        }, 'others', cookies.get(login_cookie).email);
+
+      }, 500);
+
+    }
+    render() {
+      return (
+        <React.Fragment>
+            <ons-tabbar position="bottom" ref={ref=>{this.tabbar=ref}}>
+              <ons-tab page="basicinfo.html">
+                <input type="radio" style={{ display: 'none'}} />
+                  <button className="tabbar__button">
+                    <div className="tabbar__icon">
+                      <i className="fas fa-id-card-alt fa-fw"></i>
+                    </div>
+                  </button>    
+              </ons-tab>
+              <ons-tab page="illnesses.html">
+                <input type="radio" style={{ display: 'none'}} />
+                  <button className="tabbar__button">
+                    <div className="tabbar__icon">
+                    <i className="fas fa-diagnoses fa-fw"></i>
+                    </div>
+                  </button>          
+              </ons-tab>
+              <ons-tab page="medications.html">
+                <input type="radio" style={{ display: 'none'}} />
+                  <button className="tabbar__button">
+                    <div className="tabbar__icon">
+                    <i className=" fas fa-prescription fa-fw"></i>
+                    </div>
+                  </button>          
+              </ons-tab>
+              <ons-tab page="vitalsigns.html">
+                <input type="radio" style={{ display: 'none'}} />
+                  <button className="tabbar__button">
+                    <div className="tabbar__icon">
+                    <i className=" fas fa-heartbeat fa-fw"></i>
+                    </div>
+                  </button>          
+              </ons-tab>
+              <ons-tab page="diet.html">
+                <input type="radio" style={{ display: 'none'}} />
+                  <button className="tabbar__button">
+                    <div className="tabbar__icon">
+                    <i className=" fas fa-mug-hot fa-fw"></i>
+                    </div>
+                  </button>          
+              </ons-tab>
+              <ons-tab page="others.html">
+                <input type="radio" style={{ display: 'none'}} />
+                  <button className="tabbar__button">
+                    <div className="tabbar__icon">
+                    <i className="zmdi zmdi-info zmdi-hc-fw"></i>
+                    </div>
+                  </button>          
+              </ons-tab>
+          </ons-tabbar>
+        </React.Fragment>
+      );
+    }
 }
 
 export function getBasicInfo(successCallback=(data)=>{}, caller="", identifier) {

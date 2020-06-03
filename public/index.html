@@ -57,34 +57,8 @@
                   </ons-list-item>
                 </div>
               </ons-list-item>
-              <ons-list-item expandable>
+              <ons-list-item id="medical-record-list-item" onclick="fn.load('medical_record.html')">
                 <i class="zmdi zmdi-folder-person zmdi-hc-fw"></i>&nbsp;Medical Record
-                <div class="expandable-content">
-                  <ons-list-item id="basicinfo-list-item" onclick="fn.load('basicinfo.html')" 
-                    tappable modifier="chevron">
-                    <i class="fas fa-id-card-alt fa-fw"></i>&nbsp;&nbsp;Basic Info
-                  </ons-list-item>
-                  <ons-list-item id="illnesses-list-item" onclick="fn.load('illnesses.html')" 
-                    tappable modifier="chevron">
-                    <i class="fas fa-diagnoses fa-fw"></i>&nbsp;&nbsp;Illnesses
-                  </ons-list-item>
-                  <ons-list-item id="medications-list-item" onclick="fn.load('medications.html')" 
-                    tappable modifier="chevron">
-                    <i class=" fas fa-prescription fa-fw"></i>&nbsp;&nbsp;Medications
-                  </ons-list-item>
-                  <ons-list-item id="vitalsigns-list-item" onclick="fn.load('vitalsigns.html')" 
-                    tappable modifier="chevron">
-                    <i class=" fas fa-heartbeat fa-fw"></i>&nbsp;&nbsp;Vital Signs
-                  </ons-list-item>
-                  <ons-list-item id="diet-list-item" onclick="fn.load('diet.html')" 
-                    tappable modifier="chevron">
-                    <i class=" fas fa-mug-hot fa-fw"></i>&nbsp;&nbsp;Diet
-                  </ons-list-item>
-                  <ons-list-item id="others-list-item" onclick="fn.load('others.html')" 
-                    tappable modifier="chevron">
-                    <i class="zmdi zmdi-info zmdi-hc-fw"></i>&nbsp;Others
-                  </ons-list-item>
-                </div>
               </ons-list-item>
               <ons-list-item onclick="fn.logout()" tappable>
                 <i class="zmdi zmdi-close zmdi-hc-fw"></i>&nbsp;Logout
@@ -95,6 +69,12 @@
         <ons-splitter-content id="content" page="main.html"></ons-splitter-content>
       </ons-splitter>
       <div id="confirm_logout"></div>
+    </ons-page>
+  </template>
+
+  <template id="medical_record.html">
+    <ons-page id="medical_record">
+      <div id="medical_record_main"></div>
     </ons-page>
   </template>
 
@@ -139,10 +119,9 @@
         </div>
       </ons-toolbar>
       <div id="basic_pb" style="display: none;">
-        <ons-progress-circular indeterminate>
+        <ons-progress-circular indeterminate></ons-progress-circular>
           <div class="modal">
             <div class="modal__content">
-              </ons-progress-bar>
             </div>
           </div>
       </div>
@@ -164,10 +143,9 @@
         <div class="right" id="illnesses_saveBtn"></div>
       </ons-toolbar>
       <div id="illnesses_pb" style="display: none;">
-        <ons-progress-circular indeterminate>
+        <ons-progress-circular indeterminate></ons-progress-circular>
           <div class="modal">
             <div class="modal__content">
-              </ons-progress-bar>
             </div>
           </div>
       </div>
@@ -189,10 +167,9 @@
         <div class="right" id="diet_saveBtn"></div>
       </ons-toolbar>
       <div id="diet_pb" style="display: none;">
-        <ons-progress-circular indeterminate>
+        <ons-progress-circular indeterminate></ons-progress-circular>
           <div class="modal">
             <div class="modal__content">
-              </ons-progress-bar>
             </div>
           </div>
       </div>
@@ -214,10 +191,9 @@
         <div class="right" id="medications_saveBtn"></div>
       </ons-toolbar>
       <div id="medications_pb" style="display: none;">
-        <ons-progress-circular indeterminate>
+        <ons-progress-circular indeterminate></ons-progress-circular>
           <div class="modal">
             <div class="modal__content">
-              </ons-progress-bar>
             </div>
           </div>
       </div>
@@ -254,10 +230,9 @@
         <div class="right" id="others_saveBtn"></div>
       </ons-toolbar>
       <div id="others_pb" style="display: none;">
-        <ons-progress-circular indeterminate>
+        <ons-progress-circular indeterminate></ons-progress-circular>
           <div class="modal">
             <div class="modal__content">
-              </ons-progress-bar>
             </div>
           </div>
       </div>
@@ -427,10 +402,9 @@
         <div class="right" id="vitalsigns_saveBtn"></div>
       </ons-toolbar>
       <div id="vitalsigns_pb" style="display: none;">
-        <ons-progress-circular indeterminate>
+        <ons-progress-circular indeterminate></ons-progress-circular>
           <div class="modal">
             <div class="modal__content">
-              </ons-progress-bar>
             </div>
           </div>
       </div>
