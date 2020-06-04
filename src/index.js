@@ -170,7 +170,7 @@ export async function callApi(config = {}, successCallback = (data)=>{}, caller 
 }
 
 export function showAlert(msg, timeout=3000) {
-	ons.notification.toast(msg, { timeout: timeout });
+	ons.notification.toast(msg, { timeout: timeout, animation: 'lift' });
 }
 
 export function formatDate(date) {
