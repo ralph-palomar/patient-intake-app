@@ -43,27 +43,9 @@ export class SaveMedications extends React.Component {
             }
         });
     }
-    addMedication = (event) => {
-        const nav = document.querySelector('#navigator');
-        const medications_list_length = document.querySelectorAll('div.medication_list') ? document.querySelectorAll('div.medication_list').length : 0;
-        nav.pushPage('new_medication.html').then(() => {
-            const new_component = document.querySelector('#new_medication_component');
-            const initial_state = {
-                medicationList: [{
-                    id: "_" + medications_list_length,
-                    drug_name: "",
-                    dosage: "",
-                    purpose: "",
-                    date_started: ""
-                }]
-            };
-            ReactDOM.render(<NewMedicationItem data={initial_state} />, new_component);
-        });
-    }
     render() {
         return (
             <React.Fragment>
-                <ons-button modifier="quiet" onClick={this.addMedication} style={{ display: (this.props.displayAddBtn ? 'inline-block' : 'none') }}><ons-icon icon="md-plus"></ons-icon></ons-button>
                 <ons-button modifier="quiet" onClick={this.handleClick}>Save</ons-button>
             </React.Fragment>
         );
@@ -86,7 +68,7 @@ export class NewMedicationItem extends React.Component {
     }
     componentDidMount() {
         const save_new_medication = document.querySelector('div#save_new_medication');
-        if (save_new_medication != null) ReactDOM.render(<SaveMedications displayAddBtn={false} />, save_new_medication);
+        if (save_new_medication != null) ReactDOM.render(<SaveMedications />, save_new_medication);
     }
     handleChange = (index, date) => {
         if (date != null) {
@@ -144,6 +126,23 @@ export class Medications extends React.Component {
             }, () => { saveMedications(()=>{}, this.state) });
         }
     }
+    addMedication = (event) => {
+        const nav = document.querySelector('#navigator');
+        const medications_list_length = document.querySelectorAll('div.medication_list') ? document.querySelectorAll('div.medication_list').length : 0;
+        nav.pushPage('new_medication.html').then(() => {
+            const new_component = document.querySelector('#new_medication_component');
+            const initial_state = {
+                medicationList: [{
+                    id: "_" + medications_list_length,
+                    drug_name: "",
+                    dosage: "",
+                    purpose: "",
+                    date_started: ""
+                }]
+            };
+            ReactDOM.render(<NewMedicationItem data={initial_state} />, new_component);
+        });
+    }
     confirm = (event) => {
         this.index = event.target.getAttribute('index');
         ons.notification.confirm('Are you sure you want to delete?').then(this.removeMedication);
@@ -161,7 +160,12 @@ export class Medications extends React.Component {
     }
     componentDidMount() {
         const medications_saveBtn = document.querySelector('div#medications_saveBtn');
-        if (medications_saveBtn != null) ReactDOM.render(<SaveMedications displayAddBtn={true} />, medications_saveBtn);
+        if (medications_saveBtn != null) ReactDOM.render(<SaveMedications />, medications_saveBtn);
+
+        const fab_add_medication = document.querySelector('#fab_add_medication');
+        if (fab_add_medication != null) {
+            fab_add_medication.addEventListener('click', this.addMedication);
+        }
     }
     refreshMedicationList = (data) => {
         this.setState(data);

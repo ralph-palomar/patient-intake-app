@@ -342,6 +342,8 @@ export class MedicalRecord extends React.Component {
             getBasicInfo((data) => {
               ReactDOM.render(<BasicInfo data={data} />, basicinfo_form);
             }, 'basic', cookies.get(login_cookie).email);
+            document.querySelector('#fab_add_medication').style.display = 'none';
+            document.querySelector('#fab_add_vitalsign').style.display = 'none';
           }
     
           if (event.index === 1) {
@@ -349,7 +351,8 @@ export class MedicalRecord extends React.Component {
             getIllnesses((data) => {
               ReactDOM.render(<Illnesses data={data} />, illnesses_list);
             }, 'illnesses', cookies.get(login_cookie).email);
-    
+            document.querySelector('#fab_add_medication').style.display = 'none';
+            document.querySelector('#fab_add_vitalsign').style.display = 'none';
           }
     
           if (event.index === 2) {
@@ -357,6 +360,8 @@ export class MedicalRecord extends React.Component {
             getMedications((data) => {
               ReactDOM.render(<Medications data={data} />, medications_list);
             }, 'medications', cookies.get(login_cookie).email);
+            document.querySelector('#fab_add_medication').style.display = 'block';
+            document.querySelector('#fab_add_vitalsign').style.display = 'none';
           }
     
           if (event.index === 3) {
@@ -364,6 +369,8 @@ export class MedicalRecord extends React.Component {
             getVitalSigns((data) => {
               ReactDOM.render(<VitalSigns data={data} />, vitalsigns_list);
             }, 'vitalsigns', cookies.get(login_cookie).email);
+            document.querySelector('#fab_add_medication').style.display = 'none';
+            document.querySelector('#fab_add_vitalsign').style.display = 'block';
           }
     
           if (event.index === 4) {
@@ -371,6 +378,8 @@ export class MedicalRecord extends React.Component {
             getDiet((data) => {
               ReactDOM.render(<Diet data={data} />, diet_list);
             }, 'diet', cookies.get(login_cookie).email);
+            document.querySelector('#fab_add_medication').style.display = 'none';
+            document.querySelector('#fab_add_vitalsign').style.display = 'none';
           }
     
           if (event.index === 5) {
@@ -378,6 +387,8 @@ export class MedicalRecord extends React.Component {
             getOthers((data) => {
               ReactDOM.render(<Others data={data} />, others_list);
             }, 'others', cookies.get(login_cookie).email);
+            document.querySelector('#fab_add_medication').style.display = 'none';
+            document.querySelector('#fab_add_vitalsign').style.display = 'none';
           }
       });
 
@@ -427,7 +438,7 @@ export class MedicalRecord extends React.Component {
     render() {
       return (
         <React.Fragment>
-            <ons-tabbar position="bottom" ref={ref=>{this.tabbar=ref}}>
+            <ons-tabbar id="record_tabbar" position="bottom" ref={ref=>{this.tabbar=ref}}>
               <ons-tab page="basicinfo.html">
                 <input type="radio" style={{ display: 'none'}} />
                   <button className="tabbar__button">
@@ -477,6 +488,12 @@ export class MedicalRecord extends React.Component {
                   </button>          
               </ons-tab>
           </ons-tabbar>
+          <ons-fab id="fab_add_medication" position="bottom right" modifier="mini" style={{ marginBottom: '50px', display: 'none' }} >
+            <ons-icon icon="md-plus"></ons-icon>
+          </ons-fab>
+          <ons-fab id="fab_add_vitalsign" position="bottom right" modifier="mini" style={{ marginBottom: '50px', display: 'none' }} >
+            <ons-icon icon="md-plus"></ons-icon>
+          </ons-fab>
         </React.Fragment>
       );
     }

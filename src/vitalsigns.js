@@ -79,36 +79,9 @@ export class SaveVitalSigns extends React.Component {
             }
         });
     }
-    addVitalSign = (event) => {
-        const nav = document.querySelector('#navigator');
-        const vs_list_length = document.querySelectorAll('div.vs_list') ? document.querySelectorAll('div.vs_list').length : 0;
-        nav.pushPage('new_vitalsign.html').then(() => {
-            const new_component = document.querySelector('#new_vs_component');
-            const initial_state = {
-                vsList: [{
-                    id: "_" + vs_list_length,
-                    vs_date: "",
-                    vs_time: "",
-                    vs_bloodpressure: "",
-                    vs_heartrate: "",
-                    vs_respirate: "",
-                    vs_temp: "",
-                    vs_weight: "",
-                    vs_weight_unit: "",
-                    vs_height: "",
-                    vs_bmi: "",
-                    vs_waistcirc: "",
-                    vs_hipcirc: "",
-                    vs_whratio: ""
-                }]
-            };
-            ReactDOM.render(<NewVitalSignItem data={initial_state} />, new_component);
-        });
-    }
     render() {
         return (
             <React.Fragment>
-                <ons-button modifier="quiet" onClick={this.addVitalSign} style={{ display: (this.props.displayAddBtn ? 'inline-block' : 'none') }}><ons-icon icon="md-plus"></ons-icon></ons-button>
                 <ons-button modifier="quiet" onClick={this.handleClick}>Save</ons-button>
             </React.Fragment>
         );
@@ -131,7 +104,7 @@ export class NewVitalSignItem extends React.Component {
     }
     componentDidMount() {
         const save_new_vs = document.querySelector('div#save_new_vs');
-        if (save_new_vs != null) ReactDOM.render(<SaveVitalSigns displayAddBtn={false} />, save_new_vs);
+        if (save_new_vs != null) ReactDOM.render(<SaveVitalSigns />, save_new_vs);
     }
     handleDateChange = (index, date) => {
         if (date != null) {
@@ -198,6 +171,32 @@ export class VitalSigns extends React.Component {
             }, () => { saveVitalSigns(()=>{}, this.state) });
         }
     }
+    addVitalSign = (event) => {
+        const nav = document.querySelector('#navigator');
+        const vs_list_length = document.querySelectorAll('div.vs_list') ? document.querySelectorAll('div.vs_list').length : 0;
+        nav.pushPage('new_vitalsign.html').then(() => {
+            const new_component = document.querySelector('#new_vs_component');
+            const initial_state = {
+                vsList: [{
+                    id: "_" + vs_list_length,
+                    vs_date: "",
+                    vs_time: "",
+                    vs_bloodpressure: "",
+                    vs_heartrate: "",
+                    vs_respirate: "",
+                    vs_temp: "",
+                    vs_weight: "",
+                    vs_weight_unit: "",
+                    vs_height: "",
+                    vs_bmi: "",
+                    vs_waistcirc: "",
+                    vs_hipcirc: "",
+                    vs_whratio: ""
+                }]
+            };
+            ReactDOM.render(<NewVitalSignItem data={initial_state} />, new_component);
+        });
+    }
     confirm = (event) => {
         this.index = event.target.getAttribute('index');
         ons.notification.confirm('Are you sure you want to delete?').then(this.removeVitalSign);
@@ -225,7 +224,12 @@ export class VitalSigns extends React.Component {
     }
     componentDidMount() {
         const vitalsigns_saveBtn = document.querySelector('div#vitalsigns_saveBtn');
-        if (vitalsigns_saveBtn != null) ReactDOM.render(<SaveVitalSigns displayAddBtn={true} />, vitalsigns_saveBtn);
+        if (vitalsigns_saveBtn != null) ReactDOM.render(<SaveVitalSigns />, vitalsigns_saveBtn);
+
+        const fab_add_vitalsign = document.querySelector('#fab_add_vitalsign');
+        if (fab_add_vitalsign != null) {
+            fab_add_vitalsign.addEventListener('click', this.addVitalSign);
+        }
     }
     handleChangeState = (event) => {
         if (event.type === 'changestate' || event.state === "action") {
