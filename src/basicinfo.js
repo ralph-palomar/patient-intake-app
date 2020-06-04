@@ -80,7 +80,7 @@ export class BasicInfo extends React.Component {
 				<ons-list-item>
 					<label className="form">Date of Birth</label><br />
 					<ons-input id="basic_dob" style={{display: 'none'}} value={this.state.basic_dob}></ons-input>
-					<DatePicker onChange={this.onChange} value={new Date(this.state.basic_dob)} clearIcon={null} />
+					<DatePicker onChange={this.onChange} value={this.state.basic_dob !== "" && this.state.basic_dob != null ? new Date(this.state.basic_dob) : new Date()} clearIcon={null} />
 				</ons-list-item>
 				<ons-list-item>
 					<label className="form">Gender</label>
