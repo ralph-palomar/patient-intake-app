@@ -222,7 +222,7 @@ export function setLoginCookie(data) {
 	cookies.set(login_cookie, cookieData, {
 		path: cookieSettings.path,
 		expires: d,
-		//secure: cookieSettings.secure,
+		secure: cookieSettings.secure,
 		sameSite: cookieSettings.sameSite
 	});
 }
