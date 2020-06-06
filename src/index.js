@@ -1,8 +1,8 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-import 'onsenui/css/onsenui.css';
-import 'onsenui/css/onsen-css-components.css';
+import 'onsenui/css/onsenui.min.css';
+import 'onsenui/css/onsen-css-components.min.css';
 import './index.css';
 import 'material-design-iconic-font/dist/css/material-design-iconic-font.min.css';
 
@@ -100,9 +100,8 @@ export function createAccount() {
 	}
 }
 
-export function back() {
-	const navigator = document.querySelector('#navigator');
-	if (navigator != null && navigator.getAttribute('_is-running') !== false) {
+export function back(navigator=document.querySelector('#navigator')) {
+	if (navigator != null) {
 		navigator.popPage();
 	}
 }
@@ -272,7 +271,7 @@ class App extends React.Component {
 						setLoginCookie(userInfoData);
 						this.nav.pushPage('home.html');
 					} else {
-						ons.notification.alert('An existing account with the same Email ID has not been registered via Facebook Login. Please login with your registered username and password instead.')
+						ons.notification.alert('Your Facebook email address has already been registered for this application. Please sign in with your email and password.')
 							.then((value)=>{
 								window.location.href = process.env.PUBLIC_URL;
 							});
@@ -280,14 +279,14 @@ class App extends React.Component {
 					}
 
 				} else {
-					ons.notification.confirm('Facebook account is not registered or enabled for this application. Do you want to proceed with the registration?')
+					ons.notification.confirm('Your Facebook email address is not registered or enabled for this application. Do you want to proceed with the registration?')
 						.then((value)=> {
 							if (value === 1) {
 								obtainVerificationCode((data)=>{
 									sendEmail({
 										to: userInfoData.email,
 										from: defaultEmailSender,
-										subject: "Account Verification Request",
+										subject: "Facebook Account Verification Request",
 										body:
 											'To proceed please click the link below:\n\n' +
 												data.callbackUrl +
@@ -296,6 +295,8 @@ class App extends React.Component {
 
 									showAlert("Please check your email to proceed")
 								}, userInfoData);
+							} else {
+								window.location.href = process.env.PUBLIC_URL;
 							}
 						});
 				}
@@ -320,7 +321,7 @@ class App extends React.Component {
 				<FacebookLogin
 					appId="607869309830124"
 					autoLoad={false}
-					fields="name,email,picture"
+					fields="name,email"
 					size="small"
 					callback={this.responseFacebook}
 					icon="fa-facebook"/>,

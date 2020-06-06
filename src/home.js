@@ -254,6 +254,17 @@ export class Profile extends React.Component {
       });
     }
   }
+  handleViewOptions = (event) => {
+    this.viewSwitch.show();
+  }
+  handleSwitch = (event, index) => {
+    const carousel = document.querySelector('#carousel');
+    if (carousel != null) {
+      carousel.setActiveIndex(index); 
+      this.viewSwitch.hide();
+      carousel.scrollIntoView();
+    }
+  }
   render() {
     const imgSrc = this.state.accountInfo.picture != null ? this.state.accountInfo.picture : defaultImg;
     const displayCamIcon = this.state.openedBy === 'admin' ? 'none' : 'block';
@@ -325,6 +336,17 @@ export class Profile extends React.Component {
 							</div>
 						</ons-list>
         </ons-popover>
+        <ons-fab position="bottom right" style={{ position: 'fixed' }} modifier="mini" onClick={this.handleViewOptions} >
+          <ons-icon icon="fa-exchange-alt"></ons-icon>
+        </ons-fab>
+        <ons-action-sheet cancelable title="Switch to..." ref={ref=>{this.viewSwitch=ref}} style={{ position: 'fixed' }} >
+          <ons-action-sheet-button icon="fa-id-card-alt" onClick={(event)=>{this.handleSwitch(event, 0)}}>Basic Information</ons-action-sheet-button>
+          <ons-action-sheet-button icon="fa-diagnoses" onClick={(event)=>{this.handleSwitch(event, 1)}}>Illnesses</ons-action-sheet-button>
+          <ons-action-sheet-button icon="fa-prescription" onClick={(event)=>{this.handleSwitch(event, 2)}}>Medications</ons-action-sheet-button>
+          <ons-action-sheet-button icon="fa-heartbeat" onClick={(event)=>{this.handleSwitch(event, 3)}}>Vital Signs</ons-action-sheet-button>
+          <ons-action-sheet-button icon="fa-mug-hot" onClick={(event)=>{this.handleSwitch(event, 4)}}>Diet</ons-action-sheet-button>
+          <ons-action-sheet-button icon="fa-question-circle" onClick={(event)=>{this.handleSwitch(event, 5)}}>Others</ons-action-sheet-button>
+        </ons-action-sheet>
       </React.Fragment>
     );
   }
@@ -483,16 +505,16 @@ export class MedicalRecord extends React.Component {
                 <input type="radio" style={{ display: 'none'}} />
                   <button className="tabbar__button">
                     <div className="tabbar__icon">
-                    <i className="zmdi zmdi-info zmdi-hc-fw"></i>
+                    <i class="far fa-question-circle"></i>
                     </div>
                   </button>          
               </ons-tab>
           </ons-tabbar>
-          <ons-fab id="fab_add_medication" position="bottom right" modifier="mini" style={{ marginBottom: '50px', display: 'none' }} >
-            <ons-icon icon="md-plus"></ons-icon>
+          <ons-fab id="fab_add_medication" modifier="mini" position="bottom right" style={{ marginBottom: '50px', display: 'none' }} >
+            <ons-icon icon="fa-plus"></ons-icon>
           </ons-fab>
-          <ons-fab id="fab_add_vitalsign" position="bottom right" modifier="mini" style={{ marginBottom: '50px', display: 'none' }} >
-            <ons-icon icon="md-plus"></ons-icon>
+          <ons-fab id="fab_add_vitalsign" modifier="mini" position="bottom right" style={{ marginBottom: '50px', display: 'none' }} >
+            <ons-icon icon="fa-plus"></ons-icon>
           </ons-fab>
         </React.Fragment>
       );

@@ -35,8 +35,10 @@ function MedicationForm(props) {
 
 export class SaveMedications extends React.Component {
     handleClick = (event) => {
-        saveMedications(() => {
+        if (this.props.item != null && this.props.item === 'new') {
             back();
+        }
+        saveMedications(() => {
             const refresh = document.querySelector('#refresh_medications');
             if (refresh != null) {
                 refresh.click();
@@ -68,7 +70,7 @@ export class NewMedicationItem extends React.Component {
     }
     componentDidMount() {
         const save_new_medication = document.querySelector('div#save_new_medication');
-        if (save_new_medication != null) ReactDOM.render(<SaveMedications />, save_new_medication);
+        if (save_new_medication != null) ReactDOM.render(<SaveMedications item="new" />, save_new_medication);
     }
     handleChange = (index, date) => {
         if (date != null) {

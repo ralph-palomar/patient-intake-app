@@ -24,7 +24,7 @@
           </p>
           <p>
             <ons-button modifier="quiet" onclick="fn.register()">Register</ons-button>
-            <ons-button onclick="fn.login()">Sign in</ons-button>
+            <ons-button modifier="quiet" onclick="fn.login()">Sign in</ons-button>
             <div id="facebook_loginBtn" style="text-align: center"></div>
           </p>
         </ons-card>
@@ -266,7 +266,7 @@
           </div>
       </div>
       <div id="main_display"></div>
-      <ons-carousel swipeable auto-scroll overscrollable id="carousel">
+      <ons-carousel id="carousel">
         <ons-carousel-item>
           <div id="profile_basic_info"></div>
         </ons-carousel-item>
@@ -287,7 +287,6 @@
         </ons-carousel-item>
         </div>
       </ons-carousel>
-    </ons-page>
   </template>
 
   <template id="user_profile.html">
@@ -355,7 +354,7 @@
           </p>
           <p>
             <ons-button onclick="fn.back()" modifier="quiet">Back</ons-button>
-            <ons-button onclick="fn.createAccount()">Submit</ons-button>
+            <ons-button onclick="fn.createAccount()" modifier="quiet" >Submit</ons-button>
           </p>
         </ons-card>
       </div>

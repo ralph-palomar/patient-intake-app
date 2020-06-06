@@ -72,7 +72,9 @@ function VitalSignsForm(props) {
 export class SaveVitalSigns extends React.Component {
     handleClick = (event) => {
         saveVitalSigns(() => {
-            back();
+            if (this.props.item != null && this.props.item === 'new') {
+                back();
+            }
             const refresh = document.querySelector('#refresh_vitalsigns');
             if (refresh != null) {
                 refresh.click();
@@ -104,7 +106,7 @@ export class NewVitalSignItem extends React.Component {
     }
     componentDidMount() {
         const save_new_vs = document.querySelector('div#save_new_vs');
-        if (save_new_vs != null) ReactDOM.render(<SaveVitalSigns />, save_new_vs);
+        if (save_new_vs != null) ReactDOM.render(<SaveVitalSigns item="new" />, save_new_vs);
     }
     handleDateChange = (index, date) => {
         if (date != null) {
