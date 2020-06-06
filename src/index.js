@@ -470,7 +470,7 @@ class ForgotPassword extends React.Component {
 					<div align="center">
 						<p>
 						<ons-input placeholder="Email" modifier="material" ref={ref=>{this.email=ref}} ></ons-input>
-						<ons-button modifier="quiet" onClick={this.handleSubmit} >Submit</ons-button>
+						<ons-button modifier="large--quiet" onClick={this.handleSubmit} >Submit</ons-button>
 						</p>
 					</div>
 				</ons-popover>
