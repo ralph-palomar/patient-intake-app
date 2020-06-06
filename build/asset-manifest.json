@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "https://www.tes8.link/webapp/lifestyleclinic/static/css/main.084613d6.chunk.css",
+    "main.js": "https://www.tes8.link/webapp/lifestyleclinic/static/js/main.c2c9909a.chunk.js",
+    "main.js.map": "https://www.tes8.link/webapp/lifestyleclinic/static/js/main.c2c9909a.chunk.js.map",
+    "runtime-main.js": "https://www.tes8.link/webapp/lifestyleclinic/static/js/runtime-main.a4114234.js",
+    "runtime-main.js.map": "https://www.tes8.link/webapp/lifestyleclinic/static/js/runtime-main.a4114234.js.map",
+    "static/css/2.a353c822.chunk.css": "https://www.tes8.link/webapp/lifestyleclinic/static/css/2.a353c822.chunk.css",
+    "static/js/2.0d938221.chunk.js": "https://www.tes8.link/webapp/lifestyleclinic/static/js/2.0d938221.chunk.js",
+    "static/js/2.0d938221.chunk.js.map": "https://www.tes8.link/webapp/lifestyleclinic/static/js/2.0d938221.chunk.js.map",
+    "index.html": "https://www.tes8.link/webapp/lifestyleclinic/index.html",
+    "precache-manifest.bc569d0b2deae58735ac3dd033338e9e.js": "https://www.tes8.link/webapp/lifestyleclinic/precache-manifest.bc569d0b2deae58735ac3dd033338e9e.js",
+    "service-worker.js": "https://www.tes8.link/webapp/lifestyleclinic/service-worker.js",
+    "static/css/2.a353c822.chunk.css.map": "https://www.tes8.link/webapp/lifestyleclinic/static/css/2.a353c822.chunk.css.map",
+    "static/css/main.084613d6.chunk.css.map": "https://www.tes8.link/webapp/lifestyleclinic/static/css/main.084613d6.chunk.css.map",
+    "static/js/2.0d938221.chunk.js.LICENSE.txt": "https://www.tes8.link/webapp/lifestyleclinic/static/js/2.0d938221.chunk.js.LICENSE.txt",
+    "static/media/onsenui.min.css": "https://www.tes8.link/webapp/lifestyleclinic/static/media/ionicons.cfdc1522.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a4114234.js",
+    "static/css/2.a353c822.chunk.css",
+    "static/js/2.0d938221.chunk.js",
+    "static/css/main.084613d6.chunk.css",
+    "static/js/main.c2c9909a.chunk.js"
+  ]
+}
