@@ -346,6 +346,7 @@ export class Profile extends React.Component {
           <ons-action-sheet-button icon="fa-heartbeat" onClick={(event)=>{this.handleSwitch(event, 3)}}>Vital Signs</ons-action-sheet-button>
           <ons-action-sheet-button icon="fa-mug-hot" onClick={(event)=>{this.handleSwitch(event, 4)}}>Diet</ons-action-sheet-button>
           <ons-action-sheet-button icon="fa-question-circle" onClick={(event)=>{this.handleSwitch(event, 5)}}>Others</ons-action-sheet-button>
+          <ons-action-sheet-button icon="fa-times" onClick={(event)=>{this.viewSwitch.hide()}}>Cancel</ons-action-sheet-button>
         </ons-action-sheet>
       </React.Fragment>
     );
