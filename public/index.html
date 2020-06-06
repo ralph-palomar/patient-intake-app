@@ -44,24 +44,27 @@
                 <div id="badge"></div>
               </ons-list-item>
               <ons-list-item id="home-list-item" onclick="fn.load('main.html')" tappable modifier="chevron">
-                <i class="zmdi zmdi-home zmdi-hc-fw"></i>&nbsp;Home
+                <i class="fas fa-home fa-fw fa-lg"></i>&nbsp;Home
               </ons-list-item>
               <ons-list-item id="profile-list-item" onclick="fn.load('profile.html')" tappable modifier="chevron">
-                <i class="zmdi zmdi-account zmdi-hc-fw"></i>&nbsp;Profile
+                <i class="fas fa-user fa-fw fa-lg"></i>&nbsp;Profile
               </ons-list-item>
               <ons-list-item id="admin_menu" style="display: none" expandable>
-                <i class="zmdi zmdi-settings zmdi-hc-fw"></i>&nbsp;Administration
+                <i class="fas fa-users-cog fa-fw fa-lg"></i>&nbsp;Administration
                 <div class="expandable-content">
                   <ons-list-item id="user-list-item" onclick="fn.load('users.html')" tappable modifier="chevron">
-                    <i class="zmdi zmdi-accounts zmdi-hc-fw"></i>&nbsp;Accounts
+                    <i class="fas fa-users fa-fw fa-lg"></i></i>&nbsp;Accounts
                   </ons-list-item>
                 </div>
               </ons-list-item>
-              <ons-list-item id="medical-record-list-item" onclick="fn.load('medical_record.html')">
-                <i class="zmdi zmdi-folder-person zmdi-hc-fw"></i>&nbsp;Medical Record
+              <ons-list-item id="medical-record-list-item" onclick="fn.load('medical_record.html')" modifier="chevron">
+                <i class="fas fa-file-medical fa-fw fa-lg"></i>&nbsp;Medical Record
+              </ons-list-item>
+              <ons-list-item id="appointment-list-item" onclick="fn.load('schedule_appointment.html')" modifier="chevron">
+                <i class="far fa-calendar-check fa-fw fa-lg"></i>&nbsp;Schedule Appointment
               </ons-list-item>
               <ons-list-item onclick="fn.logout()" tappable>
-                <i class="zmdi zmdi-close zmdi-hc-fw"></i>&nbsp;Logout
+                <i class="fas fa-sign-out-alt fa-fw fa-lg"></i>&nbsp;Logout
               </ons-list-item>
             </ons-list>
           </ons-page>
@@ -75,6 +78,25 @@
   <template id="medical_record.html">
     <ons-page id="medical_record">
       <div id="medical_record_main"></div>
+    </ons-page>
+  </template>
+
+  <template id="schedule_appointment.html">
+    <ons-page id="schedule_appointment">
+      <div id="schedule_appointment_main"></div>
+    </ons-page>
+  </template>
+
+  <template id="set_appointment.html">
+    <ons-page>
+        <ons-list style="margin-top: 60px;">
+          <ons-list-item expandable>
+            Check Availability
+            <div class="expandable-content">
+              <div id="appointment_calendar" style="height: 100%;"></div>
+            </div>
+          </ons-list-item>
+        </ons-list>
     </ons-page>
   </template>
 

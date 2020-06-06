@@ -11,6 +11,7 @@ import { Others, OthersProfile } from './others.js';
 import { api, defaultImg, login_cookie, defaultEmailSender } from './config.js';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+import { Appointment } from './appointment.js';
 
 window.fn = {};
 
@@ -44,6 +45,11 @@ window.fn.load = function (page) {
         ReactDOM.render(<MedicalRecord email={cookies.get(login_cookie).email} />, medical_record_main);
       }
 
+      if (page === "schedule_appointment.html") {
+        const schedule_appointment_main = document.querySelector('div#schedule_appointment_main');
+        ReactDOM.render(<Appointment />, schedule_appointment_main);
+      }
+
     });
 };
 
@@ -54,6 +60,7 @@ window.fn.login = login;
 window.fn.register = register;
 
 export const loadPage = window.fn.load;
+export const openMenu = window.fn.open;
 
 export class Profile extends React.Component {
   constructor(props) {
@@ -283,7 +290,7 @@ export class Profile extends React.Component {
               <img className="list-item--material__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '100px', height: '100px'}} ></img>
             </div>
             <div id="profile_cam_icon" align="center" style={{ display: displayCamIcon }}>
-              <ons-icon icon="md-camera" onClick={this.handlePictureClick}></ons-icon>
+              <ons-icon icon="fa-camera" onClick={this.handlePictureClick}></ons-icon>
               <input type="file" id="profile_pic" style={{ display: 'none'}} onChange={(event)=>{this.handlePictureChange(event, nav)}} ></input>
             </div>
             <div className="title" align="center" ref={ref=>{this.title=ref}}></div>
@@ -293,7 +300,7 @@ export class Profile extends React.Component {
               </ons-button>
             </div>
         </ons-card>
-        <ons-popover direction="down" id="popover" cancelable={true} ref={ref=>{this.popover=ref}}>
+        <ons-popover direction="down" id="popover" cancelable={true} ref={ref=>{this.popover=ref}} style={{ position: 'fixed' }}>
             <ons-list>
               <ons-list-header>
                 <div className="left">Settings</div>
@@ -312,12 +319,12 @@ export class Profile extends React.Component {
               </ons-list-item>
             </ons-list>
         </ons-popover>
-        <ons-popover direction="left" id="popover" cancelable={true} ref={ref=>{this.profile_settings_popover=ref}} >
+        <ons-popover direction="left" id="popover" cancelable={true} ref={ref=>{this.profile_settings_popover=ref}} style={{ position: 'fixed', marginTop: '60px' }}>
             <p>
               <ons-button modifier="quiet" onClick={this.handleChangePassword}>Change Password</ons-button>
             </p>
         </ons-popover>
-        <ons-popover direction="down" id="popover" cancelable={true} ref={ref=>{this.change_password_popover=ref}} >
+        <ons-popover direction="down" id="popover" cancelable={true} ref={ref=>{this.change_password_popover=ref}} style={{ position: 'fixed'}}>
           <ons-list>
 							<ons-list-header>Change Password</ons-list-header>
 							<div align="center">
