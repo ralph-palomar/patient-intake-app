@@ -167,6 +167,10 @@ export async function callApi(config = {}, successCallback = (data)=>{}, caller 
 		});
 }
 
+export function callApiWithPromise(config = {}) {
+	return axios(config);
+}
+
 export function showAlert(msg, timeout=3000) {
 	ons.notification.toast(msg, { timeout: timeout, animation: 'lift' });
 }

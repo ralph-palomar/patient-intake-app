@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { logout, back, createAccount, login, register, cookies, callApi, _default, showAlert, validatePasswords } from './index.js'
+import { logout, back, createAccount, login, register, cookies, callApi, _default, showAlert, validatePasswords, callApiWithPromise } from './index.js'
 import { Users } from './users.js'
 import { BasicInfo, BasicInfoProfile } from './basicinfo.js';
 import { Illnesses, IllnessesProfile } from './illnesses.js';
@@ -737,6 +737,37 @@ export function verifyUserPwd(successCallback=(data)=>{}, payload) {
   callApi(config, successCallback, "", false);
 }
 
+export function verifyAppointmentByDate(successCallback=(data)=>{}, email, date) {
+  const config = {
+    "url": api.users_api_base_url + "/v1/appointments/verify",
+    "method": "GET",
+    "timeout": api.users_api_timeout,
+    "headers": {
+      "Authorization": api.users_api_authorization
+    },
+    "params": {
+      "email": email,
+      "date": date
+    }
+  };
+  callApi(config, successCallback, "", false);
+}
+
+export function getAppointmentsByDate(date) {
+  const config = {
+    "url": api.users_api_base_url + "/v1/appointments/byDate",
+    "method": "GET",
+    "timeout": api.users_api_timeout,
+    "headers": {
+      "Authorization": api.users_api_authorization
+    },
+    "params": {
+      "date": date
+    }
+  };
+  return callApiWithPromise(config);
+}
+
 export function obtainVerificationCode(successCallback=(data)=>{}, payload) {
   const config = {
     "url": api.users_api_base_url + "/v1/users/verificationCode",
@@ -764,6 +795,20 @@ export function verifyAccount(successCallback=(data)=>{}, email, code, create) {
       "code": code,
       "create": create
     }
+  };
+  callApi(config, successCallback, "", false);
+}
+
+export function createAppointment(successCallback=(data)=>{}, payload) {
+  const config = {
+    "url": api.users_api_base_url + "/v1/appointments",
+    "method": "POST",
+    "timeout": api.users_api_timeout,
+    "headers": {
+      "Authorization": api.users_api_authorization,
+      "Content-Type": "application/json"
+    },
+    "data": payload
   };
   callApi(config, successCallback, "", false);
 }

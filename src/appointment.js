@@ -1,23 +1,29 @@
 import React from 'react';
-import { openMenu } from './home';
+import { openMenu, createAppointment, verifyAppointmentByDate, getAppointmentsByDate } from './home.js';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import DatePicker from 'react-date-picker';
 import { availableHours, login_cookie } from './config.js';
 import ons from 'onsenui';
-import { cookies } from '.';
+import { cookies, showAlert } from '.';
 
 export class Appointment extends React.Component {
     constructor(props) {
         super(props);
-        
+
         this.state = {
-            myEventsList: this.initializeSlots(new Date()),
+            myEventsList: [],
             date: new Date()
         }
+
+        this.initializeSlots(new Date()).then((value) => {
+            this.setState({
+                myEventsList: value
+            });
+        });
     }
-    initializeSlots = (date) => {
+    initializeSlots = async (date) => {
         const availableSlotsFirstHalf = availableHours.map((value) => {
             return {
                 title: "Available",
@@ -33,7 +39,19 @@ export class Appointment extends React.Component {
             }            
         });
         const availableSlots = availableSlotsFirstHalf.concat(availableSlotsSecondHalf);
-        return availableSlots;
+
+        return await getAppointmentsByDate(moment(date).format('LL'))
+            .then((response) => {
+                let filteredSlots = availableSlots;
+                response.data.forEach((appointment) => {
+                    filteredSlots = filteredSlots.filter((slot) => {
+                        return moment(slot.start).format('LLL') !== appointment.start 
+                            && moment(slot.end).format('LLL') !== appointment.end
+                    });
+                });
+                return filteredSlots;
+            });
+
     }
     handleSelectEvent = (event) => {
         const message = 
@@ -43,21 +61,42 @@ export class Appointment extends React.Component {
 
         ons.notification.confirm({ messageHTML: message }).then((value) => {
             if (value === 1) {
+                const email = cookies.get(login_cookie).email;
+                const date = moment(event.start).format('LL');
                 const payload = {
                     title: "Reserved",
                     start: moment(event.start).format('LLL'),
                     end: moment(event.end).format('LLL'),
                     resource: {
-                        email: cookies.get(login_cookie).email
+                        date: date,
+                        email: email,
+                        status: "Pending"
                     }
                 }
-                console.log(payload);
-                // call api here
+                verifyAppointmentByDate((data) => {
+                    if (data.exists) {
+                        ons.notification.alert('You have already set an appointment on this date. Please cancel it before setting a new one again.');
+                    } else {
+                        createAppointment((data) => {
+                            showAlert('Successfully set appointment');
+                            this.initializeSlots(date).then((value) => {
+                                this.setState({
+                                    myEventsList: value
+                                });
+                            });
+                        }, payload);
+                    }
+                }, email, date);
             }
         });
     }
     handleDateChange = (date) => {
-        this.setState({ date: date, myEventsList: this.initializeSlots(date) });
+        this.initializeSlots(date).then((value) => {
+            this.setState({
+                date: date,
+                myEventsList: value
+            });
+        });
     }
     handleConfirmAppointment = (event) => {
         console.log(event)
