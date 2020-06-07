@@ -136,10 +136,12 @@ export const tobacco_use_0_options = [
     "Past smoker"
 ]
 
-export const emotional_being_options = [ 5, 4, 3, 2, 1 ]
+export const emotional_being_options = [ 5, 4, 3, 2, 1 ];
 
 export const login_cookie = "webapp-lifestyleclinic-login-0";
 
 export const emailRegExp = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 export const defaultEmailSender = "LifestyleClinic@tes8.link";
+
+export const availableHours = [ 9, 10, 11, 13, 14, 15, 16 ];
