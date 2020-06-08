@@ -87,8 +87,8 @@ export class Users extends React.Component {
                                     <span className="list-item__title">{value.firstname + " " + value.lastname}</span>
                                     <span className="list-item__subtitle">{value.email}</span>
                                     <span className="list-item__subtitle">
-                                        <i className={value.type === "user" ? "zmdi zmdi-account zmdi-hc-lg" : "zmdi zmdi-star-outline zmdi-hc-lg"}></i>&nbsp;
-                                        <i className={value.enabled ? "zmdi zmdi-check zmdi-hc-lg" : "zmdi zmdi-close zmdi-hc-lg"}></i>
+                                        Role: <i className={value.type === "user" ? "fas fa-user" : "fas fa-user-cog"}></i>&nbsp;
+                                        Enabled: <i className={value.enabled ? "fas fa-check fa-lg" : "fas fa-times fa-lg"}></i>
                                     </span>
                                 </div>                                              
                             </ons-list-item>

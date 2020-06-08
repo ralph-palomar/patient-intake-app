@@ -753,6 +753,21 @@ export function verifyAppointmentByDate(successCallback=(data)=>{}, email, date)
   callApi(config, successCallback, "", false);
 }
 
+export function verifyAppointmentByStartDate(successCallback=(data)=>{}, startDate) {
+  const config = {
+    "url": api.users_api_base_url + "/v1/appointments/verifyByStartDate",
+    "method": "GET",
+    "timeout": api.users_api_timeout,
+    "headers": {
+      "Authorization": api.users_api_authorization
+    },
+    "params": {
+      "startDate": startDate
+    }
+  };
+  callApi(config, successCallback, "", false);
+}
+
 export function getAppointmentsByDate(date) {
   const config = {
     "url": api.users_api_base_url + "/v1/appointments/byDate",
