@@ -1,12 +1,14 @@
 import React from 'react';
-import { openMenu, createAppointment, verifyAppointmentByDate, getAppointmentsByDate, verifyAppointmentByStartDate } from './home.js';
+import ReactDOM from 'react-dom';
+import { openMenu, createAppointment, verifyAppointmentByDate, getAppointmentsByDate, verifyAppointmentByStartDate, getUserAppointments, updateUserAppointment } from './home.js';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import DatePicker from 'react-date-picker';
 import { availableHours, login_cookie, appointmentBufferInHours } from './config.js';
 import ons from 'onsenui';
-import { cookies, showAlert } from '.';
+import { cookies, showAlert } from './index.js';
+
 
 export class Appointment extends React.Component {
     constructor(props) {
@@ -49,10 +51,12 @@ export class Appointment extends React.Component {
             .then((response) => {
                 let filteredSlots = availableSlots;
                 response.data.forEach((appointment) => {
-                    filteredSlots = filteredSlots.filter((slot) => {
-                        return moment(slot.start).format('LLL') !== appointment.start 
-                            && moment(slot.end).format('LLL') !== appointment.end
-                    });
+                    if (appointment.resource.status !== "Cancelled") {
+                        filteredSlots = filteredSlots.filter((slot) => {
+                            return moment(slot.start).format('LLL') !== appointment.start 
+                                && moment(slot.end).format('LLL') !== appointment.end
+                        });
+                    }
                 });
                 filteredSlots = filteredSlots.filter((slot) => {
                     return moment(slot.start) > moment().add(appointmentBufferInHours, "hours").toDate()
@@ -69,8 +73,8 @@ export class Appointment extends React.Component {
 
         ons.notification.confirm({ messageHTML: message }).then((value) => {
             if (value === 1) {
-                const email = cookies.get(login_cookie).email;
                 const date = moment(event.start).format('LL');
+                const email = cookies.get(login_cookie).email;
                 const startDate = moment(event.start).format('LLL');
                 const endDate = moment(event.end).format('LLL');
                 const payload = {
@@ -89,7 +93,7 @@ export class Appointment extends React.Component {
                     } else {
                         verifyAppointmentByStartDate((data) => {
                             if (data.exists) {
-                                ons.notification.alert('Sorry upon rechecking this slot has already been taken. Please select another slot.');
+                                ons.notification.alert('Sorry upon re-checking this slot has already been taken. Please select another slot.');
                                 this.handleRefresh(null);
                             } else {
                                 createAppointment((data) => {
@@ -138,6 +142,21 @@ export class Appointment extends React.Component {
             showAlert('Oops there was an error');
         });
     }
+    handleClickCalendar = (event) => {
+        const nav = document.querySelector('#navigator');
+        if (nav != null) {
+            nav.pushPage('list_appointment.html')
+            .then((value) => {
+                const email = cookies.get(login_cookie).email;
+                getUserAppointments((data) => {
+                    const list_appointment_main = document.querySelector('#list_appointment_main');
+                    if (list_appointment_main != null) {
+                        ReactDOM.render(<AppointmentList appointmentList={data} />, list_appointment_main);
+                    }
+                }, email);
+            });
+        }
+    }
     render() {
         return (
             <React.Fragment>
@@ -148,11 +167,11 @@ export class Appointment extends React.Component {
                         </ons-toolbar-button>
                     </div>
                     <div className="center">
-                        My Appointments
+                        Set Appointment
                     </div>
                     <div className="right">
                         <ons-button modifier="quiet" onClick={this.handleRefresh}>
-                            <i class="fas fa-sync-alt fa-lg"></i>
+                            <i className="fas fa-sync-alt fa-lg"></i>
                         </ons-button>
                     </div>
                 </ons-toolbar>
@@ -163,7 +182,7 @@ export class Appointment extends React.Component {
                             <DatePicker 
                                 value={this.state.date} 
                                 minDate={new Date()} 
-                                maxDate={moment().add("months", 3).toDate()}
+                                maxDate={moment().add(3, "months").toDate()}
                                 clearIcon={null} 
                                 onChange={this.handleDateChange}
                             />
@@ -196,9 +215,78 @@ export class Appointment extends React.Component {
                         </div>
                     </ons-list-item>
                 </ons-list>
-                <ons-fab position="bottom right" style={{ position: 'fixed' }}>
-                    <i class="far fa-calendar-alt"></i>    
-                </ons-fab> 
+                <ons-fab position="bottom right" style={{ position: 'fixed' }} onClick={this.handleClickCalendar}>
+                    <i className="far fa-calendar-alt"></i>    
+                </ons-fab>
+            </React.Fragment>
+        )
+    }
+}
+
+export class AppointmentList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            appointmentList: props.appointmentList
+        }
+    }
+    refreshData = (event) => {
+        const email = cookies.get(login_cookie).email;
+        getUserAppointments((data) => {
+            this.setState({
+                appointmentList: data
+            });
+        }, email);
+    }
+    handleCancel = (event) => {
+        const target = event.target;
+        ons.notification.confirm('Are you sure you want to cancel this appointment?')
+        .then((value) => {
+            if (value === 1) {
+                const date = target.getAttribute('date');
+                const email = cookies.get(login_cookie).email;
+                const payload = {
+                    "resource.status": "Cancelled"
+                }
+                updateUserAppointment((data) => {
+                    showAlert('Successfully cancelled appointment')
+                    this.refreshData(null);
+                }, email, date, payload);
+            }
+        });
+    }
+    render() {
+        return (
+            <React.Fragment>
+                <ons-segment id="segment" style={{ width: '100%'}}>
+                    <button>All</button>
+                    <button>Pending</button>
+                    <button>Accepted</button>
+                    <button>Cancelled</button>
+                </ons-segment>
+            {
+                this.state.appointmentList.map((item) => {
+                    const display = item.resource.status === "Cancelled" ? 'none' : 'inline-block';
+                    return (
+                        <ons-card>
+                            <p>
+                                Start: {item.start}
+                            </p>
+                            <p>
+                                End: {item.end}
+                            </p>
+                            <p>
+                                Status: <b>{item.resource.status}</b>
+                            </p>
+                            <p align="right">
+                                <ons-button modifier="quiet" date={item.resource.date} onClick={this.handleCancel} style={{ display: display }}>
+                                    <i class="fas fa-times fa-fw fa-lg"></i>&nbsp;Cancel
+                                </ons-button>
+                            </p>
+                        </ons-card>
+                    )
+                })
+            }
             </React.Fragment>
         )
     }

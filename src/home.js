@@ -11,7 +11,7 @@ import { Others, OthersProfile } from './others.js';
 import { api, defaultImg, login_cookie, defaultEmailSender } from './config.js';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import { Appointment } from './appointment.js';
+import { Appointment, AppointmentList } from './appointment.js';
 
 window.fn = {};
 
@@ -48,6 +48,16 @@ window.fn.load = function (page) {
       if (page === "schedule_appointment.html") {
         const schedule_appointment_main = document.querySelector('div#schedule_appointment_main');
         ReactDOM.render(<Appointment />, schedule_appointment_main);
+      }
+
+      if (page === "view_appointment.html") {
+        const email = cookies.get(login_cookie).email;
+        getUserAppointments((data) => {
+            const view_appointment_main = document.querySelector('#view_appointment_main');
+            if (view_appointment_main != null) {
+                ReactDOM.render(<AppointmentList appointmentList={data} />, view_appointment_main);
+            }
+        }, email);
       }
 
     });
@@ -781,6 +791,38 @@ export function getAppointmentsByDate(date) {
     }
   };
   return callApiWithPromise(config);
+}
+
+export function getUserAppointments(successCallback=(data)=>{}, email) {
+  const config = {
+    "url": api.users_api_base_url + "/v1/appointments",
+    "method": "GET",
+    "timeout": api.users_api_timeout,
+    "headers": {
+      "Authorization": api.users_api_authorization
+    },
+    "params": {
+      "email": email
+    }
+  };
+  callApi(config, successCallback, "", false);
+}
+
+export function updateUserAppointment(successCallback=(data)=>{}, email, date, payload) {
+  const config = {
+    "url": api.users_api_base_url + "/v1/appointments",
+    "method": "PUT",
+    "timeout": api.users_api_timeout,
+    "headers": {
+      "Authorization": api.users_api_authorization
+    },
+    "params": {
+      "email": email,
+      "date": date
+    },
+    "data": payload
+  };
+  callApi(config, successCallback, "", false);
 }
 
 export function obtainVerificationCode(successCallback=(data)=>{}, payload) {

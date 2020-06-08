@@ -146,4 +146,4 @@ export const defaultEmailSender = "LifestyleClinic@tes8.link";
 
 export const availableHours = [ 9, 10, 11, 13, 14, 15, 16 ];
 
-export const appointmentBufferInHours = 2;
+export const appointmentBufferInHours = 1;

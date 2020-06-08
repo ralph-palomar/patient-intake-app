@@ -60,8 +60,11 @@
               <ons-list-item id="medical-record-list-item" onclick="fn.load('medical_record.html')" modifier="chevron">
                 <i class="fas fa-file-medical fa-fw fa-lg"></i>&nbsp;Medical Record
               </ons-list-item>
-              <ons-list-item id="appointment-list-item" onclick="fn.load('schedule_appointment.html')" modifier="chevron">
-                <i class="far fa-calendar-check fa-fw fa-lg"></i>&nbsp;Schedule Appointment
+              <ons-list-item id="schedule-appointment-list-item" onclick="fn.load('schedule_appointment.html')" modifier="chevron">
+                <i class="far fa-calendar-check fa-fw fa-lg"></i>&nbsp;Set Appointment
+              </ons-list-item>
+              <ons-list-item id="view-appointment-list-item" onclick="fn.load('view_appointment.html')" modifier="chevron">
+                <i class="far fa-calendar-alt fa-fw fa-lg"></i>&nbsp;View Appointments
               </ons-list-item>
               <ons-list-item onclick="fn.logout()" tappable>
                 <i class="fas fa-sign-out-alt fa-fw fa-lg"></i>&nbsp;Logout
@@ -84,6 +87,36 @@
   <template id="schedule_appointment.html">
     <ons-page id="schedule_appointment">
       <div id="schedule_appointment_main"></div>
+    </ons-page>
+  </template>
+
+  <template id="list_appointment.html">
+    <ons-page id="list_appointment">
+        <ons-toolbar>
+            <div class="left">
+                <ons-back-button></ons-back-button>
+            </div>
+            <div class="center">
+                My Appointments
+            </div>
+        </ons-toolbar>
+        <div id="list_appointment_main"></div>
+    </ons-page>
+  </template>
+
+  <template id="view_appointment.html">
+    <ons-page id="view_appointment">
+        <ons-toolbar>
+            <div class="left">
+              <ons-toolbar-button onclick="fn.open()">
+                <ons-icon icon="md-menu"></ons-icon>
+              </ons-toolbar-button>
+            </div>
+            <div class="center">
+                My Appointments
+            </div>
+        </ons-toolbar>
+        <div id="view_appointment_main"></div>
     </ons-page>
   </template>
 
