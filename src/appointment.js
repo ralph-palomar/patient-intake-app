@@ -227,7 +227,8 @@ export class AppointmentList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            appointmentList: props.appointmentList
+            appointmentList: props.appointmentList,
+            originalList: props.appointmentList
         }
     }
     refreshData = (event) => {
@@ -255,20 +256,53 @@ export class AppointmentList extends React.Component {
             }
         });
     }
+    handleAll = (event) => {
+        this.setState({
+            appointmentList: this.state.originalList
+        });
+    }
+    handlePending = (event) => {
+        const filteredList = this.state.originalList.filter((item) => {
+            return item.resource.status === "Pending"
+        });
+        this.setState({
+            appointmentList: filteredList
+        });
+    }
+    handleAccepted = (event) => {
+        const filteredList = this.state.originalList.filter((item) => {
+            return item.resource.status === "Accepted"
+        });
+        this.setState({
+            appointmentList: filteredList
+        });
+    }
+    handleCancelled = (event) => {
+        const filteredList = this.state.originalList.filter((item) => {
+            return item.resource.status === "Cancelled"
+        });
+        this.setState({
+            appointmentList: filteredList
+        });
+    }
     render() {
         return (
             <React.Fragment>
                 <ons-segment id="segment" style={{ width: '100%'}}>
-                    <button>All</button>
-                    <button>Pending</button>
-                    <button>Accepted</button>
-                    <button>Cancelled</button>
+                    <button onClick={this.handleAll}>All</button>
+                    <button onClick={this.handlePending}>Pending</button>
+                    <button onClick={this.handleAccepted}>Accepted</button>
+                    <button onClick={this.handleCancelled}>Cancelled</button>
                 </ons-segment>
             {
                 this.state.appointmentList.map((item) => {
                     const display = item.resource.status === "Cancelled" ? 'none' : 'inline-block';
+                    const ons_card_style = item.resource.status === "Cancelled" ? 
+                        { borderLeft: '5px solid red', borderRadius: '10px' } :
+                        { borderLeft: '5px solid blue', borderRadius: '10px' }
+
                     return (
-                        <ons-card>
+                        <ons-card style={ons_card_style}>
                             <p>
                                 Start: {item.start}
                             </p>

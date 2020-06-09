@@ -584,4 +584,9 @@ window.onload = () => {
 	} else {
 		ReactDOM.render(<App />, document.querySelector('div#root'));
 	}
+
+	var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+	if (!isMobile) {
+
+	}
 }

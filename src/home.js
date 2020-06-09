@@ -295,7 +295,7 @@ export class Profile extends React.Component {
 
     return (
       <React.Fragment>
-        <ons-card>
+        <ons-card style={{ borderRadius: '10px' }}>
             <div className="center" align="center">
               <img className="list-item--material__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '100px', height: '100px'}} ></img>
             </div>
