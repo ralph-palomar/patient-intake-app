@@ -11,7 +11,7 @@ import { Others, OthersProfile } from './others.js';
 import { api, defaultImg, login_cookie, defaultEmailSender } from './config.js';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import { Appointment, AppointmentList } from './appointment.js';
+import { Appointment, AppointmentList, AppointmentManager } from './appointment.js';
 
 window.fn = {};
 
@@ -58,6 +58,11 @@ window.fn.load = function (page) {
                 ReactDOM.render(<AppointmentList appointmentList={data} />, view_appointment_main);
             }
         }, email);
+      }
+
+      if (page === "manage_appointments.html") {
+        const manage_appointments_main = document.querySelector('div#manage_appointments_main');
+        ReactDOM.render(<AppointmentManager />, manage_appointments_main);
       }
 
     });
@@ -778,7 +783,7 @@ export function verifyAppointmentByStartDate(successCallback=(data)=>{}, startDa
   callApi(config, successCallback, "", false);
 }
 
-export function getAppointmentsByDate(date) {
+export function getAppointmentsByDate(date, includeCancelled=false) {
   const config = {
     "url": api.users_api_base_url + "/v1/appointments/byDate",
     "method": "GET",
@@ -787,7 +792,8 @@ export function getAppointmentsByDate(date) {
       "Authorization": api.users_api_authorization
     },
     "params": {
-      "date": date
+      "date": date,
+      "includeCancelled": includeCancelled
     }
   };
   return callApiWithPromise(config);

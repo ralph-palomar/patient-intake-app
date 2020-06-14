@@ -14,8 +14,8 @@
             </div>
           </div>
       </div>
-      <div style="text-align: center; margin-top: 160px">
-        <ons-card style="text-align: center">
+      <div style="text-align: center; margin-top: 160px; ">
+        <ons-card style="text-align: center; border-radius: 15px">
           <p>
             <ons-input id="index_email" placeholder="Email" modifier="material"></ons-input>
           </p>
@@ -54,6 +54,9 @@
                 <div class="expandable-content">
                   <ons-list-item id="user-list-item" onclick="fn.load('users.html')" tappable modifier="chevron">
                     <i class="fas fa-users fa-fw fa-lg"></i></i>&nbsp;Accounts
+                  </ons-list-item>
+                  <ons-list-item id="manage-appointments-list-item" onclick="fn.load('manage_appointments.html')" tappable modifier="chevron">
+                    <i class="fas fa-calendar-day fa-fw fa-lg"></i></i>&nbsp;Appointments
                   </ons-list-item>
                 </div>
               </ons-list-item>
@@ -117,6 +120,22 @@
             </div>
         </ons-toolbar>
         <div id="view_appointment_main"></div>
+    </ons-page>
+  </template>
+
+  <template id="manage_appointments.html">
+    <ons-page id="manage_appointments">
+        <ons-toolbar>
+            <div class="left">
+              <ons-toolbar-button onclick="fn.open()">
+                <ons-icon icon="md-menu"></ons-icon>
+              </ons-toolbar-button>
+            </div>
+            <div class="center">
+                Manage Appointments
+            </div>
+        </ons-toolbar>
+        <div id="manage_appointments_main"></div>
     </ons-page>
   </template>
 

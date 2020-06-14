@@ -297,9 +297,8 @@ export class AppointmentList extends React.Component {
             {
                 this.state.appointmentList.map((item) => {
                     const display = item.resource.status === "Cancelled" ? 'none' : 'inline-block';
-                    const ons_card_style = item.resource.status === "Cancelled" ? 
-                        { borderLeft: '5px solid red', borderRadius: '10px' } :
-                        { borderLeft: '5px solid blue', borderRadius: '10px' }
+                    const ons_card_style = item.resource.status === "Cancelled" ? { borderLeft: '5px solid red', borderRadius: '10px' } :
+                        ( item.resource.status === "Accepted" ? { borderLeft: '5px solid green', borderRadius: '10px' } : { borderLeft: '5px solid blue', borderRadius: '10px' })
 
                     return (
                         <ons-card style={ons_card_style}>
@@ -312,15 +311,217 @@ export class AppointmentList extends React.Component {
                             <p>
                                 Status: <b>{item.resource.status}</b>
                             </p>
+                            <p>
+                                {item.resource.note != null ? `Note: ${item.resource.note}` : ""} 
+                            </p>
                             <p align="right">
                                 <ons-button modifier="quiet" date={item.resource.date} onClick={this.handleCancel} style={{ display: display }}>
-                                    <i class="fas fa-times fa-fw fa-lg"></i>&nbsp;Cancel
+                                    <i className="fas fa-times fa-fw fa-lg"></i>&nbsp;Cancel
                                 </ons-button>
                             </p>
                         </ons-card>
                     )
                 })
             }
+            </React.Fragment>
+        )
+    }
+}
+
+export class AppointmentManager extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            myEventsList: [],
+            date: new Date()
+        }
+
+        this.retrieveEventsList(new Date())
+        .then((data) => {
+            const events = data.map((item) => {
+                return {
+                    title: item.resource.status,
+                    start: moment(item.start).toDate(),
+                    end: moment(item.end).toDate(),
+                    resource: item.resource
+                }
+            });
+            this.setState({
+                myEventsList: events
+            });
+        })
+        .catch((error) => {
+            showAlert('Oops there was an error');
+        });
+
+        this.notes = [];
+    }
+    componentDidMount() {
+        this.calendarView.style.display = 'none';
+        this.listView.style.display = 'block';
+
+        if (this.state.myEventsList.length === 0) {
+            this.list.style.height = '800px';
+        }
+    }
+    retrieveEventsList = async (date) => {
+        return await getAppointmentsByDate(moment(date).format('LL'), true)
+        .then((response) => {
+            return response.data
+        });
+    }
+    handleDateChange = (date) => {
+        this.retrieveEventsList(date)
+        .then((data) => {
+            const events = data.map((item) => {
+                return {
+                    start: moment(item.start).toDate(),
+                    end: moment(item.end).toDate(),
+                    resource: item.resource
+                }
+            });
+            this.setState({
+                date: date,
+                myEventsList: events
+            });
+        })
+        .catch((error) => {
+            showAlert('Oops there was an error');
+        });
+    }
+    handleSelectEvent = (event) => {
+        const dialogHTML =
+            `
+            <ons-dialog cancelable>
+                <p align="center">
+                    <img class="list-item--material__thumbnail" style="width: 80px; height: 80px" src=${event.resource.user.picture} alt="User" ></img><br/>
+                    <span>${event.resource.user.firstname} ${event.resource.user.lastname}</span><br/>
+                    <span>${moment(event.start).format('LT')} to ${moment(event.end).format('LT')}</span>
+                </p>
+            </ons-dialog>
+            `
+        const dialog = ons.createElement(dialogHTML, { append: true });
+        dialog.show();
+        
+    }
+    handleCalendar = (event) => {
+        this.calendarView.style.display = 'block';
+        this.listView.style.display = 'none';
+        this.list.style.height = 'auto';
+    }
+    handleList = (event) => {
+        this.calendarView.style.display = 'none';
+        this.listView.style.display = 'block';
+
+        if (this.state.myEventsList.length < 3) {
+            this.list.style.height = '800px';
+        } else {
+            this.list.style.height = 'auto';
+        }
+    }
+    handleStatusChange = (index, newStatus, email, date) => {
+        const note = this.notes[index].value;
+        const payload = {
+            "resource.status": newStatus,
+            "resource.note": note
+        }
+        updateUserAppointment((data) => {
+            showAlert('Successfully updated appointment');
+            this.setState(state => {
+                state.myEventsList[index].resource.status = newStatus
+                state.myEventsList[index].resource.note = note
+                return state
+            });
+        }, email, date, payload);
+    }
+    handleBlur = (event, email, date) => {
+        if (event.target.matches('ons-input')) {
+            const payload = {
+                "resource.note": event.target.value
+            }
+            updateUserAppointment((data) => {
+                showAlert('Successfully updated appointment');
+            }, email, date, payload);
+        }
+    }
+    render() {
+        return (
+            <React.Fragment>
+                <ons-segment id="segment" style={{ width: '100%' }}>
+                    <button onClick={this.handleList}>List</button>
+                    <button onClick={this.handleCalendar}>Calendar</button>
+                </ons-segment>
+                <ons-list ref={ref=>{this.list=ref}}>
+                    <ons-list-item>
+                        <div>
+                            <label className="form">Select Date</label>
+                            <DatePicker 
+                                value={this.state.date} 
+                                clearIcon={null} 
+                                onChange={this.handleDateChange}
+                            />
+                        </div>
+                        <br/>
+                    </ons-list-item>
+                    <ons-list-item ref={ref=>{this.calendarView=ref}}>
+                        <div style={{ height: '100%', width: '97%', zIndex: '0', display: 'block'}}>
+                            <Calendar
+                                localizer={momentLocalizer(moment)}
+                                date={this.state.date}
+                                events={this.state.myEventsList}
+                                startAccessor="start"
+                                endAccessor="end"
+                                defaultView="day"
+                                views={["day"]}
+                                scrollToTime={new Date()}
+                                selectable={false}
+                                resizable={false}
+                                step={30}
+                                timeslots={1}
+                                toolbar={false}
+                                min={moment().set("hour", 9).set("minutes", 0).toDate()}
+                                max={moment().set("hour", 17).set("minutes", 0).toDate()}
+                                onSelectEvent={this.handleSelectEvent}
+                            />
+                        </div>
+                    </ons-list-item>
+                    <div ref={ref=>{this.listView=ref}} style={{ display: 'block' }}>
+                    <React.Fragment>
+                        {
+                            this.state.myEventsList.map((item, index) => {
+                                const icon = item.resource.status === "Pending" || item.resource.status === "Cancelled" ? "fas fa-check fa-lg fa-fw" : "fas fa-times fa-lg fa-fw"; 
+                                const label = item.resource.status === "Pending" || item.resource.status === "Cancelled" ? "Accept" : "Decline"; 
+                                const newStatus = item.resource.status === "Pending" || item.resource.status === "Cancelled" ? "Accepted" : "Cancelled";
+                                const borderLeftStyle = item.resource.status === "Pending" ? "5px solid blue" : (item.resource.status === "Cancelled" ? "5px solid red" : "5px solid green");
+                                return (
+                                    <ons-card style={{ borderLeft: borderLeftStyle, borderRadius: '10px' }}>                                        
+                                        <div style={{ display: 'inline-block'}}>
+                                            <img className="list-item--material__thumbnail" style={{ width: '80px', height: '80px'}} alt="User" src={item.resource.user.picture}></img>
+                                        </div>
+                                        <div style={{ marginLeft: '10px', display: 'inline-block', verticalAlign: 'top', fontWeight: 'bold'}}>
+                                            <span>{item.resource.user.firstname} {item.resource.user.lastname}</span><br/>
+                                            <span>{moment(item.start).format('LT') + " - " + moment(item.end).format('LT')}</span><br/>
+                                            <span>Status: {item.resource.status}</span><br/>
+                                            <ons-button modifier="quiet" index={index} onClick={(event)=>this.handleStatusChange(index, newStatus, item.resource.email, item.resource.date)}><i class={icon}></i>{label}</ons-button><br/>
+                                            <ons-input placeholder="Add a short note" value={item.resource.note} ref={ref=>{this.notes[index]=ref}} onBlur={(event)=>this.handleBlur(event, item.resource.email, item.resource.date)}></ons-input>
+                                        </div>                                    
+                                    </ons-card>
+                                )
+                            })
+                        }
+                    </React.Fragment>
+                    {
+                        this.state.myEventsList.length === 0 ? 
+                            <React.Fragment>
+                                <ons-list-item>
+                                    There are no appointments on this date.
+                                </ons-list-item>
+                            </React.Fragment>
+                            :
+                            ""
+                    }
+                    </div>
+                </ons-list>
             </React.Fragment>
         )
     }

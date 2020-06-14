@@ -571,6 +571,7 @@ class VerifyAccount extends React.Component {
 }
 
 window.onload = () => {
+	if (ons.isReady && !ons.isWebView) {
 	const op = getUrlParameter('op');
 	const email = getUrlParameter('email'); 
 	const code = getUrlParameter('code');
@@ -584,9 +585,9 @@ window.onload = () => {
 	} else {
 		ReactDOM.render(<App />, document.querySelector('div#root'));
 	}
+	}
 
-	var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-	if (!isMobile) {
-
+	else if (ons.isReady && ons.isWebView) {
+		ReactDOM.render(<App />, document.querySelector('div#root'));
 	}
 }
