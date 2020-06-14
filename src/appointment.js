@@ -426,7 +426,6 @@ export class AppointmentManager extends React.Component {
             "resource.note": note
         }
         updateUserAppointment((data) => {
-            showAlert('Successfully updated appointment');
             this.setState(state => {
                 state.myEventsList[index].resource.status = newStatus
                 state.myEventsList[index].resource.note = note
@@ -436,12 +435,14 @@ export class AppointmentManager extends React.Component {
     }
     handleBlur = (event, email, date) => {
         if (event.target.matches('ons-input')) {
+            const note = event.target.value;
             const payload = {
                 "resource.note": event.target.value
             }
-            updateUserAppointment((data) => {
-                showAlert('Successfully updated appointment');
-            }, email, date, payload);
+            if (note != null && note !== "") {
+                updateUserAppointment((data) => {
+                }, email, date, payload);
+            }
         }
     }
     render() {
