@@ -12,7 +12,6 @@ import { loadPage, getUserPhoto, resetUserPassword, sendEmail, verifyResetPasswo
 import axios from 'axios';
 import ons from 'onsenui';
 import Cookies from 'universal-cookie';
-import FacebookLogin from 'react-facebook-login';
 
 export const cookies = new Cookies();
 
@@ -226,7 +225,7 @@ export function setLoginCookie(data) {
 	cookies.set(login_cookie, cookieData, {
 		path: cookieSettings.path,
 		expires: d,
-		secure: cookieSettings.secure,
+		//secure: cookieSettings.secure,
 		sameSite: cookieSettings.sameSite
 	});
 }
@@ -313,24 +312,8 @@ class App extends React.Component {
 		});
 		this.nav.resetToPage('login.html', { pop: true }).then(() => {
 			window.location.href = process.env.PUBLIC_URL
-			this.renderFacebookLogin();
 			this.renderForgotPassword();
 		});
-	}
-	renderFacebookLogin = () => {
-		const facebook_loginBtn = document.querySelector('div#facebook_loginBtn');
-		if (facebook_loginBtn != null) {
-			ReactDOM.render(
-				<FacebookLogin
-					appId="607869309830124"
-					autoLoad={false}
-					fields="name,email"
-					size="small"
-					callback={this.responseFacebook}
-					icon="fa-facebook"/>,
-				facebook_loginBtn
-			);
-		}
 	}
 	renderForgotPassword = () => {
 		const forgotPasswordBtn = document.querySelector('#forgotPasswordBtn');
@@ -342,7 +325,6 @@ class App extends React.Component {
 		if (this.nav != null) {
 			this.nav.addEventListener('postpush', (event) => {
 				if (event.enterPage.matches('#login')) {
-					this.renderFacebookLogin();
 					this.renderForgotPassword();
 				}
 
@@ -472,7 +454,7 @@ class ForgotPassword extends React.Component {
 				<ons-popover direction="down" id="popover" cancelable={true} ref={ref=>{this.popover=ref}}>
 					<div align="center">
 						<p>
-						<ons-input placeholder="Email" modifier="material" ref={ref=>{this.email=ref}} ></ons-input>
+						<ons-input placeholder="Email"  ref={ref=>{this.email=ref}} ></ons-input>
 						<ons-button modifier="large--quiet" onClick={this.handleSubmit} >Submit</ons-button>
 						</p>
 					</div>
@@ -523,10 +505,10 @@ class ChangePassword extends React.Component {
 							<ons-list-header>Change Password</ons-list-header>
 							<div align="center">
 								<p>
-									<ons-input type="password" placeholder="New Password" modifier="material" ref={ref=>{this.passwd=ref}}></ons-input>
+									<ons-input type="password" placeholder="New Password"  ref={ref=>{this.passwd=ref}}></ons-input>
 								</p>
 								<p>
-									<ons-input type="password" placeholder="Confirm Password" modifier="material" ref={ref=>{this.cpasswd=ref}}></ons-input>
+									<ons-input type="password" placeholder="Confirm Password"  ref={ref=>{this.cpasswd=ref}}></ons-input>
 								</p>
 								<p>
 									<ons-button onClick={this.handleSubmit}>Submit</ons-button>
@@ -572,19 +554,19 @@ class VerifyAccount extends React.Component {
 
 window.onload = () => {
 	if (ons.isReady && !ons.isWebView) {
-	const op = getUrlParameter('op');
-	const email = getUrlParameter('email'); 
-	const code = getUrlParameter('code');
-	
-	if (op === "changePassword" && email != null && code != null) {
-		ReactDOM.render(<ChangePassword email={email} code={code} />, document.querySelector('div#root'));
+		const op = getUrlParameter('op');
+		const email = getUrlParameter('email'); 
+		const code = getUrlParameter('code');
+		
+		if (op === "changePassword" && email != null && code != null) {
+			ReactDOM.render(<ChangePassword email={email} code={code} />, document.querySelector('div#root'));
 
-	} else if (op === "verifyAccount" && email != null && code != null) {
-		ReactDOM.render(<VerifyAccount email={email} code={code} />, document.querySelector('div#root'));
+		} else if (op === "verifyAccount" && email != null && code != null) {
+			ReactDOM.render(<VerifyAccount email={email} code={code} />, document.querySelector('div#root'));
 
-	} else {
-		ReactDOM.render(<App />, document.querySelector('div#root'));
-	}
+		} else {
+			ReactDOM.render(<App />, document.querySelector('div#root'));
+		}
 	}
 
 	else if (ons.isReady && ons.isWebView) {

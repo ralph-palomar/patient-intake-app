@@ -300,6 +300,7 @@ export class Profile extends React.Component {
 
     return (
       <React.Fragment>
+        <div class="container">
         <ons-card style={{ borderRadius: '10px' }}>
             <div className="center" align="center">
               <img className="list-item--material__thumbnail" src={imgSrc} alt="Profile Pic" style={{width: '100px', height: '100px'}} ></img>
@@ -344,13 +345,13 @@ export class Profile extends React.Component {
 							<ons-list-header>Change Password</ons-list-header>
 							<div align="center">
                 <p>
-									<ons-input type="password" placeholder="Current Password" modifier="material" ref={ref=>{this.currentpasswd=ref}}></ons-input>
+									<ons-input type="password" placeholder="Current Password"  ref={ref=>{this.currentpasswd=ref}}></ons-input>
 								</p>
 								<p>
-									<ons-input type="password" placeholder="New Password" modifier="material" ref={ref=>{this.passwd=ref}}></ons-input>
+									<ons-input type="password" placeholder="New Password"  ref={ref=>{this.passwd=ref}}></ons-input>
 								</p>
 								<p>
-									<ons-input type="password" placeholder="Confirm Password" modifier="material" ref={ref=>{this.cpasswd=ref}}></ons-input>
+									<ons-input type="password" placeholder="Confirm Password"  ref={ref=>{this.cpasswd=ref}}></ons-input>
 								</p>
 								<p>
 									<ons-button onClick={this.handleChangePasswdSubmit}>Submit</ons-button>
@@ -370,6 +371,7 @@ export class Profile extends React.Component {
           <ons-action-sheet-button icon="fa-question-circle" onClick={(event)=>{this.handleSwitch(event, 5)}}>Others</ons-action-sheet-button>
           <ons-action-sheet-button icon="fa-times" onClick={(event)=>{this.viewSwitch.hide()}}>Cancel</ons-action-sheet-button>
         </ons-action-sheet>
+        </div>
       </React.Fragment>
     );
   }

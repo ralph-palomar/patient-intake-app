@@ -62,6 +62,7 @@ export class Illnesses extends React.Component {
     render() {
         return (
         <React.Fragment> 
+            <div className="container">
             <ons-list>
                 <ons-list-header style={{ backgroundColor: '#e6f2ff'}}><b>Please select</b></ons-list-header>
                 {
@@ -81,6 +82,7 @@ export class Illnesses extends React.Component {
                     <textarea id="illness_others" className="textarea" rows="3" cols="35" defaultValue={this.state.illness_others || ""}></textarea>
                 </ons-list-item> 
             </ons-list>  
+            </div>
         </React.Fragment>
         );
     }

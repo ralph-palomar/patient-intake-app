@@ -7,21 +7,21 @@ import ons from 'onsenui';
 
 function MedicationForm(props) {
     const id = props.medicationList[props.index].id;
-    const bgcolor = props.index % 2 === 0 ? '#ffffff' : '#f0f0f5';
+    const bgcolor = props.index % 2 === 0 ? '#ffffff' : '#e6e6ff';
     return (
         <React.Fragment>
             <div style={{ backgroundColor: bgcolor }}>
                 <ons-list-item>
                     <label className="form">Name of Drug</label>
-                    <ons-input id={"drug_name" + id} modifier="material" value={props.medicationList[props.index].drug_name}></ons-input>
+                    <ons-input id={"drug_name" + id}  value={props.medicationList[props.index].drug_name}></ons-input>
                 </ons-list-item>
                 <ons-list-item>
                     <label className="form">Dosage</label>
-                    <ons-input id={"dosage" + id} modifier="material" value={props.medicationList[props.index].dosage}></ons-input>
+                    <ons-input id={"dosage" + id}  value={props.medicationList[props.index].dosage}></ons-input>
                 </ons-list-item>
                 <ons-list-item>
                     <label className="form">Purpose</label>
-                    <ons-input id={"purpose" + id} modifier="material" value={props.medicationList[props.index].purpose}></ons-input>
+                    <ons-input id={"purpose" + id}  value={props.medicationList[props.index].purpose}></ons-input>
                 </ons-list-item>
                 <ons-list-item>
                     <label className="form">Date Started</label>
@@ -86,7 +86,7 @@ export class NewMedicationItem extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="content">
+                <div className="container">
                     <ons-list>
                         <div className="medication_list">
                             <MedicationForm value={this.state.medicationList[0]} index={0} medicationList={this.state.medicationList} onChangeCallback={this.handleChange} />
@@ -175,7 +175,7 @@ export class Medications extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="content">
+                <div className="container">
                     <ons-list>
                         {
                             this.state.medicationList.map((value, index) =>

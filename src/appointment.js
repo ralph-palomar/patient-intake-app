@@ -175,46 +175,49 @@ export class Appointment extends React.Component {
                         </ons-button>
                     </div>
                 </ons-toolbar>
-                <ons-list style={{ marginTop: '60px'}}>
-                    <ons-list-item>
-                        <div>
-                            <label className="form">Select Date</label>
-                            <DatePicker 
-                                value={this.state.date} 
-                                minDate={new Date()} 
-                                maxDate={moment().add(3, "months").toDate()}
-                                clearIcon={null} 
-                                onChange={this.handleDateChange}
-                            />
-                        </div>
-                        <br/>
-                    </ons-list-item>
-                    <ons-list-item>
-                        <div>
-                            <label className="form">Select Available Slot (try to sync first)</label>
-                        </div>
-                        <div style={{ height: '100%', width: '97%', zIndex: '0'}}>
-                            <Calendar
-                                localizer={momentLocalizer(moment)}
-                                date={this.state.date}
-                                events={this.state.myEventsList}
-                                startAccessor="start"
-                                endAccessor="end"
-                                defaultView="day"
-                                views={["day"]}
-                                scrollToTime={new Date()}
-                                selectable={false}
-                                resizable={false}
-                                step={30}
-                                timeslots={1}
-                                toolbar={false}
-                                min={moment().set("hour", 9).set("minutes", 0).toDate()}
-                                max={moment().set("hour", 17).set("minutes", 0).toDate()}
-                                onSelectEvent={this.handleSelectEvent}
-                            />
-                        </div>
-                    </ons-list-item>
-                </ons-list>
+                <div className="container">
+                    <ons-list style={{ marginTop: '40px' }}>
+                        <ons-list-item>
+                            <div>
+                                <br/>
+                                <label className="form">Select Date</label>
+                                <DatePicker 
+                                    value={this.state.date} 
+                                    minDate={new Date()} 
+                                    maxDate={moment().add(3, "months").toDate()}
+                                    clearIcon={null} 
+                                    onChange={this.handleDateChange}
+                                />
+                            </div>
+                            <br/>
+                        </ons-list-item>
+                        <ons-list-item>
+                            <div>
+                                <label className="form">Select Available Slot (try to sync first)</label>
+                            </div>
+                            <div style={{ height: '100%', width: '97%', zIndex: '0'}}>
+                                <Calendar
+                                    localizer={momentLocalizer(moment)}
+                                    date={this.state.date}
+                                    events={this.state.myEventsList}
+                                    startAccessor="start"
+                                    endAccessor="end"
+                                    defaultView="day"
+                                    views={["day"]}
+                                    scrollToTime={new Date()}
+                                    selectable={false}
+                                    resizable={false}
+                                    step={30}
+                                    timeslots={1}
+                                    toolbar={false}
+                                    min={moment().set("hour", 9).set("minutes", 0).toDate()}
+                                    max={moment().set("hour", 17).set("minutes", 0).toDate()}
+                                    onSelectEvent={this.handleSelectEvent}
+                                />
+                            </div>
+                        </ons-list-item>
+                    </ons-list>
+                </div>
                 <ons-fab position="bottom right" style={{ position: 'fixed' }} onClick={this.handleClickCalendar}>
                     <i className="far fa-calendar-alt"></i>    
                 </ons-fab>
@@ -288,12 +291,15 @@ export class AppointmentList extends React.Component {
     render() {
         return (
             <React.Fragment>
+                <div className="container">
                 <ons-segment id="segment" style={{ width: '100%'}}>
                     <button onClick={this.handleAll}>All</button>
                     <button onClick={this.handlePending}>Pending</button>
                     <button onClick={this.handleAccepted}>Accepted</button>
                     <button onClick={this.handleCancelled}>Cancelled</button>
                 </ons-segment>
+                </div>
+                <div className="container">
             {
                 this.state.appointmentList.map((item) => {
                     const display = item.resource.status === "Cancelled" ? 'none' : 'inline-block';
@@ -323,6 +329,7 @@ export class AppointmentList extends React.Component {
                     )
                 })
             }
+                </div>
             </React.Fragment>
         )
     }
@@ -408,10 +415,12 @@ export class AppointmentManager extends React.Component {
         this.calendarView.style.display = 'block';
         this.listView.style.display = 'none';
         this.list.style.height = 'auto';
+        this.filterListSegment.style.display = 'none';
     }
     handleList = (event) => {
         this.calendarView.style.display = 'none';
         this.listView.style.display = 'block';
+        this.filterListSegment.style.display = 'flex';
 
         if (this.state.myEventsList.length < 3) {
             this.list.style.height = '800px';
@@ -434,7 +443,7 @@ export class AppointmentManager extends React.Component {
         }, email, date, payload);
     }
     handleBlur = (event, email, date) => {
-        if (event.target.matches('ons-input')) {
+        if (event.target.matches('textarea')) {
             const note = event.target.value;
             const payload = {
                 "resource.note": event.target.value
@@ -445,9 +454,16 @@ export class AppointmentManager extends React.Component {
             }
         }
     }
+    handleNextSevenDays = (event) => {
+        console.log('7')
+    }
+    handleNextThirtyDays = (event) => {
+        console.log('30')
+    }
     render() {
         return (
             <React.Fragment>
+                <div className="container">
                 <ons-segment id="segment" style={{ width: '100%' }}>
                     <button onClick={this.handleList}>List</button>
                     <button onClick={this.handleCalendar}>Calendar</button>
@@ -461,6 +477,12 @@ export class AppointmentManager extends React.Component {
                                 clearIcon={null} 
                                 onChange={this.handleDateChange}
                             />
+                        </div>
+                        <div className="right" style={{ width: '250px'}}>
+                            <ons-segment style={{ width: '100%' }} ref={ref=>{this.filterListSegment=ref}}>
+                                <button onClick={this.handleNextSevenDays}>Next 7 days</button>
+                                <button onClick={this.handleNextThirtyDays}>Next 30 days</button>
+                            </ons-segment>
                         </div>
                         <br/>
                     </ons-list-item>
@@ -499,12 +521,12 @@ export class AppointmentManager extends React.Component {
                                         <div style={{ display: 'inline-block'}}>
                                             <img className="list-item--material__thumbnail" style={{ width: '80px', height: '80px'}} alt="User" src={item.resource.user.picture}></img>
                                         </div>
-                                        <div style={{ marginLeft: '10px', display: 'inline-block', verticalAlign: 'top', fontWeight: 'bold'}}>
+                                        <div style={{ marginLeft: '20px', display: 'inline-block', verticalAlign: 'top', fontWeight: 'bold'}}>
                                             <span>{item.resource.user.firstname} {item.resource.user.lastname}</span><br/>
                                             <span>{moment(item.start).format('LT') + " - " + moment(item.end).format('LT')}</span><br/>
-                                            <span>Status: {item.resource.status}</span><br/>
-                                            <ons-button modifier="quiet" index={index} onClick={(event)=>this.handleStatusChange(index, newStatus, item.resource.email, item.resource.date)}><i class={icon}></i>{label}</ons-button><br/>
-                                            <ons-input placeholder="Add a short note" value={item.resource.note} ref={ref=>{this.notes[index]=ref}} onBlur={(event)=>this.handleBlur(event, item.resource.email, item.resource.date)}></ons-input>
+                                            <span>Status: {item.resource.status}</span><br/>         
+                                            <div style={{ display: 'flex', marginLeft: '10px' }}><ons-button modifier="quiet" index={index} onClick={(event)=>this.handleStatusChange(index, newStatus, item.resource.email, item.resource.date)}><i class={icon}></i>{label}</ons-button></div>                              
+                                            <textarea className="textarea" rows="3" cols="35" placeholder="Add a short note" defaultValue={item.resource.note} ref={ref=>{this.notes[index]=ref}} onChange={(event)=>this.handleBlur(event, item.resource.email, item.resource.date)}></textarea>                                            
                                         </div>                                    
                                     </ons-card>
                                 )
@@ -523,6 +545,7 @@ export class AppointmentManager extends React.Component {
                     }
                     </div>
                 </ons-list>
+                </div>
             </React.Fragment>
         )
     }

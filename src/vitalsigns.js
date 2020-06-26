@@ -8,7 +8,7 @@ import ons from 'onsenui';
 
 function VitalSignsForm(props) {
     const id = props.vsList[props.index].id;
-    const bgcolor = props.index % 2 === 0 ? '#ffffff' : '#f0f0f5';
+    const bgcolor = props.index % 2 === 0 ? '#ffffff' : '#e6e6ff';
     return (
         <React.Fragment>
             <div style={{ backgroundColor: bgcolor }}>
@@ -24,45 +24,45 @@ function VitalSignsForm(props) {
                 </ons-list-item>
                 <ons-list-item>
                     <label className="form">Blood Pressure</label>
-                    <ons-input id={"vs_bloodpressure" + id} modifier="material" value={props.vsList[props.index].vs_bloodpressure}></ons-input>
+                    <ons-input id={"vs_bloodpressure" + id}  value={props.vsList[props.index].vs_bloodpressure}></ons-input>
                 </ons-list-item>
                 <ons-list-item>
                     <label className="form">Heart Rate</label>
-                    <ons-input id={"vs_heartrate" + id} type="number" modifier="material" value={props.vsList[props.index].vs_heartrate}></ons-input>&nbsp;bpm
+                    <ons-input id={"vs_heartrate" + id} type="number"  value={props.vsList[props.index].vs_heartrate}></ons-input>&nbsp;bpm
                 </ons-list-item>
                 <ons-list-item>
                     <label className="form">Respiratory Rate</label>
-                    <ons-input id={"vs_respirate" + id} type="number" modifier="material" value={props.vsList[props.index].vs_respirate}></ons-input>&nbsp;cpm
+                    <ons-input id={"vs_respirate" + id} type="number"  value={props.vsList[props.index].vs_respirate}></ons-input>&nbsp;cpm
                 </ons-list-item>
                 <ons-list-item>
                     <label className="form">Temperature</label>
-                    <ons-input id={"vs_temp" + id} type="number" modifier="material" value={props.vsList[props.index].vs_temp}></ons-input>&nbsp;Celsius
+                    <ons-input id={"vs_temp" + id} type="number"  value={props.vsList[props.index].vs_temp}></ons-input>&nbsp;Celsius
                 </ons-list-item>
                 <ons-list-item>
                     <label className="form">Weight</label>
-                    <ons-input id={"vs_weight" + id} type="number" modifier="material" value={props.vsList[props.index].vs_weight}></ons-input>&nbsp;
+                    <ons-input id={"vs_weight" + id} type="number"  value={props.vsList[props.index].vs_weight}></ons-input>&nbsp;
                     { props.vsList[props.index].vs_weight_unit === "kg" ? <ons-radio name={"vs_weight_unit" + id} input-id="weight_kg" value="kg" checked>kg</ons-radio> : <ons-radio name={"vs_weight_unit" + id} input-id="weight_kg" value="kg">kg</ons-radio> }&nbsp; 
                     { props.vsList[props.index].vs_weight_unit === "lbs" ? <ons-radio name={"vs_weight_unit" + id} input-id="weight_lbs" value="lbs" checked>lbs</ons-radio> : <ons-radio name={"vs_weight_unit" + id} input-id="weight_lbs" value="lbs">lbs</ons-radio> }
                 </ons-list-item>
                 <ons-list-item>
                     <label className="form">Height</label>
-                    <ons-input id={"vs_height" + id} type="number" modifier="material" value={props.vsList[props.index].vs_height}></ons-input>&nbsp;cm
+                    <ons-input id={"vs_height" + id} type="number"  value={props.vsList[props.index].vs_height}></ons-input>&nbsp;cm
                 </ons-list-item>
                 <ons-list-item>
                     <label className="form">Body Mass Index</label>
-                    <ons-input id={"vs_bmi" + id} type="number" modifier="material" value={props.vsList[props.index].vs_bmi}></ons-input>
+                    <ons-input id={"vs_bmi" + id} type="number"  value={props.vsList[props.index].vs_bmi}></ons-input>
                 </ons-list-item>
                 <ons-list-item>
                     <label className="form">Waist Circumference</label>
-                    <ons-input id={"vs_waistcirc" + id} type="number" modifier="material" value={props.vsList[props.index].vs_waistcirc}></ons-input>&nbsp;cm
+                    <ons-input id={"vs_waistcirc" + id} type="number"  value={props.vsList[props.index].vs_waistcirc}></ons-input>&nbsp;cm
                 </ons-list-item>
                 <ons-list-item>
                     <label className="form">Hip Circumference</label>
-                    <ons-input id={"vs_hipcirc" + id} type="number" modifier="material" value={props.vsList[props.index].vs_hipcirc}></ons-input>&nbsp;cm
+                    <ons-input id={"vs_hipcirc" + id} type="number"  value={props.vsList[props.index].vs_hipcirc}></ons-input>&nbsp;cm
                 </ons-list-item>
                 <ons-list-item>
                     <label className="form">Waist/Hip Ratio</label>
-                    <ons-input id={"vs_whratio" + id} modifier="material" value={props.vsList[props.index].vs_whratio}></ons-input>
+                    <ons-input id={"vs_whratio" + id}  value={props.vsList[props.index].vs_whratio}></ons-input>
                 </ons-list-item>
             </div>
         </React.Fragment>
@@ -132,7 +132,7 @@ export class NewVitalSignItem extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="content">
+                <div className="container">
                     <ons-list>
                         <div className="vs_list">
                             <VitalSignsForm value={this.state.vsList[0]} index={0} vsList={this.state.vsList} onDateChangeCallback={this.handleDateChange} onTimeChangeCallback={this.handleTimeChange} />
@@ -244,7 +244,7 @@ export class VitalSigns extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="content">
+                <div className="container">
                     <ons-list>
                         {
                             this.state.vsList.map((value, index) =>

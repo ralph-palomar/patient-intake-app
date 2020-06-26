@@ -6,21 +6,20 @@
 
   <template id="login.html">
     <ons-page id="login">
-      <div id="login_pb" style="display: none;">
-        <ons-progress-circular indeterminate>
-          </ons-progress-bar>
+      <div id="login_pb" style="display: none">          
           <div class="modal">
             <div class="modal__content">
+              <ons-progress-circular indeterminate></ons-progress-circular>
             </div>
           </div>
       </div>
-      <div style="text-align: center; margin-top: 160px; ">
+      <div class="container login_registration">
         <ons-card style="text-align: center; border-radius: 15px">
           <p>
-            <ons-input id="index_email" placeholder="Email" modifier="material"></ons-input>
+            <ons-input id="index_email" placeholder="Email" ></ons-input>
           </p>
           <p>
-            <ons-input id="index_password" placeholder="Password" type="password" modifier="material"></ons-input>
+            <ons-input id="index_password" placeholder="Password" type="password" ></ons-input>
           </p>
           <p>
             <ons-button modifier="quiet" onclick="fn.register()">Register</ons-button>
@@ -37,7 +36,7 @@
   <template id="home.html">
     <ons-page id="home">
       <ons-splitter>
-        <ons-splitter-side id="menu" side="left" width="75%" collapse swipeable>
+        <ons-splitter-side id="menu" side="left" width="300px" collapse swipeable>
           <ons-page>
             <ons-list>
               <ons-list-item id="badge-list-item">
@@ -151,11 +150,10 @@
           Lifestyle Clinic
         </div>
       </ons-toolbar>
-      <div id="main_pb" style="display: none;">
-        <ons-progress-circular indeterminate>
-          </ons-progress-bar>
+      <div id="main_pb" style="display: none;">          
           <div class="modal">
             <div class="modal__content">
+              <ons-progress-circular indeterminate></ons-progress-circular>
             </div>
           </div>
       </div>
@@ -180,9 +178,9 @@
         </div>
       </ons-toolbar>
       <div id="basic_pb" style="display: none;">
-        <ons-progress-circular indeterminate></ons-progress-circular>
           <div class="modal">
             <div class="modal__content">
+              <ons-progress-circular indeterminate></ons-progress-circular>
             </div>
           </div>
       </div>
@@ -204,9 +202,9 @@
         <div class="right" id="illnesses_saveBtn"></div>
       </ons-toolbar>
       <div id="illnesses_pb" style="display: none;">
-        <ons-progress-circular indeterminate></ons-progress-circular>
           <div class="modal">
             <div class="modal__content">
+              <ons-progress-circular indeterminate></ons-progress-circular>
             </div>
           </div>
       </div>
@@ -228,9 +226,9 @@
         <div class="right" id="diet_saveBtn"></div>
       </ons-toolbar>
       <div id="diet_pb" style="display: none;">
-        <ons-progress-circular indeterminate></ons-progress-circular>
           <div class="modal">
             <div class="modal__content">
+              <ons-progress-circular indeterminate></ons-progress-circular>
             </div>
           </div>
       </div>
@@ -252,9 +250,9 @@
         <div class="right" id="medications_saveBtn"></div>
       </ons-toolbar>
       <div id="medications_pb" style="display: none;">
-        <ons-progress-circular indeterminate></ons-progress-circular>
           <div class="modal">
             <div class="modal__content">
+              <ons-progress-circular indeterminate></ons-progress-circular>
             </div>
           </div>
       </div>
@@ -291,9 +289,9 @@
         <div class="right" id="others_saveBtn"></div>
       </ons-toolbar>
       <div id="others_pb" style="display: none;">
-        <ons-progress-circular indeterminate></ons-progress-circular>
           <div class="modal">
             <div class="modal__content">
+              <ons-progress-circular indeterminate></ons-progress-circular>
             </div>
           </div>
       </div>
@@ -319,35 +317,36 @@
         </div>
       </ons-toolbar>
       <div id="profile_pb" style="display: none;">
-        <ons-progress-circular indeterminate>
           <div class="modal">
             <div class="modal__content">
-              </ons-progress-bar>
+              <ons-progress-circular indeterminate></ons-progress-circular>
             </div>
           </div>
       </div>
       <div id="main_display"></div>
-      <ons-carousel id="carousel">
-        <ons-carousel-item>
-          <div id="profile_basic_info"></div>
-        </ons-carousel-item>
-        <ons-carousel-item>
-          <div id="profile_illnesses"></div>
-        </ons-carousel-item>
-        <ons-carousel-item>
-          <div id="profile_medications"></div>
-        </ons-carousel-item>
-        <ons-carousel-item>
-          <div id="profile_vital_signs"></div>
-        </ons-carousel-item>
-        <ons-carousel-item>
-          <div id="profile_diet"></div>
-        </ons-carousel-item>
-        <ons-carousel-item>
-          <div id="profile_others"></div>
-        </ons-carousel-item>
-        </div>
-      </ons-carousel>
+      <div class="container">
+        <ons-carousel id="carousel">
+          <ons-carousel-item>
+            <div id="profile_basic_info"></div>
+          </ons-carousel-item>
+          <ons-carousel-item>
+            <div id="profile_illnesses"></div>
+          </ons-carousel-item>
+          <ons-carousel-item>
+            <div id="profile_medications"></div>
+          </ons-carousel-item>
+          <ons-carousel-item>
+            <div id="profile_vital_signs"></div>
+          </ons-carousel-item>
+          <ons-carousel-item>
+            <div id="profile_diet"></div>
+          </ons-carousel-item>
+          <ons-carousel-item>
+            <div id="profile_others"></div>
+          </ons-carousel-item>
+          </div>
+        </ons-carousel>
+      </div>
   </template>
 
   <template id="user_profile.html">
@@ -361,56 +360,57 @@
         </div>
       </ons-toolbar>
       <div id="user_profile_component"></div>
-      <ons-carousel id="carousel">
-        <ons-carousel-item>
-          <div id="profile_basic_info"></div>
-        </ons-carousel-item>
-        <ons-carousel-item>
-          <div id="profile_illnesses"></div>
-        </ons-carousel-item>
-        <ons-carousel-item>
-          <div id="profile_medications"></div>
-        </ons-carousel-item>
-        <ons-carousel-item>
-          <div id="profile_vital_signs"></div>
-        </ons-carousel-item>
-        <ons-carousel-item>
-          <div id="profile_diet"></div>
-        </ons-carousel-item>
-        <ons-carousel-item>
-          <div id="profile_others"></div>
-        </ons-carousel-item>
-        </div>
-      </ons-carousel>
+      <div class="container">
+        <ons-carousel id="carousel">
+          <ons-carousel-item>
+            <div id="profile_basic_info"></div>
+          </ons-carousel-item>
+          <ons-carousel-item>
+            <div id="profile_illnesses"></div>
+          </ons-carousel-item>
+          <ons-carousel-item>
+            <div id="profile_medications"></div>
+          </ons-carousel-item>
+          <ons-carousel-item>
+            <div id="profile_vital_signs"></div>
+          </ons-carousel-item>
+          <ons-carousel-item>
+            <div id="profile_diet"></div>
+          </ons-carousel-item>
+          <ons-carousel-item>
+            <div id="profile_others"></div>
+          </ons-carousel-item>
+          </div>
+        </ons-carousel>
+      </div>
     </ons-page>
   </template>
 
   <template id="register.html">
     <ons-page id="register">
       <div id="register_pb" hidden>
-        <ons-progress-circular indeterminate>
           <div class="modal">
             <div class="modal__content">
-              </ons-progress-bar>
+              <ons-progress-circular indeterminate></ons-progress-circular>
             </div>
           </div>
       </div>
-      <div style="text-align: center; margin-top: 120px">
-        <ons-card style="text-align: center">
+      <div class="container login_registration">
+        <ons-card style="text-align: center; border-radius: 15px">
           <p>
-            <ons-input id="register_email" placeholder="Email" modifier="material"></ons-input>
+            <ons-input id="register_email" placeholder="Email" ></ons-input>
           </p>
           <p>
-            <ons-input id="register_firstname" placeholder="First Name" modifier="material"></ons-input>
+            <ons-input id="register_firstname" placeholder="First Name" ></ons-input>
           </p>
           <p>
-            <ons-input id="register_lastname" placeholder="Last Name" modifier="material"></ons-input>
+            <ons-input id="register_lastname" placeholder="Last Name" ></ons-input>
           </p>
           <p>
-            <ons-input id="register_password" placeholder="Password" type="password" modifier="material"></ons-input>
+            <ons-input id="register_password" placeholder="Password" type="password" ></ons-input>
           </p>
           <p>
-            <ons-input id="register_cpassword" placeholder="Confirm Password" type="password" modifier="material">
+            <ons-input id="register_cpassword" placeholder="Confirm Password" type="password" >
             </ons-input>
           </p>
           <p>
@@ -439,9 +439,9 @@
       </ons-toolbar>
       <div id="user_list"></div>
       <div id="users_pb" style="display: none;">
-        <ons-progress-circular indeterminate></ons-progress-circular>
         <div class="modal">
           <div class="modal__content">
+            <ons-progress-circular indeterminate></ons-progress-circular>
           </div>
         </div>
       </div>
@@ -462,9 +462,9 @@
         <div class="right" id="vitalsigns_saveBtn"></div>
       </ons-toolbar>
       <div id="vitalsigns_pb" style="display: none;">
-        <ons-progress-circular indeterminate></ons-progress-circular>
           <div class="modal">
             <div class="modal__content">
+              <ons-progress-circular indeterminate></ons-progress-circular>
             </div>
           </div>
       </div>

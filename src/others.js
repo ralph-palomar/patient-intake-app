@@ -6,72 +6,73 @@ import { api, tobacco_use_0_options, emotional_being_options, login_cookie } fro
 function OtherForm(props) {
     return (
         <React.Fragment>
+            <div className="container">
             <ons-list>
                 <ons-list-header><b>Expand the item to answer the question</b></ons-list-header>
                 <ons-list-item><ons-list-header>Physical Activity</ons-list-header></ons-list-item>
                 <ons-list-item expandable>
                     How many days a week do you engage in moderate to strenuous exercise, such as brisk walking?
                     <div className="expandable-content">
-                        <ons-input id="physical_activity_0" type="number" modifier="material" placeholder="Days" style={{ width: '100px' }} value={props.data.physical_activity_0}></ons-input>
+                        <ons-input id="physical_activity_0" type="number"  placeholder="Days" style={{ width: '100px' }} value={props.data.physical_activity_0}></ons-input>
                     </div>
                 </ons-list-item>
                 <ons-list-item expandable>
                     On average, how many minutes per day do you exercise at this level?
                     <div className="expandable-content">
-                        <ons-input id="physical_activity_1" type="number" modifier="material" placeholder="Minutes" style={{ width: '100px' }} value={props.data.physical_activity_1}></ons-input>
+                        <ons-input id="physical_activity_1" type="number"  placeholder="Minutes" style={{ width: '100px' }} value={props.data.physical_activity_1}></ons-input>
                     </div>
                 </ons-list-item>
                 <ons-list-item expandable>
                     Total minutes of moderate to strenuous physical activity per week:
                     <div className="expandable-content">
-                        <ons-input id="physical_activity_2" type="number" modifier="material" placeholder="Minutes" style={{ width: '100px' }} value={props.data.physical_activity_2}></ons-input>
+                        <ons-input id="physical_activity_2" type="number"  placeholder="Minutes" style={{ width: '100px' }} value={props.data.physical_activity_2}></ons-input>
                     </div>
                 </ons-list-item>
                 <ons-list-item><ons-list-header>Sleep</ons-list-header></ons-list-item>
                 <ons-list-item expandable>
                     Typical weekday hours of sleep
                     <div className="expandable-content">
-                        <ons-input id="sleep_0" type="number" modifier="material" placeholder="Hours" style={{ width: '100px' }} value={props.data.sleep_0}></ons-input>
+                        <ons-input id="sleep_0" type="number"  placeholder="Hours" style={{ width: '100px' }} value={props.data.sleep_0}></ons-input>
                     </div>
                 </ons-list-item>
                 <ons-list-item expandable>
                     Typical weekend hours of sleep
                     <div className="expandable-content">
-                        <ons-input id="sleep_1" type="number" modifier="material" placeholder="Hours" style={{ width: '100px' }} value={props.data.sleep_1}></ons-input>
+                        <ons-input id="sleep_1" type="number"  placeholder="Hours" style={{ width: '100px' }} value={props.data.sleep_1}></ons-input>
                     </div>
                 </ons-list-item>
                 <ons-list-item expandable>
                     Quality of sleep
                     <div className="expandable-content">
-                        <ons-input id="sleep_2" modifier="material" placeholder="Quality" style={{ width: '100px' }} value={props.data.sleep_2}></ons-input>
+                        <ons-input id="sleep_2"  placeholder="Quality" style={{ width: '100px' }} value={props.data.sleep_2}></ons-input>
                     </div>
                 </ons-list-item>
                 <ons-list-item><ons-list-header>Tobacco Use</ons-list-header></ons-list-item>
                 <ons-list-item expandable>
                     <div>
-                        <ons-select id="tobacco_use_0" modifier="material" style={{ float: 'left' }} ref={props.tobacco_use_0}>
+                        <ons-select id="tobacco_use_0"  style={{ float: 'left' }} ref={props.tobacco_use_0}>
                             <option value="Non smoker">Non smoker</option>
                             <option value="Current smoker">Current smoker</option>
                             <option value="Past smoker">Past smoker</option>
                         </ons-select>
                     </div>
                     <div className="expandable-content">
-                        <ons-input id="tobacco_use_1" type="number" modifier="material" placeholder="# of sticks/day" style={{ width: '120px' }} value={props.data.tobacco_use_1}></ons-input>&nbsp;sticks/day<br />
-                        <ons-input id="tobacco_use_2" type="number" modifier="material" placeholder="# of years" style={{ width: '120px' }} value={props.data.tobacco_use_2}></ons-input>&nbsp;years<br />
-                        <ons-input id="tobacco_use_3" type="number" modifier="material" placeholder="pack/year" style={{ width: '120px' }} value={props.data.tobacco_use_3}></ons-input>&nbsp;pack/year
+                        <ons-input id="tobacco_use_1" type="number"  placeholder="# of sticks/day" style={{ width: '120px' }} value={props.data.tobacco_use_1}></ons-input>&nbsp;sticks/day<br />
+                        <ons-input id="tobacco_use_2" type="number"  placeholder="# of years" style={{ width: '120px' }} value={props.data.tobacco_use_2}></ons-input>&nbsp;years<br />
+                        <ons-input id="tobacco_use_3" type="number"  placeholder="pack/year" style={{ width: '120px' }} value={props.data.tobacco_use_3}></ons-input>&nbsp;pack/year
                     </div>
                 </ons-list-item>
                 <ons-list-item><ons-list-header>Alcohol Use</ons-list-header></ons-list-item>
                 <ons-list-item expandable>
                     How many drinks do you consume in any day?
                     <div className="expandable-content">
-                        <ons-input id="alcohol_use_0" type="number" modifier="material" placeholder="Quantity" style={{ width: '100px' }} value={props.data.alcohol_use_0}></ons-input>
+                        <ons-input id="alcohol_use_0" type="number"  placeholder="Quantity" style={{ width: '100px' }} value={props.data.alcohol_use_0}></ons-input>
                     </div>
                 </ons-list-item>
                 <ons-list-item expandable>
                     How many drinks do you consume in a week?
                     <div className="expandable-content">
-                        <ons-input id="alcohol_use_1" type="number" modifier="material" placeholder="Quantity" style={{ width: '100px' }} value={props.data.alcohol_use_1}></ons-input>
+                        <ons-input id="alcohol_use_1" type="number"  placeholder="Quantity" style={{ width: '100px' }} value={props.data.alcohol_use_1}></ons-input>
                     </div>
                 </ons-list-item>
                 <ons-list-item><ons-list-header>Emotional Being</ons-list-header></ons-list-item>
@@ -79,7 +80,7 @@ function OtherForm(props) {
                     In most ways, my life is close to my ideal.
                     <div className="expandable-content">
                         <div>
-                            <ons-select id="emotional_being_0" modifier="material" style={{ float: 'left' }} ref={props.emotional_being_0}>
+                            <ons-select id="emotional_being_0"  style={{ float: 'left' }} ref={props.emotional_being_0}>
                                 <option value="5">5</option>
                                 <option value="4">4</option>
                                 <option value="3">3</option>
@@ -93,7 +94,7 @@ function OtherForm(props) {
                     I am satisfied with my life.
                     <div className="expandable-content">
                         <div>
-                            <ons-select id="emotional_being_1" modifier="material" style={{ float: 'left' }} ref={props.emotional_being_1}>
+                            <ons-select id="emotional_being_1"  style={{ float: 'left' }} ref={props.emotional_being_1}>
                                 <option value="5">5</option>
                                 <option value="4">4</option>
                                 <option value="3">3</option>
@@ -104,6 +105,7 @@ function OtherForm(props) {
                     </div>
                 </ons-list-item>
             </ons-list>
+            </div>
         </React.Fragment>
     );
 }

@@ -72,31 +72,33 @@ export class Users extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <ons-search-input style={{ width: '100%'}} placeholder="Search" onKeyUp={this.searchUser}></ons-search-input>
-                <ons-list>
-                <ons-list-header style={{ backgroundColor: '#e6f2ff'}}><b>User Accounts</b></ons-list-header>
-                    <ons-lazy-repeat>
-                    {
-                        
-                        this.state.userList.map((value, index) =>
-                            <ons-list-item index={index} key={value.email} modifier="chevron" tappable onClick={(event) => {this.handleUserViewClick(value)}} >
-                                <div className="left" align="center">
-                                    <img className="list-item--material__thumbnail" src={value.picture != null ? value.picture : defaultImg} alt="Profile Pic" style={{width: '60px', height: '60px'}} ></img>
-                                </div>
-                                <div className="center" style={{ marginLeft: '8px'}}>
-                                    <span className="list-item__title">{value.firstname + " " + value.lastname}</span>
-                                    <span className="list-item__subtitle">{value.email}</span>
-                                    <span className="list-item__subtitle">
-                                        Role: <i className={value.type === "user" ? "fas fa-user" : "fas fa-user-cog"}></i>&nbsp;
-                                        Enabled: <i className={value.enabled ? "fas fa-check fa-lg" : "fas fa-times fa-lg"}></i>
-                                    </span>
-                                </div>                                              
-                            </ons-list-item>
- 
-                        )
-                    }
-                    </ons-lazy-repeat>
-                </ons-list>
+                <div className="container">
+                    <ons-search-input style={{ width: '100%'}} placeholder="Search" onKeyUp={this.searchUser}></ons-search-input>
+                    <ons-list>
+                    <ons-list-header style={{ backgroundColor: '#e6f2ff'}}><b>User Accounts</b></ons-list-header>
+                        <ons-lazy-repeat>
+                        {
+                            
+                            this.state.userList.map((value, index) =>
+                                <ons-list-item index={index} key={value.email} modifier="chevron" tappable onClick={(event) => {this.handleUserViewClick(value)}} >
+                                    <div className="left" align="center">
+                                        <img className="list-item--material__thumbnail" src={value.picture != null ? value.picture : defaultImg} alt="Profile Pic" style={{width: '60px', height: '60px'}} ></img>
+                                    </div>
+                                    <div className="center" style={{ marginLeft: '8px'}}>
+                                        <span className="list-item__title">{value.firstname + " " + value.lastname}</span>
+                                        <span className="list-item__subtitle">{value.email}</span>
+                                        <span className="list-item__subtitle">
+                                            Role: <i className={value.type === "user" ? "fas fa-user" : "fas fa-user-cog"}></i>&nbsp;
+                                            Enabled: <i className={value.enabled ? "fas fa-check fa-lg" : "fas fa-times fa-lg"}></i>
+                                        </span>
+                                    </div>                                              
+                                </ons-list-item>
+    
+                            )
+                        }
+                        </ons-lazy-repeat>
+                    </ons-list>
+                </div>
             </React.Fragment>
         );
     }

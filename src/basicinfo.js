@@ -63,61 +63,63 @@ export class BasicInfo extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-			<ons-list>
-            	<ons-list-header style={{ backgroundColor: '#e6f2ff'}}><b>Please fill up the form</b></ons-list-header>
-				<ons-list-item>
-					<label className="form">Last Name</label><br />
-					<ons-input id="basic_lastname" modifier="material" value={this.state.basic_lastname || ""}></ons-input>
-				</ons-list-item>
-				<ons-list-item>
-					<label className="form">First Name</label><br />
-					<ons-input id="basic_firstname" modifier="material" value={this.state.basic_firstname || ""}></ons-input>
-				</ons-list-item>
-				<ons-list-item>
-					<label className="form">Middle Name</label><br />
-					<ons-input id="basic_middlename" modifier="material" value={this.state.basic_middlename || ""}></ons-input>
-				</ons-list-item>
-				<ons-list-item>
-					<label className="form">Date of Birth</label><br />
-					<ons-input id="basic_dob" style={{display: 'none'}} value={this.state.basic_dob}></ons-input>
-					<DatePicker onChange={this.onChange} value={this.state.basic_dob !== "" && this.state.basic_dob != null ? new Date(this.state.basic_dob) : new Date()} clearIcon={null} />
-				</ons-list-item>
-				<ons-list-item>
-					<label className="form">Gender</label>
-					<select className="select-input" id="basic_gender" modifier="material">
-						<option value="Male" selected={this.state.basic_gender === "Male" ? true : false}>Male</option>
-						<option value="Female" selected={this.state.basic_gender === "Female" ? true : false}>Female</option>
-					</select>
-				</ons-list-item>
-				<ons-list-item>
-					<label className="form">Address</label><br />
-					<textarea id="basic_addr" className="textarea" rows="3" cols="35" defaultValue={this.state.basic_addr || ""}></textarea>
-				</ons-list-item>
-				<ons-list-item>
-					<label className="form">Landline No.</label><br />
-					<ons-input type="number" id="basic_landlineno" modifier="material" value={this.state.basic_landlineno || ""}></ons-input>
-				</ons-list-item>
-				<ons-list-item>
-					<label className="form">Mobile No.</label><br />
-					<ons-input type="number" id="basic_mobileno" modifier="material" value={this.state.basic_mobileno || ""}></ons-input>
-				</ons-list-item>
-				<ons-list-item>
-					<label className="form">Email Address</label><br />
-					<ons-input type="email" id="basic_email" modifier="material" value={this.state.basic_email || ""}></ons-input>
-				</ons-list-item>
-				<ons-list-item>
-					<label className="form">Support Person</label><br />
-					<ons-input id="basic_supportperson" modifier="material" value={this.state.basic_supportperson || ""}></ons-input>
-				</ons-list-item>
-				<ons-list-item>
-					<label className="form">Relationship</label><br />
-					<ons-input id="basic_relationship" modifier="material" value={this.state.basic_relationship || ""}></ons-input>
-				</ons-list-item>
-				<ons-list-item>
-					<label className="form">Support Contact No.</label> <br />
-					<ons-input type="number" id="basic_supportcontactno" modifier="material" value={this.state.basic_supportcontactno || ""}></ons-input><br />
-				</ons-list-item>
-			</ons-list>
+				<div className="container">
+				<ons-list>
+					<ons-list-header style={{ backgroundColor: '#e6f2ff'}}><b>Please fill up the form</b></ons-list-header>
+					<ons-list-item>
+						<label className="form">Last Name</label><br />
+						<ons-input id="basic_lastname"  value={this.state.basic_lastname || ""}></ons-input>
+					</ons-list-item>
+					<ons-list-item>
+						<label className="form">First Name</label><br />
+						<ons-input id="basic_firstname"  value={this.state.basic_firstname || ""}></ons-input>
+					</ons-list-item>
+					<ons-list-item>
+						<label className="form">Middle Name</label><br />
+						<ons-input id="basic_middlename"  value={this.state.basic_middlename || ""}></ons-input>
+					</ons-list-item>
+					<ons-list-item>
+						<label className="form">Date of Birth</label><br />
+						<ons-input id="basic_dob" style={{display: 'none'}} value={this.state.basic_dob}></ons-input>
+						<DatePicker onChange={this.onChange} value={this.state.basic_dob !== "" && this.state.basic_dob != null ? new Date(this.state.basic_dob) : new Date()} clearIcon={null} />
+					</ons-list-item>
+					<ons-list-item>
+						<label className="form">Gender</label>
+						<select className="select-input" id="basic_gender" >
+							<option value="Male" selected={this.state.basic_gender === "Male" ? true : false}>Male</option>
+							<option value="Female" selected={this.state.basic_gender === "Female" ? true : false}>Female</option>
+						</select>
+					</ons-list-item>
+					<ons-list-item>
+						<label className="form">Address</label><br />
+						<textarea id="basic_addr" className="textarea" rows="3" cols="35" defaultValue={this.state.basic_addr || ""}></textarea>
+					</ons-list-item>
+					<ons-list-item>
+						<label className="form">Landline No.</label><br />
+						<ons-input type="number" id="basic_landlineno"  value={this.state.basic_landlineno || ""}></ons-input>
+					</ons-list-item>
+					<ons-list-item>
+						<label className="form">Mobile No.</label><br />
+						<ons-input type="number" id="basic_mobileno"  value={this.state.basic_mobileno || ""}></ons-input>
+					</ons-list-item>
+					<ons-list-item>
+						<label className="form">Email Address</label><br />
+						<ons-input type="email" id="basic_email"  value={this.state.basic_email || ""}></ons-input>
+					</ons-list-item>
+					<ons-list-item>
+						<label className="form">Support Person</label><br />
+						<ons-input id="basic_supportperson"  value={this.state.basic_supportperson || ""}></ons-input>
+					</ons-list-item>
+					<ons-list-item>
+						<label className="form">Relationship</label><br />
+						<ons-input id="basic_relationship"  value={this.state.basic_relationship || ""}></ons-input>
+					</ons-list-item>
+					<ons-list-item>
+						<label className="form">Support Contact No.</label> <br />
+						<ons-input type="number" id="basic_supportcontactno"  value={this.state.basic_supportcontactno || ""}></ons-input><br />
+					</ons-list-item>
+				</ons-list>
+			</div>
 			</React.Fragment>
 		);
 	}

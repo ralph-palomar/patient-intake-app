@@ -6,6 +6,7 @@ import { cookies, callApi, showAlert, _default } from './index.js';
 function DietForm(props) {
     return(
         <React.Fragment>
+            <div className="container">
             <ons-list>
                     <ons-list-header><b>Expand the item to specify the quantity</b></ons-list-header>
                     {
@@ -13,9 +14,9 @@ function DietForm(props) {
                             <ons-list-item key={value.displayText} expandable>  
                                 {value.displayText}
                                 <div className="expandable-content">
-                                    <ons-input id={value.id+"_qty"} type="number" modifier="material" placeholder="Quantity" style={{width: '100px'}} value={value.quantity}></ons-input>
+                                    <ons-input id={value.id+"_qty"} type="number"  placeholder="Quantity" style={{width: '100px'}} value={value.quantity}></ons-input>
                                     <br/>
-                                    <ons-select id={value.id+"_unit"} modifier="material" selectedIndex={value.unit_selected} ref={ref=>{props.unitRef[index]=ref}}>
+                                    <ons-select id={value.id+"_unit"}  selectedIndex={value.unit_selected} ref={ref=>{props.unitRef[index]=ref}}>
                                         <option value="serve">serve</option>
                                         <option value="cup">cup</option>
                                         <option value="cup raw">cup raw</option>
@@ -31,6 +32,7 @@ function DietForm(props) {
                         )
                     }
                 </ons-list>
+            </div>
         </React.Fragment>
     );
 }
