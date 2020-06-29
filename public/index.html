@@ -7,14 +7,16 @@
   <template id="login.html">
     <ons-page id="login">
       <ons-toolbar>
-        <div class="right">
-          <ons-button modifier="quiet">Home</ons-button>
-          <ons-button modifier="quiet">About</ons-button>
-        </div>
-        <div class="center">
-          Lifestyle Medicine Clinic
+        <div class="left">
+          <span style="margin-left: 20px;">Lifestyle Medicine Clinic</span>
         </div>
       </ons-toolbar>
+      <div class="menubar-main">
+        <ons-toolbar-button>Home</ons-toolbar-button>
+        <ons-toolbar-button>Login</ons-toolbar-button>
+        <ons-toolbar-button>About</ons-toolbar-button>
+        <ons-toolbar-button>Contact Us</ons-toolbar-button>
+      </div>
       <div id="login_pb" style="display: none">          
           <div class="modal">
             <div class="modal__content">
@@ -319,7 +321,7 @@
           My Profile
         </div>
         <div class="right">
-          <ons-button modifier="quiet" id="profile_settings">
+          <ons-button modifier="quiet" class="button--noborder" id="profile_settings">
             <i class="fas fa-cog fa-lg"></i>
           </ons-button>
         </div>
@@ -447,7 +449,7 @@
           Accounts
         </div>
         <div class="right">
-          <ons-button id="refreshUsersBtn" modifier="quiet"><i class="fas fa-sync-alt fa-lg"></i></ons-button>
+          <ons-button class="button--noborder" id="refreshUsersBtn" modifier="quiet"><i class="fas fa-sync-alt fa-lg"></i></ons-button>
         </div>
       </ons-toolbar>
       <div id="user_list"></div>
@@ -510,7 +512,7 @@
           New Photo
         </div>
         <div class="right">
-          <ons-button modifier="quiet" id="save_new_pp">Save</ons-button>
+          <ons-button modifier="quiet" class="button--noborder" id="save_new_pp">Save</ons-button>
         </div>
       </ons-toolbar>
       <div id="new_pp_component"></div>

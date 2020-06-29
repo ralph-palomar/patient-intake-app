@@ -38,7 +38,7 @@ export class SaveBasicInfo extends React.Component {
 	}
 	render() {
 		return (
-			<ons-button modifier="quiet" onClick={this.handleClick}>Save</ons-button>
+			<ons-button modifier="quiet" class="button--noborder" onClick={this.handleClick}>Save</ons-button>
 		);
 	}
 }
@@ -135,7 +135,7 @@ export class BasicInfoProfile extends React.Component {
 			<ons-list>
 				<ons-list-header style={{ textAlign: 'center' }}>
 					Basic Information
-					<ons-button modifier="quiet" onClick={()=>{document.querySelector('#carousel').next()}}><ons-icon icon="md-chevron-right"></ons-icon></ons-button>
+					<ons-button class="button--noborder" modifier="quiet" onClick={()=>{document.querySelector('#carousel').next()}}><ons-icon icon="md-chevron-right"></ons-icon></ons-button>
 				</ons-list-header>
 				<ons-list-item>
 					<label className="profile">Date of Birth</label>

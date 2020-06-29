@@ -32,7 +32,7 @@ export class SaveIllnesses extends React.Component {
 	}
 	render() {
 		return (
-			<ons-button modifier="quiet" onClick={this.handleClick}>Save</ons-button>
+			<ons-button modifier="quiet" class="button--noborder" onClick={this.handleClick}>Save</ons-button>
 		);
 	}
 }
@@ -98,9 +98,9 @@ export class IllnessesProfile extends React.Component {
 		return (
 			<ons-list>
                 <ons-list-header style={{ textAlign: 'center' }}>
-                    <ons-button modifier="quiet" onClick={()=>{document.querySelector('#carousel').prev()}}><ons-icon icon="md-chevron-left"></ons-icon></ons-button>
+                    <ons-button modifier="quiet" class="button--noborder" onClick={()=>{document.querySelector('#carousel').prev()}}><ons-icon icon="md-chevron-left"></ons-icon></ons-button>
                     Illnesses/Conditions
-					<ons-button modifier="quiet" onClick={()=>{document.querySelector('#carousel').next()}}><ons-icon icon="md-chevron-right"></ons-icon></ons-button>
+					<ons-button modifier="quiet" class="button--noborder" onClick={()=>{document.querySelector('#carousel').next()}}><ons-icon icon="md-chevron-right"></ons-icon></ons-button>
 				</ons-list-header>
                 {
                     illnessesList.filter(item => item.selected === true).map(item => {

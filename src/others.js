@@ -145,7 +145,7 @@ export class SaveOthers extends React.Component {
 	}
 	render() {
 		return (
-			<ons-button modifier="quiet" onClick={this.handleClick}>Save</ons-button>
+			<ons-button modifier="quiet" class="button--noborder" onClick={this.handleClick}>Save</ons-button>
 		);
 	}
 }
@@ -188,7 +188,7 @@ export class OthersProfile extends React.Component {
 		return (
 			<ons-list>
                 <ons-list-header style={{ textAlign: 'center' }}>
-                    <ons-button modifier="quiet" onClick={()=>{document.querySelector('#carousel').prev()}}><ons-icon icon="md-chevron-left"></ons-icon></ons-button>
+                    <ons-button modifier="quiet" class="button--noborder" onClick={()=>{document.querySelector('#carousel').prev()}}><ons-icon icon="md-chevron-left"></ons-icon></ons-button>
                     Others
 				</ons-list-header>
 				<ons-list-header>Physical Activity</ons-list-header>

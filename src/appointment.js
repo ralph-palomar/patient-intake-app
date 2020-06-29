@@ -171,7 +171,7 @@ export class Appointment extends React.Component {
                         Set Appointment
                     </div>
                     <div className="right">
-                        <ons-button modifier="quiet" onClick={this.handleRefresh}>
+                        <ons-button class="button--noborder" modifier="quiet" onClick={this.handleRefresh}>
                             <i className="fas fa-sync-alt fa-lg"></i>
                         </ons-button>
                     </div>
@@ -426,7 +426,7 @@ export class AppointmentManager extends React.Component {
         if (this.state.myEventsList.length < 3) {
             this.list.style.height = '800px';
         } else {
-            this.list.style.height = 'auto';
+            this.list.style.height = '100%';
         }
     }
     handleStatusChange = (index, newStatus, email, date) => {
@@ -483,6 +483,11 @@ export class AppointmentManager extends React.Component {
                     });
                     return state;
                 });
+                if (this.state.myEventsList.length < 3) {
+                    this.list.style.height = '800px';
+                } else {
+                    this.list.style.height = 'auto';
+                }
             });
     }
     render() {
@@ -506,8 +511,8 @@ export class AppointmentManager extends React.Component {
                     </ons-list-item>
                     <ons-list-item>
                         <div className="right" style={{ width: '300px' }} ref={ref=>{this.filterListSegment=ref}}>
-                            <ons-button modifier="quiet" style={{ borderStyle: 'solid', borderRadius: '10px', borderWidth: '2px', marginRight: '3px', width: '150px' }} onClick={this.handleNextSevenDays}>Next 7 days</ons-button>
-                            <ons-button modifier="quiet" style={{ borderStyle: 'solid', borderRadius: '10px', borderWidth: '2px', width: '150px' }} onClick={this.handleNextThirtyDays}>Next 30 days</ons-button>
+                            <ons-button modifier="quiet" style={{ marginRight: '3px', width: '150px' }} onClick={this.handleNextSevenDays}>Next 7 days</ons-button>
+                            <ons-button modifier="quiet" style={{ width: '150px' }} onClick={this.handleNextThirtyDays}>Next 30 days</ons-button>
                         </div>
                     </ons-list-item>
                     <ons-list-item ref={ref=>{this.calendarView=ref}}>

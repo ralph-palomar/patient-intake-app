@@ -48,7 +48,7 @@ export class SaveMedications extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <ons-button modifier="quiet" onClick={this.handleClick}>Save</ons-button>
+                <ons-button modifier="quiet" class="button--noborder" onClick={this.handleClick}>Save</ons-button>
             </React.Fragment>
         );
     }
@@ -183,7 +183,7 @@ export class Medications extends React.Component {
                                     <ons-list-header style={{ backgroundColor: '#e6f2ff' }}>
                                         <b>Medication/Supplement</b>
                                         <div style={{ display: 'inline-block' }}>
-                                            <ons-button index={index} modifier="quiet" onClick={this.confirm}>
+                                            <ons-button index={index} modifier="quiet" class="button--noborder" onClick={this.confirm}>
                                                 <ons-icon index={index} icon="md-delete"></ons-icon>
                                             </ons-button>
                                         </div>
@@ -266,9 +266,9 @@ export class MedicationsProfile extends React.Component {
 		return (
 			<ons-list>
                 <ons-list-header style={{ textAlign: 'center' }}>
-                    <ons-button modifier="quiet" onClick={()=>{document.querySelector('#carousel').prev()}}><ons-icon icon="md-chevron-left"></ons-icon></ons-button>
+                    <ons-button modifier="quiet" class="button--noborder" onClick={()=>{document.querySelector('#carousel').prev()}}><ons-icon icon="md-chevron-left"></ons-icon></ons-button>
                     Medications and Supplements
-					<ons-button modifier="quiet" onClick={()=>{document.querySelector('#carousel').next()}}><ons-icon icon="md-chevron-right"></ons-icon></ons-button>
+					<ons-button modifier="quiet" class="button--noborder" onClick={()=>{document.querySelector('#carousel').next()}}><ons-icon icon="md-chevron-right"></ons-icon></ons-button>
 				</ons-list-header>
                 {
                     medicationList.map((item, index) => {

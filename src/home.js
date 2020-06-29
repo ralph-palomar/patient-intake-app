@@ -354,7 +354,7 @@ export class Profile extends React.Component {
 									<ons-input type="password" placeholder="Confirm Password"  ref={ref=>{this.cpasswd=ref}}></ons-input>
 								</p>
 								<p>
-									<ons-button onClick={this.handleChangePasswdSubmit}>Submit</ons-button>
+									<ons-button modifier="quiet" onClick={this.handleChangePasswdSubmit}>Submit</ons-button>
 								</p>
 							</div>
 						</ons-list>

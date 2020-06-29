@@ -34,7 +34,7 @@ div.container {
 
 div.login {
     width: 500px;
-    margin-top: 150px;
+    margin-top: 120px;
 }
 
 div.registration {
@@ -55,6 +55,29 @@ div.action-sheet {
     margin: auto;
 }
 
+.button, .toolbar-button {
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    font-weight: bold;
+    margin: 5px 2px;
+}
+
+.button--noborder {
+    border-style: none;
+}
+
+.menubar-main {
+    height: 44px;
+    vertical-align: middle;
+    display: table-cell;
+    border-width: 2px;
+}
+
+.toolbar-button:hover, .button:hover {
+    background-color: lightgrey;
+}
+
 @media screen and (min-width:320px) and (max-width:640px) {
     div.container {
         width: 100%;
@@ -62,14 +85,39 @@ div.action-sheet {
         text-align: center;
     }
 
-    div.login_registration {
+    div.login {
         width: 100%;
-        margin-top: 150px;
+        margin-top: 120px;
     }
 
+    div.registration {
+        width: 100%;
+        margin-top: 90px;
+    }
     
     div.action-sheet {
         width: 100%;
         margin: auto;
     }
+
+    .menubar-main {
+        display: inline-block;
+        margin-top: 5px;
+        height: 25px;
+    }
+
+    .toolbar-button {
+        font-size: 16px;
+        border-style: none;
+    }
+
+    .toolbar-button:hover, .button:hover {
+        background-color: transparent;
+    }
+
+    .toolbar-button:hover {
+        border-bottom-style: solid;
+        border-radius: 0px;
+    }
+
 }

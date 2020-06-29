@@ -225,7 +225,7 @@ export function setLoginCookie(data) {
 	cookies.set(login_cookie, cookieData, {
 		path: cookieSettings.path,
 		expires: d,
-		//secure: cookieSettings.secure,
+		secure: cookieSettings.secure,
 		sameSite: cookieSettings.sameSite
 	});
 }
@@ -455,7 +455,7 @@ class ForgotPassword extends React.Component {
 					<div align="center">
 						<p>
 						<ons-input placeholder="Email"  ref={ref=>{this.email=ref}} ></ons-input>
-						<ons-button modifier="large--quiet" onClick={this.handleSubmit} >Submit</ons-button>
+						<ons-button modifier="quiet" onClick={this.handleSubmit} >Submit</ons-button>
 						</p>
 					</div>
 				</ons-popover>
@@ -511,7 +511,7 @@ class ChangePassword extends React.Component {
 									<ons-input type="password" placeholder="Confirm Password"  ref={ref=>{this.cpasswd=ref}}></ons-input>
 								</p>
 								<p>
-									<ons-button onClick={this.handleSubmit}>Submit</ons-button>
+									<ons-button modifier="quiet" onClick={this.handleSubmit}>Submit</ons-button>
 								</p>
 							</div>
 						</ons-list>
