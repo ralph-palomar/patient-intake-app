@@ -451,7 +451,7 @@ class ForgotPassword extends React.Component {
 		return (
 			<React.Fragment>
 				<ons-button modifier="quiet" onClick={this.handlePopoverClick}>Forgot Password?</ons-button>
-				<ons-popover direction="down" id="popover" cancelable={true} ref={ref=>{this.popover=ref}}>
+				<ons-popover direction="up" id="popover" cancelable={true} ref={ref=>{this.popover=ref}}>
 					<div align="center">
 						<p>
 						<ons-input placeholder="Email"  ref={ref=>{this.email=ref}} ></ons-input>

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { openMenu, createAppointment, verifyAppointmentByDate, getAppointmentsByDate, verifyAppointmentByStartDate, getUserAppointments, updateUserAppointment } from './home.js';
+import { openMenu, createAppointment, verifyAppointmentByDate, getAppointmentsByDate, verifyAppointmentByStartDate, getUserAppointments, updateUserAppointment, getAppointmentsByDateRange } from './home.js';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -96,6 +96,7 @@ export class Appointment extends React.Component {
                                 ons.notification.alert('Sorry upon re-checking this slot has already been taken. Please select another slot.');
                                 this.handleRefresh(null);
                             } else {
+                                payload.resource.isoDate = moment(payload.resource.date).format();
                                 createAppointment((data) => {
                                     showAlert('Successfully set appointment');
                                     this.initializeSlots(date)
@@ -455,10 +456,34 @@ export class AppointmentManager extends React.Component {
         }
     }
     handleNextSevenDays = (event) => {
-        console.log('7')
+        const fromDate = moment().format('YYYY-MM-DD');
+        const toDate = moment().add(8, 'days').format('YYYY-MM-DD');
+        getAppointmentsByDateRange(fromDate, toDate)
+            .then((response) => {
+                this.setState(state => {
+                    state.myEventsList = response.data;
+                    state.myEventsList.forEach((value, index) => {
+                        state.myEventsList[index].start = moment(value.start).toDate()
+                        state.myEventsList[index].end = moment(value.end).toDate()
+                    });
+                    return state;
+                });
+            });
     }
     handleNextThirtyDays = (event) => {
-        console.log('30')
+        const fromDate = moment().format('YYYY-MM-DD');
+        const toDate = moment().add(31, 'days').format('YYYY-MM-DD');
+        getAppointmentsByDateRange(fromDate, toDate)
+            .then((response) => {
+                this.setState(state => {
+                    state.myEventsList = response.data;
+                    state.myEventsList.forEach((value, index) => {
+                        state.myEventsList[index].start = moment(value.start).toDate()
+                        state.myEventsList[index].end = moment(value.end).toDate()
+                    });
+                    return state;
+                });
+            });
     }
     render() {
         return (
@@ -478,13 +503,12 @@ export class AppointmentManager extends React.Component {
                                 onChange={this.handleDateChange}
                             />
                         </div>
-                        <div className="right" style={{ width: '250px'}}>
-                            <ons-segment style={{ width: '100%' }} ref={ref=>{this.filterListSegment=ref}}>
-                                <button onClick={this.handleNextSevenDays}>Next 7 days</button>
-                                <button onClick={this.handleNextThirtyDays}>Next 30 days</button>
-                            </ons-segment>
+                    </ons-list-item>
+                    <ons-list-item>
+                        <div className="right" style={{ width: '300px' }} ref={ref=>{this.filterListSegment=ref}}>
+                            <ons-button modifier="quiet" style={{ borderStyle: 'solid', borderRadius: '10px', borderWidth: '2px', marginRight: '3px', width: '150px' }} onClick={this.handleNextSevenDays}>Next 7 days</ons-button>
+                            <ons-button modifier="quiet" style={{ borderStyle: 'solid', borderRadius: '10px', borderWidth: '2px', width: '150px' }} onClick={this.handleNextThirtyDays}>Next 30 days</ons-button>
                         </div>
-                        <br/>
                     </ons-list-item>
                     <ons-list-item ref={ref=>{this.calendarView=ref}}>
                         <div style={{ height: '100%', width: '97%', zIndex: '0', display: 'block'}}>
@@ -518,15 +542,16 @@ export class AppointmentManager extends React.Component {
                                 const borderLeftStyle = item.resource.status === "Pending" ? "5px solid blue" : (item.resource.status === "Cancelled" ? "5px solid red" : "5px solid green");
                                 return (
                                     <ons-card style={{ borderLeft: borderLeftStyle, borderRadius: '10px' }}>                                        
-                                        <div style={{ display: 'inline-block'}}>
-                                            <img className="list-item--material__thumbnail" style={{ width: '80px', height: '80px'}} alt="User" src={item.resource.user.picture}></img>
+                                        <div style={{ display: 'inline-block' }}>
+                                            <img className="list-item--material__thumbnail" style={{ width: '60px', height: '60px'}} alt="User" src={item.resource.user.picture}></img>
                                         </div>
                                         <div style={{ marginLeft: '20px', display: 'inline-block', verticalAlign: 'top', fontWeight: 'bold'}}>
                                             <span>{item.resource.user.firstname} {item.resource.user.lastname}</span><br/>
+                                            <span>{item.resource.date}</span><br/>
                                             <span>{moment(item.start).format('LT') + " - " + moment(item.end).format('LT')}</span><br/>
                                             <span>Status: {item.resource.status}</span><br/>         
-                                            <div style={{ display: 'flex', marginLeft: '10px' }}><ons-button modifier="quiet" index={index} onClick={(event)=>this.handleStatusChange(index, newStatus, item.resource.email, item.resource.date)}><i class={icon}></i>{label}</ons-button></div>                              
-                                            <textarea className="textarea" rows="3" cols="35" placeholder="Add a short note" defaultValue={item.resource.note} ref={ref=>{this.notes[index]=ref}} onChange={(event)=>this.handleBlur(event, item.resource.email, item.resource.date)}></textarea>                                            
+                                            <div style={{ display: 'flex', marginLeft: '10px' }}><ons-button modifier="quiet" index={index} onClick={(event)=>this.handleStatusChange(index, newStatus, item.resource.email, item.resource.date)}><i className={icon}></i>{label}</ons-button></div>                              
+                                            <textarea className="textarea" rows="3" cols="28" placeholder="Add a short note" defaultValue={item.resource.note} ref={ref=>{this.notes[index]=ref}} onChange={(event)=>this.handleBlur(event, item.resource.email, item.resource.date)}></textarea>                                            
                                         </div>                                    
                                     </ons-card>
                                 )

@@ -801,6 +801,23 @@ export function getAppointmentsByDate(date, includeCancelled=false) {
   return callApiWithPromise(config);
 }
 
+export function getAppointmentsByDateRange(fromDate, toDate, includeCancelled=false) {
+  const config = {
+    "url": api.users_api_base_url + "/v1/appointments/byDateRange",
+    "method": "GET",
+    "timeout": api.users_api_timeout,
+    "headers": {
+      "Authorization": api.users_api_authorization
+    },
+    "params": {
+      "from": fromDate,
+      "to": toDate,
+      "includeCancelled": includeCancelled
+    }
+  };
+  return callApiWithPromise(config);
+}
+
 export function getUserAppointments(successCallback=(data)=>{}, email) {
   const config = {
     "url": api.users_api_base_url + "/v1/appointments",

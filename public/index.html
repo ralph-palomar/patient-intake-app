@@ -6,6 +6,15 @@
 
   <template id="login.html">
     <ons-page id="login">
+      <ons-toolbar>
+        <div class="right">
+          <ons-button modifier="quiet">Home</ons-button>
+          <ons-button modifier="quiet">About</ons-button>
+        </div>
+        <div class="center">
+          Lifestyle Medicine Clinic
+        </div>
+      </ons-toolbar>
       <div id="login_pb" style="display: none">          
           <div class="modal">
             <div class="modal__content">
@@ -13,7 +22,7 @@
             </div>
           </div>
       </div>
-      <div class="container login_registration">
+      <div class="container login">
         <ons-card style="text-align: center; border-radius: 15px">
           <p>
             <ons-input id="index_email" placeholder="Email" ></ons-input>
@@ -28,7 +37,6 @@
           </p>
         </ons-card>
       </div>
-      <div id="google_loginBtn" style="text-align: center; margin-top: 10px"></div>
       <div id="forgotPasswordBtn" style="text-align: center; margin-top: 10px"></div>
     </ons-page>
   </template>
@@ -147,7 +155,7 @@
           </ons-toolbar-button>
         </div>
         <div class="center">
-          Lifestyle Clinic
+          Lifestyle Medicine Clinic
         </div>
       </ons-toolbar>
       <div id="main_pb" style="display: none;">          
@@ -388,6 +396,11 @@
 
   <template id="register.html">
     <ons-page id="register">
+      <ons-toolbar>
+        <div class="center">
+          Registration
+        </div>
+      </ons-toolbar>
       <div id="register_pb" hidden>
           <div class="modal">
             <div class="modal__content">
@@ -395,7 +408,7 @@
             </div>
           </div>
       </div>
-      <div class="container login_registration">
+      <div class="container registration">
         <ons-card style="text-align: center; border-radius: 15px">
           <p>
             <ons-input id="register_email" placeholder="Email" ></ons-input>
